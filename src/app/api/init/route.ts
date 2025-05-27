@@ -1,15 +1,14 @@
 import { NextResponse } from 'next/server'
 import { supabase } from '@/lib/supabase'
 import { v4 as uuidv4 } from 'uuid'
+import fs from 'fs'
+import path from 'path'
 
 export async function POST() {
   try {
     console.log('🚀 데이터베이스 초기화 시작...')
 
     // 기존 JSON 데이터 로드
-    const fs = require('fs')
-    const path = require('path')
-    
     const filePath = path.join(process.cwd(), 'public', 'data', 'polling_stations_complete_all.json')
     const fileContent = fs.readFileSync(filePath, 'utf8')
     const jsonData = JSON.parse(fileContent)

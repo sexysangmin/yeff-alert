@@ -40,14 +40,27 @@ export async function POST() {
       updated_at: new Date().toISOString()
     }))
 
-    console.log('💾 투표소 데이터 삽입 중...')
-    const { error: stationsError } = await supabase
-      .from('polling_stations')
-      .insert(pollingStations)
+    console.log('�� 투표소 데이터 삽입 중...')
+    
+    // 대용량 데이터를 작은 배치로 나누어 삽입
+    const BATCH_SIZE = 100;
+    let insertedCount = 0;
+    
+    for (let i = 0; i < pollingStations.length; i += BATCH_SIZE) {
+      const batch = pollingStations.slice(i, i + BATCH_SIZE);
+      console.log(`💾 배치 ${Math.floor(i/BATCH_SIZE) + 1} 삽입 중: ${batch.length}개 투표소`);
+      
+      const { error: batchError } = await supabase
+        .from('polling_stations')
+        .insert(batch);
 
-    if (stationsError) {
-      console.error('투표소 데이터 삽입 오류:', stationsError)
-      throw stationsError
+      if (batchError) {
+        console.error(`배치 ${Math.floor(i/BATCH_SIZE) + 1} 삽입 오류:`, batchError);
+        throw new Error(`배치 삽입 실패: ${batchError.message}`);
+      }
+      
+      insertedCount += batch.length;
+      console.log(`✅ ${insertedCount}/${pollingStations.length} 투표소 삽입 완료`);
     }
 
     // 알림 데이터 삽입
@@ -56,8 +69,8 @@ export async function POST() {
       if (station.alerts && station.alerts.length > 0) {
         station.alerts.forEach((alert: any) => {
           alerts.push({
-            id: alert.id || uuidv4(),
-            polling_station_id: station.id,
+            id: String(alert.id || `alert_${uuidv4()}`),
+            polling_station_id: String(station.id),
             type: alert.type,
             message: alert.message,
             comment: alert.comment || null,
@@ -91,9 +104,25 @@ export async function POST() {
 
   } catch (error) {
     console.error('❌ 데이터베이스 초기화 오류:', error)
+    
+    let errorMessage = '알 수 없는 오류가 발생했습니다.';
+    let errorDetails = '';
+    
+    if (error instanceof Error) {
+      errorMessage = error.message;
+      errorDetails = error.stack || '';
+    } else if (typeof error === 'object' && error !== null) {
+      errorMessage = JSON.stringify(error);
+      errorDetails = Object.keys(error).join(', ');
+    } else {
+      errorMessage = String(error);
+    }
+    
     return NextResponse.json({ 
       error: '데이터베이스 초기화에 실패했습니다.',
-      details: error instanceof Error ? error.message : String(error)
+      message: errorMessage,
+      details: errorDetails,
+      timestamp: new Date().toISOString()
     }, { status: 500 })
   }
 } 

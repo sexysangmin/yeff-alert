@@ -26,7 +26,7 @@ export default function Home() {
   const [showAlerts, setShowAlerts] = useState(false);
   const [showInactive, setShowInactive] = useState(false);
   const [currentFilter, setCurrentFilter] = useState('all');
-  const [showMap, setShowMap] = useState(true);
+  const [showMap, setShowMap] = useState(false);
 
   // 클라이언트 사이드 렌더링 확인
   useEffect(() => {

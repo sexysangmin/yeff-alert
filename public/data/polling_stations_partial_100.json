@@ -1,0 +1,2002 @@
+[
+  {
+    "id": "station_1",
+    "name": "청운효자동사전투표소",
+    "address": "서울 종로구 청운효자동",
+    "district": "서울",
+    "coordinates": {
+      "lat": 37.5849757,
+      "lng": 126.9684832
+    },
+    "isActive": false,
+    "entryCount": 0,
+    "exitCount": 0,
+    "lastUpdated": "2025-05-27T09:30:10.659Z",
+    "alerts": [],
+    "youtubeUrls": {
+      "morning": "",
+      "afternoon": ""
+    },
+    "geocoded_address": "청운효자동, 종로구, 서울특별시, 대한민국"
+  },
+  {
+    "id": "station_2",
+    "name": "사직동사전투표소",
+    "address": "서울 종로구 사직동",
+    "district": "서울",
+    "coordinates": {
+      "lat": 37.5738317,
+      "lng": 126.9703041
+    },
+    "isActive": false,
+    "entryCount": 0,
+    "exitCount": 0,
+    "lastUpdated": "2025-05-27T09:30:12.742Z",
+    "alerts": [],
+    "youtubeUrls": {
+      "morning": "",
+      "afternoon": ""
+    },
+    "geocoded_address": "사직동, 종로구, 서울특별시, 대한민국"
+  },
+  {
+    "id": "station_3",
+    "name": "삼청동사전투표소",
+    "address": "서울 종로구 삼청동",
+    "district": "서울",
+    "coordinates": {
+      "lat": 37.58964,
+      "lng": 126.98112
+    },
+    "isActive": false,
+    "entryCount": 0,
+    "exitCount": 0,
+    "lastUpdated": "2025-05-27T09:30:14.115Z",
+    "alerts": [],
+    "youtubeUrls": {
+      "morning": "",
+      "afternoon": ""
+    },
+    "geocoded_address": "삼청동, 종로구, 서울특별시, 03049, 대한민국"
+  },
+  {
+    "id": "station_4",
+    "name": "부암동사전투표소",
+    "address": "서울 종로구 부암동",
+    "district": "서울",
+    "coordinates": {
+      "lat": 37.5949602,
+      "lng": 126.9657272
+    },
+    "isActive": false,
+    "entryCount": 0,
+    "exitCount": 0,
+    "lastUpdated": "2025-05-27T09:30:15.455Z",
+    "alerts": [],
+    "youtubeUrls": {
+      "morning": "",
+      "afternoon": ""
+    },
+    "geocoded_address": "부암동, 종로구, 서울특별시, 대한민국"
+  },
+  {
+    "id": "station_5",
+    "name": "평창동사전투표소",
+    "address": "서울 종로구 평창동",
+    "district": "서울",
+    "coordinates": {
+      "lat": 37.6159731,
+      "lng": 126.9676478
+    },
+    "isActive": false,
+    "entryCount": 0,
+    "exitCount": 0,
+    "lastUpdated": "2025-05-27T09:30:16.829Z",
+    "alerts": [],
+    "youtubeUrls": {
+      "morning": "",
+      "afternoon": ""
+    },
+    "geocoded_address": "평창동, 종로구, 서울특별시, 대한민국"
+  },
+  {
+    "id": "station_6",
+    "name": "무악동사전투표소",
+    "address": "서울 종로구 무악동",
+    "district": "서울",
+    "coordinates": {
+      "lat": 37.57672,
+      "lng": 126.95812
+    },
+    "isActive": false,
+    "entryCount": 0,
+    "exitCount": 0,
+    "lastUpdated": "2025-05-27T09:30:18.201Z",
+    "alerts": [],
+    "youtubeUrls": {
+      "morning": "",
+      "afternoon": ""
+    },
+    "geocoded_address": "무악동, 종로구, 서울특별시, 03024, 대한민국"
+  },
+  {
+    "id": "station_7",
+    "name": "교남동사전투표소",
+    "address": "서울 종로구 교남동",
+    "district": "서울",
+    "coordinates": {
+      "lat": 37.5716654,
+      "lng": 126.9633904
+    },
+    "isActive": false,
+    "entryCount": 0,
+    "exitCount": 0,
+    "lastUpdated": "2025-05-27T09:30:19.851Z",
+    "alerts": [],
+    "youtubeUrls": {
+      "morning": "",
+      "afternoon": ""
+    },
+    "geocoded_address": "교남동, 종로구, 서울특별시, 대한민국"
+  },
+  {
+    "id": "station_8",
+    "name": "가회동사전투표소",
+    "address": "서울 종로구 가회동",
+    "district": "서울",
+    "coordinates": {
+      "lat": 37.5840597,
+      "lng": 126.9864644
+    },
+    "isActive": false,
+    "entryCount": 0,
+    "exitCount": 0,
+    "lastUpdated": "2025-05-27T09:30:21.192Z",
+    "alerts": [],
+    "youtubeUrls": {
+      "morning": "",
+      "afternoon": ""
+    },
+    "geocoded_address": "가회동, 종로구, 서울특별시, 대한민국"
+  },
+  {
+    "id": "station_9",
+    "name": "종로1·2·3·4가동사전투표소",
+    "address": "서울 종로구 종로1·2·3·4가동",
+    "district": "서울",
+    "coordinates": {
+      "lat": 37.5779119,
+      "lng": 126.9930777
+    },
+    "isActive": false,
+    "entryCount": 0,
+    "exitCount": 0,
+    "lastUpdated": "2025-05-27T09:30:22.581Z",
+    "alerts": [],
+    "youtubeUrls": {
+      "morning": "",
+      "afternoon": ""
+    },
+    "geocoded_address": "종로1·2·3·4가동, 종로구, 서울특별시, 대한민국"
+  },
+  {
+    "id": "station_10",
+    "name": "종로5·6가동사전투표소",
+    "address": "서울 종로구 종로5·6가동",
+    "district": "서울",
+    "coordinates": {
+      "lat": 37.573077,
+      "lng": 127.0037308
+    },
+    "isActive": false,
+    "entryCount": 0,
+    "exitCount": 0,
+    "lastUpdated": "2025-05-27T09:30:23.937Z",
+    "alerts": [],
+    "youtubeUrls": {
+      "morning": "",
+      "afternoon": ""
+    },
+    "geocoded_address": "종로5·6가동, 종로구, 서울특별시, 대한민국"
+  },
+  {
+    "id": "station_11",
+    "name": "이화동사전투표소",
+    "address": "서울 종로구 이화동",
+    "district": "서울",
+    "coordinates": {
+      "lat": 37.57663,
+      "lng": 127.00515
+    },
+    "isActive": false,
+    "entryCount": 0,
+    "exitCount": 0,
+    "lastUpdated": "2025-05-27T09:30:25.285Z",
+    "alerts": [],
+    "youtubeUrls": {
+      "morning": "",
+      "afternoon": ""
+    },
+    "geocoded_address": "이화동, 종로구, 서울특별시, 03087, 대한민국"
+  },
+  {
+    "id": "station_12",
+    "name": "혜화동사전투표소",
+    "address": "서울 종로구 혜화동",
+    "district": "서울",
+    "coordinates": {
+      "lat": 37.58755,
+      "lng": 127.00217
+    },
+    "isActive": false,
+    "entryCount": 0,
+    "exitCount": 0,
+    "lastUpdated": "2025-05-27T09:30:26.661Z",
+    "alerts": [],
+    "youtubeUrls": {
+      "morning": "",
+      "afternoon": ""
+    },
+    "geocoded_address": "혜화동, 종로구, 서울특별시, 03076, 대한민국"
+  },
+  {
+    "id": "station_13",
+    "name": "창신제1동사전투표소",
+    "address": "서울 종로구 창신제1동",
+    "district": "서울",
+    "coordinates": {
+      "lat": 37.5665,
+      "lng": 126.978
+    },
+    "isActive": false,
+    "entryCount": 0,
+    "exitCount": 0,
+    "lastUpdated": "2025-05-27T09:30:28.069Z",
+    "alerts": [],
+    "youtubeUrls": {
+      "morning": "",
+      "afternoon": ""
+    },
+    "geocoded_address": null
+  },
+  {
+    "id": "station_14",
+    "name": "창신제2동사전투표소",
+    "address": "서울 종로구 창신제2동",
+    "district": "서울",
+    "coordinates": {
+      "lat": 37.5665,
+      "lng": 126.978
+    },
+    "isActive": false,
+    "entryCount": 0,
+    "exitCount": 0,
+    "lastUpdated": "2025-05-27T09:30:29.332Z",
+    "alerts": [],
+    "youtubeUrls": {
+      "morning": "",
+      "afternoon": ""
+    },
+    "geocoded_address": null
+  },
+  {
+    "id": "station_15",
+    "name": "창신제3동사전투표소",
+    "address": "서울 종로구 창신제3동",
+    "district": "서울",
+    "coordinates": {
+      "lat": 37.5665,
+      "lng": 126.978
+    },
+    "isActive": false,
+    "entryCount": 0,
+    "exitCount": 0,
+    "lastUpdated": "2025-05-27T09:30:30.627Z",
+    "alerts": [],
+    "youtubeUrls": {
+      "morning": "",
+      "afternoon": ""
+    },
+    "geocoded_address": null
+  },
+  {
+    "id": "station_16",
+    "name": "숭인제1동사전투표소",
+    "address": "서울 종로구 숭인제1동",
+    "district": "서울",
+    "coordinates": {
+      "lat": 37.5665,
+      "lng": 126.978
+    },
+    "isActive": false,
+    "entryCount": 0,
+    "exitCount": 0,
+    "lastUpdated": "2025-05-27T09:30:31.890Z",
+    "alerts": [],
+    "youtubeUrls": {
+      "morning": "",
+      "afternoon": ""
+    },
+    "geocoded_address": null
+  },
+  {
+    "id": "station_17",
+    "name": "숭인제2동사전투표소",
+    "address": "서울 종로구 숭인제2동",
+    "district": "서울",
+    "coordinates": {
+      "lat": 37.5665,
+      "lng": 126.978
+    },
+    "isActive": false,
+    "entryCount": 0,
+    "exitCount": 0,
+    "lastUpdated": "2025-05-27T09:30:33.206Z",
+    "alerts": [],
+    "youtubeUrls": {
+      "morning": "",
+      "afternoon": ""
+    },
+    "geocoded_address": null
+  },
+  {
+    "id": "station_18",
+    "name": "소공동사전투표소",
+    "address": "서울 중구 소공동",
+    "district": "서울",
+    "coordinates": {
+      "lat": 37.5636592,
+      "lng": 126.9794961
+    },
+    "isActive": false,
+    "entryCount": 0,
+    "exitCount": 0,
+    "lastUpdated": "2025-05-27T09:30:34.467Z",
+    "alerts": [],
+    "youtubeUrls": {
+      "morning": "",
+      "afternoon": ""
+    },
+    "geocoded_address": "소공동, 중구, 서울특별시, 04532, 대한민국"
+  },
+  {
+    "id": "station_19",
+    "name": "회현동사전투표소",
+    "address": "서울 중구 회현동",
+    "district": "서울",
+    "coordinates": {
+      "lat": 37.5570967,
+      "lng": 126.9762286
+    },
+    "isActive": false,
+    "entryCount": 0,
+    "exitCount": 0,
+    "lastUpdated": "2025-05-27T09:30:35.823Z",
+    "alerts": [],
+    "youtubeUrls": {
+      "morning": "",
+      "afternoon": ""
+    },
+    "geocoded_address": "회현동, 중구, 서울특별시, 대한민국"
+  },
+  {
+    "id": "station_20",
+    "name": "명동사전투표소",
+    "address": "서울 중구 명동",
+    "district": "서울",
+    "coordinates": {
+      "lat": 37.5608977,
+      "lng": 126.9863762
+    },
+    "isActive": false,
+    "entryCount": 0,
+    "exitCount": 0,
+    "lastUpdated": "2025-05-27T09:30:37.225Z",
+    "alerts": [],
+    "youtubeUrls": {
+      "morning": "",
+      "afternoon": ""
+    },
+    "geocoded_address": "명동, 퇴계로, 충무로1가, 명동, 중구, 서울특별시, 04536, 대한민국"
+  },
+  {
+    "id": "station_21",
+    "name": "필동사전투표소",
+    "address": "서울 중구 필동",
+    "district": "서울",
+    "coordinates": {
+      "lat": 37.5567795,
+      "lng": 126.9926577
+    },
+    "isActive": false,
+    "entryCount": 0,
+    "exitCount": 0,
+    "lastUpdated": "2025-05-27T09:30:38.580Z",
+    "alerts": [],
+    "youtubeUrls": {
+      "morning": "",
+      "afternoon": ""
+    },
+    "geocoded_address": "필동, 중구, 서울특별시, 대한민국"
+  },
+  {
+    "id": "station_22",
+    "name": "장충동사전투표소",
+    "address": "서울 중구 장충동",
+    "district": "서울",
+    "coordinates": {
+      "lat": 37.5557748,
+      "lng": 127.0029706
+    },
+    "isActive": false,
+    "entryCount": 0,
+    "exitCount": 0,
+    "lastUpdated": "2025-05-27T09:30:39.942Z",
+    "alerts": [],
+    "youtubeUrls": {
+      "morning": "",
+      "afternoon": ""
+    },
+    "geocoded_address": "장충동, 중구, 서울특별시, 대한민국"
+  },
+  {
+    "id": "station_23",
+    "name": "광희동사전투표소",
+    "address": "서울 중구 광희동",
+    "district": "서울",
+    "coordinates": {
+      "lat": 37.5655625,
+      "lng": 127.0071401
+    },
+    "isActive": false,
+    "entryCount": 0,
+    "exitCount": 0,
+    "lastUpdated": "2025-05-27T09:30:41.317Z",
+    "alerts": [],
+    "youtubeUrls": {
+      "morning": "",
+      "afternoon": ""
+    },
+    "geocoded_address": "광희동, 중구, 서울특별시, 대한민국"
+  },
+  {
+    "id": "station_24",
+    "name": "을지로동사전투표소",
+    "address": "서울 중구 을지로동",
+    "district": "서울",
+    "coordinates": {
+      "lat": 37.5664192,
+      "lng": 126.9968622
+    },
+    "isActive": false,
+    "entryCount": 0,
+    "exitCount": 0,
+    "lastUpdated": "2025-05-27T09:30:42.689Z",
+    "alerts": [],
+    "youtubeUrls": {
+      "morning": "",
+      "afternoon": ""
+    },
+    "geocoded_address": "을지로동, 중구, 서울특별시, 대한민국"
+  },
+  {
+    "id": "station_25",
+    "name": "신당동사전투표소",
+    "address": "서울 중구 신당동",
+    "district": "서울",
+    "coordinates": {
+      "lat": 37.5651969,
+      "lng": 127.01322
+    },
+    "isActive": false,
+    "entryCount": 0,
+    "exitCount": 0,
+    "lastUpdated": "2025-05-27T09:30:44.058Z",
+    "alerts": [],
+    "youtubeUrls": {
+      "morning": "",
+      "afternoon": ""
+    },
+    "geocoded_address": "신당동, 중구, 서울특별시, 대한민국"
+  },
+  {
+    "id": "station_26",
+    "name": "다산동사전투표소",
+    "address": "서울 중구 다산동",
+    "district": "서울",
+    "coordinates": {
+      "lat": 37.5548536,
+      "lng": 127.0080699
+    },
+    "isActive": false,
+    "entryCount": 0,
+    "exitCount": 0,
+    "lastUpdated": "2025-05-27T09:30:45.436Z",
+    "alerts": [],
+    "youtubeUrls": {
+      "morning": "",
+      "afternoon": ""
+    },
+    "geocoded_address": "다산동, 중구, 서울특별시, 대한민국"
+  },
+  {
+    "id": "station_27",
+    "name": "약수동사전투표소",
+    "address": "서울 중구 약수동",
+    "district": "서울",
+    "coordinates": {
+      "lat": 37.5496054,
+      "lng": 127.0101079
+    },
+    "isActive": false,
+    "entryCount": 0,
+    "exitCount": 0,
+    "lastUpdated": "2025-05-27T09:30:46.809Z",
+    "alerts": [],
+    "youtubeUrls": {
+      "morning": "",
+      "afternoon": ""
+    },
+    "geocoded_address": "약수동, 중구, 서울특별시, 대한민국"
+  },
+  {
+    "id": "station_28",
+    "name": "청구동사전투표소",
+    "address": "서울 중구 청구동",
+    "district": "서울",
+    "coordinates": {
+      "lat": 37.5565811,
+      "lng": 127.0147653
+    },
+    "isActive": false,
+    "entryCount": 0,
+    "exitCount": 0,
+    "lastUpdated": "2025-05-27T09:30:48.176Z",
+    "alerts": [],
+    "youtubeUrls": {
+      "morning": "",
+      "afternoon": ""
+    },
+    "geocoded_address": "청구동, 중구, 서울특별시, 대한민국"
+  },
+  {
+    "id": "station_29",
+    "name": "신당제5동사전투표소",
+    "address": "서울 중구 신당제5동",
+    "district": "서울",
+    "coordinates": {
+      "lat": 37.5665,
+      "lng": 126.978
+    },
+    "isActive": false,
+    "entryCount": 0,
+    "exitCount": 0,
+    "lastUpdated": "2025-05-27T09:30:50.146Z",
+    "alerts": [],
+    "youtubeUrls": {
+      "morning": "",
+      "afternoon": ""
+    },
+    "geocoded_address": null
+  },
+  {
+    "id": "station_30",
+    "name": "동화동사전투표소",
+    "address": "서울 중구 동화동",
+    "district": "서울",
+    "coordinates": {
+      "lat": 37.5607686,
+      "lng": 127.0175424
+    },
+    "isActive": false,
+    "entryCount": 0,
+    "exitCount": 0,
+    "lastUpdated": "2025-05-27T09:30:52.083Z",
+    "alerts": [],
+    "youtubeUrls": {
+      "morning": "",
+      "afternoon": ""
+    },
+    "geocoded_address": "동화동, 중구, 서울특별시, 대한민국"
+  },
+  {
+    "id": "station_31",
+    "name": "황학동사전투표소",
+    "address": "서울 중구 황학동",
+    "district": "서울",
+    "coordinates": {
+      "lat": 37.5675499,
+      "lng": 127.02172
+    },
+    "isActive": false,
+    "entryCount": 0,
+    "exitCount": 0,
+    "lastUpdated": "2025-05-27T09:30:54.171Z",
+    "alerts": [],
+    "youtubeUrls": {
+      "morning": "",
+      "afternoon": ""
+    },
+    "geocoded_address": "황학동, 중구, 서울특별시, 대한민국"
+  },
+  {
+    "id": "station_32",
+    "name": "중림동사전투표소",
+    "address": "서울 중구 중림동",
+    "district": "서울",
+    "coordinates": {
+      "lat": 37.5567609,
+      "lng": 126.9663037
+    },
+    "isActive": false,
+    "entryCount": 0,
+    "exitCount": 0,
+    "lastUpdated": "2025-05-27T09:30:55.558Z",
+    "alerts": [],
+    "youtubeUrls": {
+      "morning": "",
+      "afternoon": ""
+    },
+    "geocoded_address": "중림동, 중구, 서울특별시, 대한민국"
+  },
+  {
+    "id": "station_33",
+    "name": "후암동사전투표소",
+    "address": "서울 용산구 후암동",
+    "district": "서울",
+    "coordinates": {
+      "lat": 37.55011,
+      "lng": 126.98028
+    },
+    "isActive": false,
+    "entryCount": 0,
+    "exitCount": 0,
+    "lastUpdated": "2025-05-27T09:30:57.522Z",
+    "alerts": [],
+    "youtubeUrls": {
+      "morning": "",
+      "afternoon": ""
+    },
+    "geocoded_address": "후암동, 용산구, 서울특별시, 대한민국"
+  },
+  {
+    "id": "station_34",
+    "name": "용산2가동사전투표소",
+    "address": "서울 용산구 용산2가동",
+    "district": "서울",
+    "coordinates": {
+      "lat": 37.538821,
+      "lng": 126.9836884
+    },
+    "isActive": false,
+    "entryCount": 0,
+    "exitCount": 0,
+    "lastUpdated": "2025-05-27T09:30:59.536Z",
+    "alerts": [],
+    "youtubeUrls": {
+      "morning": "",
+      "afternoon": ""
+    },
+    "geocoded_address": "용산2가동, 용산구, 서울특별시, 대한민국"
+  },
+  {
+    "id": "station_35",
+    "name": "남영동사전투표소",
+    "address": "서울 용산구 남영동",
+    "district": "서울",
+    "coordinates": {
+      "lat": 37.5534363,
+      "lng": 126.9697994
+    },
+    "isActive": false,
+    "entryCount": 0,
+    "exitCount": 0,
+    "lastUpdated": "2025-05-27T09:31:01.516Z",
+    "alerts": [],
+    "youtubeUrls": {
+      "morning": "",
+      "afternoon": ""
+    },
+    "geocoded_address": "서울역, 378, 청파로, 서계동, 남영동, 용산구, 서울특별시, 04334, 대한민국"
+  },
+  {
+    "id": "station_36",
+    "name": "청파동사전투표소",
+    "address": "서울 용산구 청파동",
+    "district": "서울",
+    "coordinates": {
+      "lat": 37.5534363,
+      "lng": 126.9697994
+    },
+    "isActive": false,
+    "entryCount": 0,
+    "exitCount": 0,
+    "lastUpdated": "2025-05-27T09:31:03.525Z",
+    "alerts": [],
+    "youtubeUrls": {
+      "morning": "",
+      "afternoon": ""
+    },
+    "geocoded_address": "서울역, 378, 청파로, 서계동, 남영동, 용산구, 서울특별시, 04334, 대한민국"
+  },
+  {
+    "id": "station_37",
+    "name": "원효로제1동사전투표소",
+    "address": "서울 용산구 원효로제1동",
+    "district": "서울",
+    "coordinates": {
+      "lat": 37.5665,
+      "lng": 126.978
+    },
+    "isActive": false,
+    "entryCount": 0,
+    "exitCount": 0,
+    "lastUpdated": "2025-05-27T09:31:05.537Z",
+    "alerts": [],
+    "youtubeUrls": {
+      "morning": "",
+      "afternoon": ""
+    },
+    "geocoded_address": null
+  },
+  {
+    "id": "station_38",
+    "name": "원효로제2동사전투표소",
+    "address": "서울 용산구 원효로제2동",
+    "district": "서울",
+    "coordinates": {
+      "lat": 37.5665,
+      "lng": 126.978
+    },
+    "isActive": false,
+    "entryCount": 0,
+    "exitCount": 0,
+    "lastUpdated": "2025-05-27T09:31:07.455Z",
+    "alerts": [],
+    "youtubeUrls": {
+      "morning": "",
+      "afternoon": ""
+    },
+    "geocoded_address": null
+  },
+  {
+    "id": "station_39",
+    "name": "효창동사전투표소",
+    "address": "서울 용산구 효창동",
+    "district": "서울",
+    "coordinates": {
+      "lat": 37.54341,
+      "lng": 126.96037
+    },
+    "isActive": false,
+    "entryCount": 0,
+    "exitCount": 0,
+    "lastUpdated": "2025-05-27T09:31:09.452Z",
+    "alerts": [],
+    "youtubeUrls": {
+      "morning": "",
+      "afternoon": ""
+    },
+    "geocoded_address": "효창동, 용산구, 서울특별시, 대한민국"
+  },
+  {
+    "id": "station_40",
+    "name": "용문동사전투표소",
+    "address": "서울 용산구 용문동",
+    "district": "서울",
+    "coordinates": {
+      "lat": 37.5380978,
+      "lng": 126.9586211
+    },
+    "isActive": false,
+    "entryCount": 0,
+    "exitCount": 0,
+    "lastUpdated": "2025-05-27T09:31:11.525Z",
+    "alerts": [],
+    "youtubeUrls": {
+      "morning": "",
+      "afternoon": ""
+    },
+    "geocoded_address": "용문동, 용산구, 서울특별시, 대한민국"
+  },
+  {
+    "id": "station_41",
+    "name": "한강로동사전투표소",
+    "address": "서울 용산구 한강로동",
+    "district": "서울",
+    "coordinates": {
+      "lat": 37.5306542,
+      "lng": 126.9674196
+    },
+    "isActive": false,
+    "entryCount": 0,
+    "exitCount": 0,
+    "lastUpdated": "2025-05-27T09:31:13.511Z",
+    "alerts": [],
+    "youtubeUrls": {
+      "morning": "",
+      "afternoon": ""
+    },
+    "geocoded_address": "한강로동, 용산구, 서울특별시, 대한민국"
+  },
+  {
+    "id": "station_42",
+    "name": "이촌제1동사전투표소",
+    "address": "서울 용산구 이촌제1동",
+    "district": "서울",
+    "coordinates": {
+      "lat": 37.5665,
+      "lng": 126.978
+    },
+    "isActive": false,
+    "entryCount": 0,
+    "exitCount": 0,
+    "lastUpdated": "2025-05-27T09:31:15.504Z",
+    "alerts": [],
+    "youtubeUrls": {
+      "morning": "",
+      "afternoon": ""
+    },
+    "geocoded_address": null
+  },
+  {
+    "id": "station_43",
+    "name": "이촌제2동사전투표소",
+    "address": "서울 용산구 이촌제2동",
+    "district": "서울",
+    "coordinates": {
+      "lat": 37.5665,
+      "lng": 126.978
+    },
+    "isActive": false,
+    "entryCount": 0,
+    "exitCount": 0,
+    "lastUpdated": "2025-05-27T09:31:17.441Z",
+    "alerts": [],
+    "youtubeUrls": {
+      "morning": "",
+      "afternoon": ""
+    },
+    "geocoded_address": null
+  },
+  {
+    "id": "station_44",
+    "name": "이태원제1동사전투표소",
+    "address": "서울 용산구 이태원제1동",
+    "district": "서울",
+    "coordinates": {
+      "lat": 37.5665,
+      "lng": 126.978
+    },
+    "isActive": false,
+    "entryCount": 0,
+    "exitCount": 0,
+    "lastUpdated": "2025-05-27T09:31:19.440Z",
+    "alerts": [],
+    "youtubeUrls": {
+      "morning": "",
+      "afternoon": ""
+    },
+    "geocoded_address": null
+  },
+  {
+    "id": "station_45",
+    "name": "이태원제2동사전투표소",
+    "address": "서울 용산구 이태원제2동",
+    "district": "서울",
+    "coordinates": {
+      "lat": 37.5665,
+      "lng": 126.978
+    },
+    "isActive": false,
+    "entryCount": 0,
+    "exitCount": 0,
+    "lastUpdated": "2025-05-27T09:31:21.436Z",
+    "alerts": [],
+    "youtubeUrls": {
+      "morning": "",
+      "afternoon": ""
+    },
+    "geocoded_address": null
+  },
+  {
+    "id": "station_46",
+    "name": "한남동사전투표소",
+    "address": "서울 용산구 한남동",
+    "district": "서울",
+    "coordinates": {
+      "lat": 37.53822,
+      "lng": 127.0074
+    },
+    "isActive": false,
+    "entryCount": 0,
+    "exitCount": 0,
+    "lastUpdated": "2025-05-27T09:31:23.448Z",
+    "alerts": [],
+    "youtubeUrls": {
+      "morning": "",
+      "afternoon": ""
+    },
+    "geocoded_address": "한남동, 용산구, 서울특별시, 대한민국"
+  },
+  {
+    "id": "station_47",
+    "name": "서빙고동사전투표소",
+    "address": "서울 용산구 서빙고동",
+    "district": "서울",
+    "coordinates": {
+      "lat": 37.5176907,
+      "lng": 126.9912397
+    },
+    "isActive": false,
+    "entryCount": 0,
+    "exitCount": 0,
+    "lastUpdated": "2025-05-27T09:31:25.510Z",
+    "alerts": [],
+    "youtubeUrls": {
+      "morning": "",
+      "afternoon": ""
+    },
+    "geocoded_address": "서빙고동, 용산구, 서울특별시, 대한민국"
+  },
+  {
+    "id": "station_48",
+    "name": "보광동사전투표소",
+    "address": "서울 용산구 보광동",
+    "district": "서울",
+    "coordinates": {
+      "lat": 37.5267109,
+      "lng": 127.0002165
+    },
+    "isActive": false,
+    "entryCount": 0,
+    "exitCount": 0,
+    "lastUpdated": "2025-05-27T09:31:27.521Z",
+    "alerts": [],
+    "youtubeUrls": {
+      "morning": "",
+      "afternoon": ""
+    },
+    "geocoded_address": "보광동, 용산구, 서울특별시, 대한민국"
+  },
+  {
+    "id": "station_49",
+    "name": "금호1가동사전투표소",
+    "address": "서울 성동구 금호1가동",
+    "district": "서울",
+    "coordinates": {
+      "lat": 37.5528393,
+      "lng": 127.0264877
+    },
+    "isActive": false,
+    "entryCount": 0,
+    "exitCount": 0,
+    "lastUpdated": "2025-05-27T09:31:29.516Z",
+    "alerts": [],
+    "youtubeUrls": {
+      "morning": "",
+      "afternoon": ""
+    },
+    "geocoded_address": "금호1가동, 성동구, 서울특별시, 대한민국"
+  },
+  {
+    "id": "station_50",
+    "name": "금호2.3가동사전투표소",
+    "address": "서울 성동구 금호2·3가동",
+    "district": "서울",
+    "coordinates": {
+      "lat": 37.5528065,
+      "lng": 127.020095
+    },
+    "isActive": false,
+    "entryCount": 0,
+    "exitCount": 0,
+    "lastUpdated": "2025-05-27T09:31:31.512Z",
+    "alerts": [],
+    "youtubeUrls": {
+      "morning": "",
+      "afternoon": ""
+    },
+    "geocoded_address": "금호2·3가동, 성동구, 서울특별시, 대한민국"
+  },
+  {
+    "id": "station_51",
+    "name": "금호4가동사전투표소",
+    "address": "서울 성동구 금호4가동",
+    "district": "서울",
+    "coordinates": {
+      "lat": 37.5444237,
+      "lng": 127.0247548
+    },
+    "isActive": false,
+    "entryCount": 0,
+    "exitCount": 0,
+    "lastUpdated": "2025-05-27T09:31:33.510Z",
+    "alerts": [],
+    "youtubeUrls": {
+      "morning": "",
+      "afternoon": ""
+    },
+    "geocoded_address": "금호4가동, 성동구, 서울특별시, 대한민국"
+  },
+  {
+    "id": "station_52",
+    "name": "옥수동사전투표소",
+    "address": "서울 성동구 옥수동",
+    "district": "서울",
+    "coordinates": {
+      "lat": 37.54176,
+      "lng": 127.01648
+    },
+    "isActive": false,
+    "entryCount": 0,
+    "exitCount": 0,
+    "lastUpdated": "2025-05-27T09:31:35.502Z",
+    "alerts": [],
+    "youtubeUrls": {
+      "morning": "",
+      "afternoon": ""
+    },
+    "geocoded_address": "옥수동, 성동구, 서울특별시, 대한민국"
+  },
+  {
+    "id": "station_53",
+    "name": "왕십리도선동사전투표소",
+    "address": "서울 성동구 왕십리도선동",
+    "district": "서울",
+    "coordinates": {
+      "lat": 37.5665195,
+      "lng": 127.0290193
+    },
+    "isActive": false,
+    "entryCount": 0,
+    "exitCount": 0,
+    "lastUpdated": "2025-05-27T09:31:37.511Z",
+    "alerts": [],
+    "youtubeUrls": {
+      "morning": "",
+      "afternoon": ""
+    },
+    "geocoded_address": "왕십리도선동, 성동구, 서울특별시, 대한민국"
+  },
+  {
+    "id": "station_54",
+    "name": "왕십리제2동사전투표소",
+    "address": "서울 성동구 왕십리제2동",
+    "district": "서울",
+    "coordinates": {
+      "lat": 37.5665,
+      "lng": 126.978
+    },
+    "isActive": false,
+    "entryCount": 0,
+    "exitCount": 0,
+    "lastUpdated": "2025-05-27T09:31:39.505Z",
+    "alerts": [],
+    "youtubeUrls": {
+      "morning": "",
+      "afternoon": ""
+    },
+    "geocoded_address": null
+  },
+  {
+    "id": "station_55",
+    "name": "행당제1동사전투표소",
+    "address": "서울 성동구 행당제1동",
+    "district": "서울",
+    "coordinates": {
+      "lat": 37.5586717,
+      "lng": 127.0355876
+    },
+    "isActive": false,
+    "entryCount": 0,
+    "exitCount": 0,
+    "lastUpdated": "2025-05-27T09:31:41.439Z",
+    "alerts": [],
+    "youtubeUrls": {
+      "morning": "",
+      "afternoon": ""
+    },
+    "geocoded_address": "행당제1동 주민센터, 고산자로6길, 행당동, 행당1동, 성동구, 서울특별시, 04744, 대한민국"
+  },
+  {
+    "id": "station_56",
+    "name": "행당제2동사전투표소",
+    "address": "서울 성동구 행당제2동",
+    "district": "서울",
+    "coordinates": {
+      "lat": 37.5665,
+      "lng": 126.978
+    },
+    "isActive": false,
+    "entryCount": 0,
+    "exitCount": 0,
+    "lastUpdated": "2025-05-27T09:31:43.473Z",
+    "alerts": [],
+    "youtubeUrls": {
+      "morning": "",
+      "afternoon": ""
+    },
+    "geocoded_address": null
+  },
+  {
+    "id": "station_57",
+    "name": "마장동사전투표소",
+    "address": "서울 성동구 마장동",
+    "district": "서울",
+    "coordinates": {
+      "lat": 37.56743,
+      "lng": 127.04045
+    },
+    "isActive": false,
+    "entryCount": 0,
+    "exitCount": 0,
+    "lastUpdated": "2025-05-27T09:31:45.444Z",
+    "alerts": [],
+    "youtubeUrls": {
+      "morning": "",
+      "afternoon": ""
+    },
+    "geocoded_address": "마장동, 성동구, 서울특별시, 대한민국"
+  },
+  {
+    "id": "station_58",
+    "name": "사근동사전투표소",
+    "address": "서울 성동구 사근동",
+    "district": "서울",
+    "coordinates": {
+      "lat": 37.5589948,
+      "lng": 127.0480281
+    },
+    "isActive": false,
+    "entryCount": 0,
+    "exitCount": 0,
+    "lastUpdated": "2025-05-27T09:31:47.530Z",
+    "alerts": [],
+    "youtubeUrls": {
+      "morning": "",
+      "afternoon": ""
+    },
+    "geocoded_address": "사근동, 성동구, 서울특별시, 대한민국"
+  },
+  {
+    "id": "station_59",
+    "name": "송정동사전투표소",
+    "address": "서울 성동구 송정동",
+    "district": "서울",
+    "coordinates": {
+      "lat": 37.5537482,
+      "lng": 127.0684835
+    },
+    "isActive": false,
+    "entryCount": 0,
+    "exitCount": 0,
+    "lastUpdated": "2025-05-27T09:31:49.514Z",
+    "alerts": [],
+    "youtubeUrls": {
+      "morning": "",
+      "afternoon": ""
+    },
+    "geocoded_address": "송정동, 성동구, 서울특별시, 대한민국"
+  },
+  {
+    "id": "station_60",
+    "name": "용답동사전투표소",
+    "address": "서울 성동구 용답동",
+    "district": "서울",
+    "coordinates": {
+      "lat": 37.5613328,
+      "lng": 127.0580146
+    },
+    "isActive": false,
+    "entryCount": 0,
+    "exitCount": 0,
+    "lastUpdated": "2025-05-27T09:31:51.512Z",
+    "alerts": [],
+    "youtubeUrls": {
+      "morning": "",
+      "afternoon": ""
+    },
+    "geocoded_address": "용답동, 성동구, 서울특별시, 대한민국"
+  },
+  {
+    "id": "station_61",
+    "name": "응봉동사전투표소",
+    "address": "서울 성동구 응봉동",
+    "district": "서울",
+    "coordinates": {
+      "lat": 37.55236,
+      "lng": 127.03356
+    },
+    "isActive": false,
+    "entryCount": 0,
+    "exitCount": 0,
+    "lastUpdated": "2025-05-27T09:31:53.536Z",
+    "alerts": [],
+    "youtubeUrls": {
+      "morning": "",
+      "afternoon": ""
+    },
+    "geocoded_address": "응봉동, 성동구, 서울특별시, 대한민국"
+  },
+  {
+    "id": "station_62",
+    "name": "성수1가제1동사전투표소",
+    "address": "서울 성동구 성수1가제1동",
+    "district": "서울",
+    "coordinates": {
+      "lat": 37.5665,
+      "lng": 126.978
+    },
+    "isActive": false,
+    "entryCount": 0,
+    "exitCount": 0,
+    "lastUpdated": "2025-05-27T09:31:55.583Z",
+    "alerts": [],
+    "youtubeUrls": {
+      "morning": "",
+      "afternoon": ""
+    },
+    "geocoded_address": null
+  },
+  {
+    "id": "station_63",
+    "name": "성수1가제2동사전투표소",
+    "address": "서울 성동구 성수1가제2동",
+    "district": "서울",
+    "coordinates": {
+      "lat": 37.5464308,
+      "lng": 127.0447955
+    },
+    "isActive": false,
+    "entryCount": 0,
+    "exitCount": 0,
+    "lastUpdated": "2025-05-27T09:31:57.449Z",
+    "alerts": [],
+    "youtubeUrls": {
+      "morning": "",
+      "afternoon": ""
+    },
+    "geocoded_address": "성수1가제2동 주민센터, 왕십리로, 성수동1가, 성수1가2동, 성동구, 서울특별시, 04769, 대한민국"
+  },
+  {
+    "id": "station_64",
+    "name": "성수2가제1동사전투표소",
+    "address": "서울 성동구 성수2가제1동",
+    "district": "서울",
+    "coordinates": {
+      "lat": 37.5665,
+      "lng": 126.978
+    },
+    "isActive": false,
+    "entryCount": 0,
+    "exitCount": 0,
+    "lastUpdated": "2025-05-27T09:31:59.475Z",
+    "alerts": [],
+    "youtubeUrls": {
+      "morning": "",
+      "afternoon": ""
+    },
+    "geocoded_address": null
+  },
+  {
+    "id": "station_65",
+    "name": "성수2가제3동사전투표소",
+    "address": "서울 성동구 성수2가제3동",
+    "district": "서울",
+    "coordinates": {
+      "lat": 37.5665,
+      "lng": 126.978
+    },
+    "isActive": false,
+    "entryCount": 0,
+    "exitCount": 0,
+    "lastUpdated": "2025-05-27T09:32:01.444Z",
+    "alerts": [],
+    "youtubeUrls": {
+      "morning": "",
+      "afternoon": ""
+    },
+    "geocoded_address": null
+  },
+  {
+    "id": "station_66",
+    "name": "중곡제1동사전투표소",
+    "address": "서울 광진구 중곡제1동",
+    "district": "서울",
+    "coordinates": {
+      "lat": 37.5665,
+      "lng": 126.978
+    },
+    "isActive": false,
+    "entryCount": 0,
+    "exitCount": 0,
+    "lastUpdated": "2025-05-27T09:32:03.436Z",
+    "alerts": [],
+    "youtubeUrls": {
+      "morning": "",
+      "afternoon": ""
+    },
+    "geocoded_address": null
+  },
+  {
+    "id": "station_67",
+    "name": "중곡제2동사전투표소",
+    "address": "서울 광진구 중곡제2동",
+    "district": "서울",
+    "coordinates": {
+      "lat": 37.5665,
+      "lng": 126.978
+    },
+    "isActive": false,
+    "entryCount": 0,
+    "exitCount": 0,
+    "lastUpdated": "2025-05-27T09:32:05.435Z",
+    "alerts": [],
+    "youtubeUrls": {
+      "morning": "",
+      "afternoon": ""
+    },
+    "geocoded_address": null
+  },
+  {
+    "id": "station_68",
+    "name": "중곡제3동사전투표소",
+    "address": "서울 광진구 중곡제3동",
+    "district": "서울",
+    "coordinates": {
+      "lat": 37.5665,
+      "lng": 126.978
+    },
+    "isActive": false,
+    "entryCount": 0,
+    "exitCount": 0,
+    "lastUpdated": "2025-05-27T09:32:07.449Z",
+    "alerts": [],
+    "youtubeUrls": {
+      "morning": "",
+      "afternoon": ""
+    },
+    "geocoded_address": null
+  },
+  {
+    "id": "station_69",
+    "name": "중곡제4동사전투표소",
+    "address": "서울 광진구 중곡제4동",
+    "district": "서울",
+    "coordinates": {
+      "lat": 37.5665,
+      "lng": 126.978
+    },
+    "isActive": false,
+    "entryCount": 0,
+    "exitCount": 0,
+    "lastUpdated": "2025-05-27T09:32:09.431Z",
+    "alerts": [],
+    "youtubeUrls": {
+      "morning": "",
+      "afternoon": ""
+    },
+    "geocoded_address": null
+  },
+  {
+    "id": "station_70",
+    "name": "능동사전투표소",
+    "address": "서울 광진구 능동",
+    "district": "서울",
+    "coordinates": {
+      "lat": 37.5510361,
+      "lng": 127.0826103
+    },
+    "isActive": false,
+    "entryCount": 0,
+    "exitCount": 0,
+    "lastUpdated": "2025-05-27T09:32:11.443Z",
+    "alerts": [],
+    "youtubeUrls": {
+      "morning": "",
+      "afternoon": ""
+    },
+    "geocoded_address": "능동, 광진구, 서울특별시, 대한민국"
+  },
+  {
+    "id": "station_71",
+    "name": "구의제1동사전투표소",
+    "address": "서울 광진구 구의제1동",
+    "district": "서울",
+    "coordinates": {
+      "lat": 37.5665,
+      "lng": 126.978
+    },
+    "isActive": false,
+    "entryCount": 0,
+    "exitCount": 0,
+    "lastUpdated": "2025-05-27T09:32:13.472Z",
+    "alerts": [],
+    "youtubeUrls": {
+      "morning": "",
+      "afternoon": ""
+    },
+    "geocoded_address": null
+  },
+  {
+    "id": "station_72",
+    "name": "구의제2동사전투표소",
+    "address": "서울 광진구 구의제2동",
+    "district": "서울",
+    "coordinates": {
+      "lat": 37.5665,
+      "lng": 126.978
+    },
+    "isActive": false,
+    "entryCount": 0,
+    "exitCount": 0,
+    "lastUpdated": "2025-05-27T09:32:15.437Z",
+    "alerts": [],
+    "youtubeUrls": {
+      "morning": "",
+      "afternoon": ""
+    },
+    "geocoded_address": null
+  },
+  {
+    "id": "station_73",
+    "name": "구의제3동사전투표소",
+    "address": "서울 광진구 구의제3동",
+    "district": "서울",
+    "coordinates": {
+      "lat": 37.5665,
+      "lng": 126.978
+    },
+    "isActive": false,
+    "entryCount": 0,
+    "exitCount": 0,
+    "lastUpdated": "2025-05-27T09:32:17.457Z",
+    "alerts": [],
+    "youtubeUrls": {
+      "morning": "",
+      "afternoon": ""
+    },
+    "geocoded_address": null
+  },
+  {
+    "id": "station_74",
+    "name": "광장동사전투표소",
+    "address": "서울 광진구 광장동",
+    "district": "서울",
+    "coordinates": {
+      "lat": 37.54711,
+      "lng": 127.10414
+    },
+    "isActive": false,
+    "entryCount": 0,
+    "exitCount": 0,
+    "lastUpdated": "2025-05-27T09:32:19.478Z",
+    "alerts": [],
+    "youtubeUrls": {
+      "morning": "",
+      "afternoon": ""
+    },
+    "geocoded_address": "광장동, 광진구, 서울특별시, 대한민국"
+  },
+  {
+    "id": "station_75",
+    "name": "자양제1동사전투표소",
+    "address": "서울 광진구 자양제1동",
+    "district": "서울",
+    "coordinates": {
+      "lat": 37.5665,
+      "lng": 126.978
+    },
+    "isActive": false,
+    "entryCount": 0,
+    "exitCount": 0,
+    "lastUpdated": "2025-05-27T09:32:21.538Z",
+    "alerts": [],
+    "youtubeUrls": {
+      "morning": "",
+      "afternoon": ""
+    },
+    "geocoded_address": null
+  },
+  {
+    "id": "station_76",
+    "name": "자양제2동사전투표소",
+    "address": "서울 광진구 자양제2동",
+    "district": "서울",
+    "coordinates": {
+      "lat": 37.5665,
+      "lng": 126.978
+    },
+    "isActive": false,
+    "entryCount": 0,
+    "exitCount": 0,
+    "lastUpdated": "2025-05-27T09:32:23.445Z",
+    "alerts": [],
+    "youtubeUrls": {
+      "morning": "",
+      "afternoon": ""
+    },
+    "geocoded_address": null
+  },
+  {
+    "id": "station_77",
+    "name": "자양제3동사전투표소",
+    "address": "서울 광진구 자양제3동",
+    "district": "서울",
+    "coordinates": {
+      "lat": 37.5665,
+      "lng": 126.978
+    },
+    "isActive": false,
+    "entryCount": 0,
+    "exitCount": 0,
+    "lastUpdated": "2025-05-27T09:32:25.441Z",
+    "alerts": [],
+    "youtubeUrls": {
+      "morning": "",
+      "afternoon": ""
+    },
+    "geocoded_address": null
+  },
+  {
+    "id": "station_78",
+    "name": "자양제4동사전투표소",
+    "address": "서울 광진구 자양제4동",
+    "district": "서울",
+    "coordinates": {
+      "lat": 37.5665,
+      "lng": 126.978
+    },
+    "isActive": false,
+    "entryCount": 0,
+    "exitCount": 0,
+    "lastUpdated": "2025-05-27T09:32:27.439Z",
+    "alerts": [],
+    "youtubeUrls": {
+      "morning": "",
+      "afternoon": ""
+    },
+    "geocoded_address": null
+  },
+  {
+    "id": "station_79",
+    "name": "화양동사전투표소",
+    "address": "서울 광진구 화양동",
+    "district": "서울",
+    "coordinates": {
+      "lat": 37.5435296,
+      "lng": 127.0721435
+    },
+    "isActive": false,
+    "entryCount": 0,
+    "exitCount": 0,
+    "lastUpdated": "2025-05-27T09:32:29.437Z",
+    "alerts": [],
+    "youtubeUrls": {
+      "morning": "",
+      "afternoon": ""
+    },
+    "geocoded_address": "화양동, 광진구, 서울특별시, 대한민국"
+  },
+  {
+    "id": "station_80",
+    "name": "군자동사전투표소",
+    "address": "서울 광진구 군자동",
+    "district": "서울",
+    "coordinates": {
+      "lat": 37.5532345,
+      "lng": 127.071936
+    },
+    "isActive": false,
+    "entryCount": 0,
+    "exitCount": 0,
+    "lastUpdated": "2025-05-27T09:32:31.543Z",
+    "alerts": [],
+    "youtubeUrls": {
+      "morning": "",
+      "afternoon": ""
+    },
+    "geocoded_address": "군자동, 광진구, 서울특별시, 대한민국"
+  },
+  {
+    "id": "station_81",
+    "name": "용신동사전투표소",
+    "address": "서울 동대문구 용신동",
+    "district": "서울",
+    "coordinates": {
+      "lat": 37.5761011,
+      "lng": 127.0340749
+    },
+    "isActive": false,
+    "entryCount": 0,
+    "exitCount": 0,
+    "lastUpdated": "2025-05-27T09:32:33.512Z",
+    "alerts": [],
+    "youtubeUrls": {
+      "morning": "",
+      "afternoon": ""
+    },
+    "geocoded_address": "용신동, 동대문구, 서울특별시, 대한민국"
+  },
+  {
+    "id": "station_82",
+    "name": "제기동사전투표소",
+    "address": "서울 동대문구 제기동",
+    "district": "서울",
+    "coordinates": {
+      "lat": 37.5783784,
+      "lng": 127.0344672
+    },
+    "isActive": false,
+    "entryCount": 0,
+    "exitCount": 0,
+    "lastUpdated": "2025-05-27T09:32:35.523Z",
+    "alerts": [],
+    "youtubeUrls": {
+      "morning": "",
+      "afternoon": ""
+    },
+    "geocoded_address": "제기동, 지하 93, 왕산로, 제기동, 용신동, 동대문구, 서울특별시, 02566, 대한민국"
+  },
+  {
+    "id": "station_83",
+    "name": "청량리동사전투표소",
+    "address": "서울 동대문구 청량리동",
+    "district": "서울",
+    "coordinates": {
+      "lat": 37.5882073,
+      "lng": 127.0462518
+    },
+    "isActive": false,
+    "entryCount": 0,
+    "exitCount": 0,
+    "lastUpdated": "2025-05-27T09:32:37.547Z",
+    "alerts": [],
+    "youtubeUrls": {
+      "morning": "",
+      "afternoon": ""
+    },
+    "geocoded_address": "청량리동, 동대문구, 서울특별시, 대한민국"
+  },
+  {
+    "id": "station_84",
+    "name": "회기동사전투표소",
+    "address": "서울 동대문구 회기동",
+    "district": "서울",
+    "coordinates": {
+      "lat": 37.59433,
+      "lng": 127.05178
+    },
+    "isActive": false,
+    "entryCount": 0,
+    "exitCount": 0,
+    "lastUpdated": "2025-05-27T09:32:39.514Z",
+    "alerts": [],
+    "youtubeUrls": {
+      "morning": "",
+      "afternoon": ""
+    },
+    "geocoded_address": "회기동, 동대문구, 서울특별시, 대한민국"
+  },
+  {
+    "id": "station_85",
+    "name": "휘경제1동사전투표소",
+    "address": "서울 동대문구 휘경제1동",
+    "district": "서울",
+    "coordinates": {
+      "lat": 37.5665,
+      "lng": 126.978
+    },
+    "isActive": false,
+    "entryCount": 0,
+    "exitCount": 0,
+    "lastUpdated": "2025-05-27T09:32:41.521Z",
+    "alerts": [],
+    "youtubeUrls": {
+      "morning": "",
+      "afternoon": ""
+    },
+    "geocoded_address": null
+  },
+  {
+    "id": "station_86",
+    "name": "휘경제2동사전투표소",
+    "address": "서울 동대문구 휘경제2동",
+    "district": "서울",
+    "coordinates": {
+      "lat": 37.5665,
+      "lng": 126.978
+    },
+    "isActive": false,
+    "entryCount": 0,
+    "exitCount": 0,
+    "lastUpdated": "2025-05-27T09:32:43.438Z",
+    "alerts": [],
+    "youtubeUrls": {
+      "morning": "",
+      "afternoon": ""
+    },
+    "geocoded_address": null
+  },
+  {
+    "id": "station_87",
+    "name": "이문제1동사전투표소",
+    "address": "서울 동대문구 이문제1동",
+    "district": "서울",
+    "coordinates": {
+      "lat": 37.5665,
+      "lng": 126.978
+    },
+    "isActive": false,
+    "entryCount": 0,
+    "exitCount": 0,
+    "lastUpdated": "2025-05-27T09:32:45.445Z",
+    "alerts": [],
+    "youtubeUrls": {
+      "morning": "",
+      "afternoon": ""
+    },
+    "geocoded_address": null
+  },
+  {
+    "id": "station_88",
+    "name": "이문제2동사전투표소",
+    "address": "서울 동대문구 이문제2동",
+    "district": "서울",
+    "coordinates": {
+      "lat": 37.5665,
+      "lng": 126.978
+    },
+    "isActive": false,
+    "entryCount": 0,
+    "exitCount": 0,
+    "lastUpdated": "2025-05-27T09:32:47.442Z",
+    "alerts": [],
+    "youtubeUrls": {
+      "morning": "",
+      "afternoon": ""
+    },
+    "geocoded_address": null
+  },
+  {
+    "id": "station_89",
+    "name": "전농제1동사전투표소",
+    "address": "서울 동대문구 전농제1동",
+    "district": "서울",
+    "coordinates": {
+      "lat": 37.5665,
+      "lng": 126.978
+    },
+    "isActive": false,
+    "entryCount": 0,
+    "exitCount": 0,
+    "lastUpdated": "2025-05-27T09:32:49.439Z",
+    "alerts": [],
+    "youtubeUrls": {
+      "morning": "",
+      "afternoon": ""
+    },
+    "geocoded_address": null
+  },
+  {
+    "id": "station_90",
+    "name": "전농제2동사전투표소",
+    "address": "서울 동대문구 전농제2동",
+    "district": "서울",
+    "coordinates": {
+      "lat": 37.5665,
+      "lng": 126.978
+    },
+    "isActive": false,
+    "entryCount": 0,
+    "exitCount": 0,
+    "lastUpdated": "2025-05-27T09:32:51.447Z",
+    "alerts": [],
+    "youtubeUrls": {
+      "morning": "",
+      "afternoon": ""
+    },
+    "geocoded_address": null
+  },
+  {
+    "id": "station_91",
+    "name": "답십리제1동사전투표소",
+    "address": "서울 동대문구 답십리제1동",
+    "district": "서울",
+    "coordinates": {
+      "lat": 37.5665,
+      "lng": 126.978
+    },
+    "isActive": false,
+    "entryCount": 0,
+    "exitCount": 0,
+    "lastUpdated": "2025-05-27T09:32:53.432Z",
+    "alerts": [],
+    "youtubeUrls": {
+      "morning": "",
+      "afternoon": ""
+    },
+    "geocoded_address": null
+  },
+  {
+    "id": "station_92",
+    "name": "답십리제2동사전투표소",
+    "address": "서울 동대문구 답십리제2동",
+    "district": "서울",
+    "coordinates": {
+      "lat": 37.5665,
+      "lng": 126.978
+    },
+    "isActive": false,
+    "entryCount": 0,
+    "exitCount": 0,
+    "lastUpdated": "2025-05-27T09:32:55.445Z",
+    "alerts": [],
+    "youtubeUrls": {
+      "morning": "",
+      "afternoon": ""
+    },
+    "geocoded_address": null
+  },
+  {
+    "id": "station_93",
+    "name": "장안제1동사전투표소",
+    "address": "서울 동대문구 장안제1동",
+    "district": "서울",
+    "coordinates": {
+      "lat": 37.5665,
+      "lng": 126.978
+    },
+    "isActive": false,
+    "entryCount": 0,
+    "exitCount": 0,
+    "lastUpdated": "2025-05-27T09:32:57.442Z",
+    "alerts": [],
+    "youtubeUrls": {
+      "morning": "",
+      "afternoon": ""
+    },
+    "geocoded_address": null
+  },
+  {
+    "id": "station_94",
+    "name": "장안제2동사전투표소",
+    "address": "서울 동대문구 장안제2동",
+    "district": "서울",
+    "coordinates": {
+      "lat": 37.5665,
+      "lng": 126.978
+    },
+    "isActive": false,
+    "entryCount": 0,
+    "exitCount": 0,
+    "lastUpdated": "2025-05-27T09:32:59.440Z",
+    "alerts": [],
+    "youtubeUrls": {
+      "morning": "",
+      "afternoon": ""
+    },
+    "geocoded_address": null
+  },
+  {
+    "id": "station_95",
+    "name": "면목본동사전투표소",
+    "address": "서울 중랑구 면목본동",
+    "district": "서울",
+    "coordinates": {
+      "lat": 37.5892468,
+      "lng": 127.0892776
+    },
+    "isActive": false,
+    "entryCount": 0,
+    "exitCount": 0,
+    "lastUpdated": "2025-05-27T09:33:01.464Z",
+    "alerts": [],
+    "youtubeUrls": {
+      "morning": "",
+      "afternoon": ""
+    },
+    "geocoded_address": "면목본동, 중랑구, 서울특별시, 대한민국"
+  },
+  {
+    "id": "station_96",
+    "name": "면목제2동사전투표소",
+    "address": "서울 중랑구 면목제2동",
+    "district": "서울",
+    "coordinates": {
+      "lat": 37.5665,
+      "lng": 126.978
+    },
+    "isActive": false,
+    "entryCount": 0,
+    "exitCount": 0,
+    "lastUpdated": "2025-05-27T09:33:03.524Z",
+    "alerts": [],
+    "youtubeUrls": {
+      "morning": "",
+      "afternoon": ""
+    },
+    "geocoded_address": null
+  },
+  {
+    "id": "station_97",
+    "name": "면목제3·8동사전투표소",
+    "address": "서울 중랑구 면목제3·8동",
+    "district": "서울",
+    "coordinates": {
+      "lat": 37.5829594,
+      "lng": 127.0880821
+    },
+    "isActive": false,
+    "entryCount": 0,
+    "exitCount": 0,
+    "lastUpdated": "2025-05-27T09:33:05.441Z",
+    "alerts": [],
+    "youtubeUrls": {
+      "morning": "",
+      "afternoon": ""
+    },
+    "geocoded_address": "면목제3·8동 주민센터, 48, 사가정로51길, 면목동, 면목3·8동, 중랑구, 서울특별시, 02221, 대한민국"
+  },
+  {
+    "id": "station_98",
+    "name": "면목제4동사전투표소",
+    "address": "서울 중랑구 면목제4동",
+    "district": "서울",
+    "coordinates": {
+      "lat": 37.5665,
+      "lng": 126.978
+    },
+    "isActive": false,
+    "entryCount": 0,
+    "exitCount": 0,
+    "lastUpdated": "2025-05-27T09:33:07.582Z",
+    "alerts": [],
+    "youtubeUrls": {
+      "morning": "",
+      "afternoon": ""
+    },
+    "geocoded_address": null
+  },
+  {
+    "id": "station_99",
+    "name": "면목제5동사전투표소",
+    "address": "서울 중랑구 면목제5동",
+    "district": "서울",
+    "coordinates": {
+      "lat": 37.5665,
+      "lng": 126.978
+    },
+    "isActive": false,
+    "entryCount": 0,
+    "exitCount": 0,
+    "lastUpdated": "2025-05-27T09:33:09.438Z",
+    "alerts": [],
+    "youtubeUrls": {
+      "morning": "",
+      "afternoon": ""
+    },
+    "geocoded_address": null
+  },
+  {
+    "id": "station_100",
+    "name": "면목제7동사전투표소",
+    "address": "서울 중랑구 면목제7동",
+    "district": "서울",
+    "coordinates": {
+      "lat": 37.5665,
+      "lng": 126.978
+    },
+    "isActive": false,
+    "entryCount": 0,
+    "exitCount": 0,
+    "lastUpdated": "2025-05-27T09:33:11.440Z",
+    "alerts": [],
+    "youtubeUrls": {
+      "morning": "",
+      "afternoon": ""
+    },
+    "geocoded_address": null
+  }
+]

@@ -1,0 +1,1302 @@
+[
+  {
+    "id": "station_1701",
+    "name": "영덕2동사전투표소",
+    "district": "경기",
+    "sido": "경기",
+    "sigungu": "용인시기흥구",
+    "dong": "영덕2동",
+    "address": "경기 용인시기흥구 영덕2동",
+    "coordinates": {
+      "lat": 37.2884675,
+      "lng": 127.0535231
+    },
+    "isActive": false,
+    "entryCount": 0,
+    "exitCount": 0,
+    "lastUpdated": "2025-05-27T10:45:12.299Z",
+    "alerts": [],
+    "youtubeUrls": {
+      "morning": "",
+      "afternoon": ""
+    },
+    "geocoded_address": "경기도, 대한민국",
+    "matched_address": "경기",
+    "geocode_attempt": 4,
+    "processed_section": "section2"
+  },
+  {
+    "id": "station_1702",
+    "name": "구갈동사전투표소",
+    "district": "경기",
+    "sido": "경기",
+    "sigungu": "용인시기흥구",
+    "dong": "구갈동",
+    "address": "경기 용인시기흥구 구갈동",
+    "coordinates": {
+      "lat": 37.2884675,
+      "lng": 127.0535231
+    },
+    "isActive": false,
+    "entryCount": 0,
+    "exitCount": 0,
+    "lastUpdated": "2025-05-27T10:45:23.392Z",
+    "alerts": [],
+    "youtubeUrls": {
+      "morning": "",
+      "afternoon": ""
+    },
+    "geocoded_address": "경기도, 대한민국",
+    "matched_address": "경기",
+    "geocode_attempt": 4,
+    "processed_section": "section2"
+  },
+  {
+    "id": "station_1703",
+    "name": "상갈동사전투표소",
+    "district": "경기",
+    "sido": "경기",
+    "sigungu": "용인시기흥구",
+    "dong": "상갈동",
+    "address": "경기 용인시기흥구 상갈동",
+    "coordinates": {
+      "lat": 37.2884675,
+      "lng": 127.0535231
+    },
+    "isActive": false,
+    "entryCount": 0,
+    "exitCount": 0,
+    "lastUpdated": "2025-05-27T10:45:34.393Z",
+    "alerts": [],
+    "youtubeUrls": {
+      "morning": "",
+      "afternoon": ""
+    },
+    "geocoded_address": "경기도, 대한민국",
+    "matched_address": "경기",
+    "geocode_attempt": 4,
+    "processed_section": "section2"
+  },
+  {
+    "id": "station_1704",
+    "name": "보라동사전투표소",
+    "district": "경기",
+    "sido": "경기",
+    "sigungu": "용인시기흥구",
+    "dong": "보라동",
+    "address": "경기 용인시기흥구 보라동",
+    "coordinates": {
+      "lat": 37.2884675,
+      "lng": 127.0535231
+    },
+    "isActive": false,
+    "entryCount": 0,
+    "exitCount": 0,
+    "lastUpdated": "2025-05-27T10:45:46.389Z",
+    "alerts": [],
+    "youtubeUrls": {
+      "morning": "",
+      "afternoon": ""
+    },
+    "geocoded_address": "경기도, 대한민국",
+    "matched_address": "경기",
+    "geocode_attempt": 4,
+    "processed_section": "section2"
+  },
+  {
+    "id": "station_1705",
+    "name": "기흥동사전투표소",
+    "district": "경기",
+    "sido": "경기",
+    "sigungu": "용인시기흥구",
+    "dong": "기흥동",
+    "address": "경기 용인시기흥구 기흥동",
+    "coordinates": {
+      "lat": 37.2884675,
+      "lng": 127.0535231
+    },
+    "isActive": false,
+    "entryCount": 0,
+    "exitCount": 0,
+    "lastUpdated": "2025-05-27T10:45:57.391Z",
+    "alerts": [],
+    "youtubeUrls": {
+      "morning": "",
+      "afternoon": ""
+    },
+    "geocoded_address": "경기도, 대한민국",
+    "matched_address": "경기",
+    "geocode_attempt": 4,
+    "processed_section": "section2"
+  },
+  {
+    "id": "station_1706",
+    "name": "서농동사전투표소",
+    "district": "경기",
+    "sido": "경기",
+    "sigungu": "용인시기흥구",
+    "dong": "서농동",
+    "address": "경기 용인시기흥구 서농동",
+    "coordinates": {
+      "lat": 37.2884675,
+      "lng": 127.0535231
+    },
+    "isActive": false,
+    "entryCount": 0,
+    "exitCount": 0,
+    "lastUpdated": "2025-05-27T10:46:08.409Z",
+    "alerts": [],
+    "youtubeUrls": {
+      "morning": "",
+      "afternoon": ""
+    },
+    "geocoded_address": "경기도, 대한민국",
+    "matched_address": "경기",
+    "geocode_attempt": 4,
+    "processed_section": "section2"
+  },
+  {
+    "id": "station_1707",
+    "name": "구성동사전투표소",
+    "district": "경기",
+    "sido": "경기",
+    "sigungu": "용인시기흥구",
+    "dong": "구성동",
+    "address": "경기 용인시기흥구 구성동",
+    "coordinates": {
+      "lat": 37.2884675,
+      "lng": 127.0535231
+    },
+    "isActive": false,
+    "entryCount": 0,
+    "exitCount": 0,
+    "lastUpdated": "2025-05-27T10:46:19.396Z",
+    "alerts": [],
+    "youtubeUrls": {
+      "morning": "",
+      "afternoon": ""
+    },
+    "geocoded_address": "경기도, 대한민국",
+    "matched_address": "경기",
+    "geocode_attempt": 4,
+    "processed_section": "section2"
+  },
+  {
+    "id": "station_1708",
+    "name": "마북동사전투표소",
+    "district": "경기",
+    "sido": "경기",
+    "sigungu": "용인시기흥구",
+    "dong": "마북동",
+    "address": "경기 용인시기흥구 마북동",
+    "coordinates": {
+      "lat": 37.2884675,
+      "lng": 127.0535231
+    },
+    "isActive": false,
+    "entryCount": 0,
+    "exitCount": 0,
+    "lastUpdated": "2025-05-27T10:46:30.388Z",
+    "alerts": [],
+    "youtubeUrls": {
+      "morning": "",
+      "afternoon": ""
+    },
+    "geocoded_address": "경기도, 대한민국",
+    "matched_address": "경기",
+    "geocode_attempt": 4,
+    "processed_section": "section2"
+  },
+  {
+    "id": "station_1709",
+    "name": "동백1동사전투표소",
+    "district": "경기",
+    "sido": "경기",
+    "sigungu": "용인시기흥구",
+    "dong": "동백1동",
+    "address": "경기 용인시기흥구 동백1동",
+    "coordinates": {
+      "lat": 37.2884675,
+      "lng": 127.0535231
+    },
+    "isActive": false,
+    "entryCount": 0,
+    "exitCount": 0,
+    "lastUpdated": "2025-05-27T10:46:41.396Z",
+    "alerts": [],
+    "youtubeUrls": {
+      "morning": "",
+      "afternoon": ""
+    },
+    "geocoded_address": "경기도, 대한민국",
+    "matched_address": "경기",
+    "geocode_attempt": 4,
+    "processed_section": "section2"
+  },
+  {
+    "id": "station_1710",
+    "name": "동백2동사전투표소",
+    "district": "경기",
+    "sido": "경기",
+    "sigungu": "용인시기흥구",
+    "dong": "동백2동",
+    "address": "경기 용인시기흥구 동백2동",
+    "coordinates": {
+      "lat": 37.2884675,
+      "lng": 127.0535231
+    },
+    "isActive": false,
+    "entryCount": 0,
+    "exitCount": 0,
+    "lastUpdated": "2025-05-27T10:46:52.394Z",
+    "alerts": [],
+    "youtubeUrls": {
+      "morning": "",
+      "afternoon": ""
+    },
+    "geocoded_address": "경기도, 대한민국",
+    "matched_address": "경기",
+    "geocode_attempt": 4,
+    "processed_section": "section2"
+  },
+  {
+    "id": "station_1711",
+    "name": "동백3동사전투표소",
+    "district": "경기",
+    "sido": "경기",
+    "sigungu": "용인시기흥구",
+    "dong": "동백3동",
+    "address": "경기 용인시기흥구 동백3동",
+    "coordinates": {
+      "lat": 37.2884675,
+      "lng": 127.0535231
+    },
+    "isActive": false,
+    "entryCount": 0,
+    "exitCount": 0,
+    "lastUpdated": "2025-05-27T10:47:03.395Z",
+    "alerts": [],
+    "youtubeUrls": {
+      "morning": "",
+      "afternoon": ""
+    },
+    "geocoded_address": "경기도, 대한민국",
+    "matched_address": "경기",
+    "geocode_attempt": 4,
+    "processed_section": "section2"
+  },
+  {
+    "id": "station_1712",
+    "name": "상하동사전투표소",
+    "district": "경기",
+    "sido": "경기",
+    "sigungu": "용인시기흥구",
+    "dong": "상하동",
+    "address": "경기 용인시기흥구 상하동",
+    "coordinates": {
+      "lat": 37.2884675,
+      "lng": 127.0535231
+    },
+    "isActive": false,
+    "entryCount": 0,
+    "exitCount": 0,
+    "lastUpdated": "2025-05-27T10:47:14.396Z",
+    "alerts": [],
+    "youtubeUrls": {
+      "morning": "",
+      "afternoon": ""
+    },
+    "geocoded_address": "경기도, 대한민국",
+    "matched_address": "경기",
+    "geocode_attempt": 4,
+    "processed_section": "section2"
+  },
+  {
+    "id": "station_1713",
+    "name": "보정동사전투표소",
+    "district": "경기",
+    "sido": "경기",
+    "sigungu": "용인시기흥구",
+    "dong": "보정동",
+    "address": "경기 용인시기흥구 보정동",
+    "coordinates": {
+      "lat": 37.2884675,
+      "lng": 127.0535231
+    },
+    "isActive": false,
+    "entryCount": 0,
+    "exitCount": 0,
+    "lastUpdated": "2025-05-27T10:47:25.402Z",
+    "alerts": [],
+    "youtubeUrls": {
+      "morning": "",
+      "afternoon": ""
+    },
+    "geocoded_address": "경기도, 대한민국",
+    "matched_address": "경기",
+    "geocode_attempt": 4,
+    "processed_section": "section2"
+  },
+  {
+    "id": "station_1714",
+    "name": "공도읍사전투표소",
+    "district": "경기",
+    "sido": "경기",
+    "sigungu": "안성시",
+    "dong": "공도읍",
+    "address": "경기 안성시 공도읍",
+    "coordinates": {
+      "lat": 36.9915,
+      "lng": 127.17214
+    },
+    "isActive": false,
+    "entryCount": 0,
+    "exitCount": 0,
+    "lastUpdated": "2025-05-27T10:47:36.391Z",
+    "alerts": [],
+    "youtubeUrls": {
+      "morning": "",
+      "afternoon": ""
+    },
+    "geocoded_address": "공도읍, 안성시, 경기도, 17562, 대한민국",
+    "matched_address": "경기 안성시 공도읍",
+    "geocode_attempt": 1,
+    "processed_section": "section2"
+  },
+  {
+    "id": "station_1715",
+    "name": "보개면사전투표소",
+    "district": "경기",
+    "sido": "경기",
+    "sigungu": "안성시",
+    "dong": "보개면",
+    "address": "경기 안성시 보개면",
+    "coordinates": {
+      "lat": 37.04525,
+      "lng": 127.30957
+    },
+    "isActive": false,
+    "entryCount": 0,
+    "exitCount": 0,
+    "lastUpdated": "2025-05-27T10:47:40.440Z",
+    "alerts": [],
+    "youtubeUrls": {
+      "morning": "",
+      "afternoon": ""
+    },
+    "geocoded_address": "보개면, 안성시, 경기도, 17509, 대한민국",
+    "matched_address": "경기 안성시 보개면",
+    "geocode_attempt": 1,
+    "processed_section": "section2"
+  },
+  {
+    "id": "station_1716",
+    "name": "금광면사전투표소",
+    "district": "경기",
+    "sido": "경기",
+    "sigungu": "안성시",
+    "dong": "금광면",
+    "address": "경기 안성시 금광면",
+    "coordinates": {
+      "lat": 36.98144,
+      "lng": 127.33277
+    },
+    "isActive": false,
+    "entryCount": 0,
+    "exitCount": 0,
+    "lastUpdated": "2025-05-27T10:47:44.405Z",
+    "alerts": [],
+    "youtubeUrls": {
+      "morning": "",
+      "afternoon": ""
+    },
+    "geocoded_address": "금광면, 안성시, 경기도, 17536, 대한민국",
+    "matched_address": "경기 안성시 금광면",
+    "geocode_attempt": 1,
+    "processed_section": "section2"
+  },
+  {
+    "id": "station_1717",
+    "name": "서운면사전투표소",
+    "district": "경기",
+    "sido": "경기",
+    "sigungu": "안성시",
+    "dong": "서운면",
+    "address": "경기 안성시 서운면",
+    "coordinates": {
+      "lat": 36.9428185,
+      "lng": 127.2553093
+    },
+    "isActive": false,
+    "entryCount": 0,
+    "exitCount": 0,
+    "lastUpdated": "2025-05-27T10:47:47.395Z",
+    "alerts": [],
+    "youtubeUrls": {
+      "morning": "",
+      "afternoon": ""
+    },
+    "geocoded_address": "서운면, 안성시, 경기도, 대한민국",
+    "matched_address": "경기 안성시 서운면",
+    "geocode_attempt": 1,
+    "processed_section": "section2"
+  },
+  {
+    "id": "station_1718",
+    "name": "미양면사전투표소",
+    "district": "경기",
+    "sido": "경기",
+    "sigungu": "안성시",
+    "dong": "미양면",
+    "address": "경기 안성시 미양면",
+    "coordinates": {
+      "lat": 36.97146,
+      "lng": 127.22164
+    },
+    "isActive": false,
+    "entryCount": 0,
+    "exitCount": 0,
+    "lastUpdated": "2025-05-27T10:47:51.426Z",
+    "alerts": [],
+    "youtubeUrls": {
+      "morning": "",
+      "afternoon": ""
+    },
+    "geocoded_address": "미양면, 안성시, 경기도, 대한민국",
+    "matched_address": "경기 안성시 미양면",
+    "geocode_attempt": 1,
+    "processed_section": "section2"
+  },
+  {
+    "id": "station_1719",
+    "name": "대덕면사전투표소",
+    "district": "경기",
+    "sido": "경기",
+    "sigungu": "안성시",
+    "dong": "대덕면",
+    "address": "경기 안성시 대덕면",
+    "coordinates": {
+      "lat": 37.03547,
+      "lng": 127.23958
+    },
+    "isActive": false,
+    "entryCount": 0,
+    "exitCount": 0,
+    "lastUpdated": "2025-05-27T10:47:54.392Z",
+    "alerts": [],
+    "youtubeUrls": {
+      "morning": "",
+      "afternoon": ""
+    },
+    "geocoded_address": "대덕면, 안성시, 경기도, 17543, 대한민국",
+    "matched_address": "경기 안성시 대덕면",
+    "geocode_attempt": 1,
+    "processed_section": "section2"
+  },
+  {
+    "id": "station_1720",
+    "name": "양성면사전투표소",
+    "district": "경기",
+    "sido": "경기",
+    "sigungu": "안성시",
+    "dong": "양성면",
+    "address": "경기 안성시 양성면",
+    "coordinates": {
+      "lat": 37.07156,
+      "lng": 127.21486
+    },
+    "isActive": false,
+    "entryCount": 0,
+    "exitCount": 0,
+    "lastUpdated": "2025-05-27T10:47:58.469Z",
+    "alerts": [],
+    "youtubeUrls": {
+      "morning": "",
+      "afternoon": ""
+    },
+    "geocoded_address": "양성면, 안성시, 경기도, 17502, 대한민국",
+    "matched_address": "경기 안성시 양성면",
+    "geocode_attempt": 1,
+    "processed_section": "section2"
+  },
+  {
+    "id": "station_1721",
+    "name": "원곡면사전투표소",
+    "district": "경기",
+    "sido": "경기",
+    "sigungu": "안성시",
+    "dong": "원곡면",
+    "address": "경기 안성시 원곡면",
+    "coordinates": {
+      "lat": 37.0498578,
+      "lng": 127.1376566
+    },
+    "isActive": false,
+    "entryCount": 0,
+    "exitCount": 0,
+    "lastUpdated": "2025-05-27T10:48:02.412Z",
+    "alerts": [],
+    "youtubeUrls": {
+      "morning": "",
+      "afternoon": ""
+    },
+    "geocoded_address": "원곡면, 안성시, 경기도, 17556, 대한민국",
+    "matched_address": "경기 안성시 원곡면",
+    "geocode_attempt": 1,
+    "processed_section": "section2"
+  },
+  {
+    "id": "station_1722",
+    "name": "일죽면사전투표소",
+    "district": "경기",
+    "sido": "경기",
+    "sigungu": "안성시",
+    "dong": "일죽면",
+    "address": "경기 안성시 일죽면",
+    "coordinates": {
+      "lat": 37.09139,
+      "lng": 127.47091
+    },
+    "isActive": false,
+    "entryCount": 0,
+    "exitCount": 0,
+    "lastUpdated": "2025-05-27T10:48:05.423Z",
+    "alerts": [],
+    "youtubeUrls": {
+      "morning": "",
+      "afternoon": ""
+    },
+    "geocoded_address": "일죽면, 안성시, 경기도, 17529, 대한민국",
+    "matched_address": "경기 안성시 일죽면",
+    "geocode_attempt": 1,
+    "processed_section": "section2"
+  },
+  {
+    "id": "station_1723",
+    "name": "죽산면사전투표소",
+    "district": "경기",
+    "sido": "경기",
+    "sigungu": "안성시",
+    "dong": "죽산면",
+    "address": "경기 안성시 죽산면",
+    "coordinates": {
+      "lat": 37.0677159,
+      "lng": 127.418343
+    },
+    "isActive": false,
+    "entryCount": 0,
+    "exitCount": 0,
+    "lastUpdated": "2025-05-27T10:48:09.395Z",
+    "alerts": [],
+    "youtubeUrls": {
+      "morning": "",
+      "afternoon": ""
+    },
+    "geocoded_address": "죽산면, 안성시, 경기도, 17519, 대한민국",
+    "matched_address": "경기 안성시 죽산면",
+    "geocode_attempt": 1,
+    "processed_section": "section2"
+  },
+  {
+    "id": "station_1724",
+    "name": "삼죽면사전투표소",
+    "district": "경기",
+    "sido": "경기",
+    "sigungu": "안성시",
+    "dong": "삼죽면",
+    "address": "경기 안성시 삼죽면",
+    "coordinates": {
+      "lat": 37.06798,
+      "lng": 127.36764
+    },
+    "isActive": false,
+    "entryCount": 0,
+    "exitCount": 0,
+    "lastUpdated": "2025-05-27T10:48:12.419Z",
+    "alerts": [],
+    "youtubeUrls": {
+      "morning": "",
+      "afternoon": ""
+    },
+    "geocoded_address": "삼죽면, 안성시, 경기도, 17514, 대한민국",
+    "matched_address": "경기 안성시 삼죽면",
+    "geocode_attempt": 1,
+    "processed_section": "section2"
+  },
+  {
+    "id": "station_1725",
+    "name": "고삼면사전투표소",
+    "district": "경기",
+    "sido": "경기",
+    "sigungu": "안성시",
+    "dong": "고삼면",
+    "address": "경기 안성시 고삼면",
+    "coordinates": {
+      "lat": 37.0871,
+      "lng": 127.27054
+    },
+    "isActive": false,
+    "entryCount": 0,
+    "exitCount": 0,
+    "lastUpdated": "2025-05-27T10:48:16.419Z",
+    "alerts": [],
+    "youtubeUrls": {
+      "morning": "",
+      "afternoon": ""
+    },
+    "geocoded_address": "고삼면, 안성시, 경기도, 17505, 대한민국",
+    "matched_address": "경기 안성시 고삼면",
+    "geocode_attempt": 1,
+    "processed_section": "section2"
+  },
+  {
+    "id": "station_1726",
+    "name": "안성1동사전투표소",
+    "district": "경기",
+    "sido": "경기",
+    "sigungu": "안성시",
+    "dong": "안성1동",
+    "address": "경기 안성시 안성1동",
+    "coordinates": {
+      "lat": 37.0056935,
+      "lng": 127.2742649
+    },
+    "isActive": false,
+    "entryCount": 0,
+    "exitCount": 0,
+    "lastUpdated": "2025-05-27T10:48:20.429Z",
+    "alerts": [],
+    "youtubeUrls": {
+      "morning": "",
+      "afternoon": ""
+    },
+    "geocoded_address": "안성1동 주민센터, 95, 낙원길, 낙원동, 안성시, 경기도, 17592, 대한민국",
+    "matched_address": "경기 안성시 안성1동",
+    "geocode_attempt": 1,
+    "processed_section": "section2"
+  },
+  {
+    "id": "station_1727",
+    "name": "안성2동사전투표소",
+    "district": "경기",
+    "sido": "경기",
+    "sigungu": "안성시",
+    "dong": "안성2동",
+    "address": "경기 안성시 안성2동",
+    "coordinates": {
+      "lat": 37.0005963,
+      "lng": 127.269808
+    },
+    "isActive": false,
+    "entryCount": 0,
+    "exitCount": 0,
+    "lastUpdated": "2025-05-27T10:48:23.424Z",
+    "alerts": [],
+    "youtubeUrls": {
+      "morning": "",
+      "afternoon": ""
+    },
+    "geocoded_address": "안성2동 주민센터, 16, 강변로74번길, 신흥동, 안성시, 경기도, 17596, 대한민국",
+    "matched_address": "경기 안성시 안성2동",
+    "geocode_attempt": 1,
+    "processed_section": "section2"
+  },
+  {
+    "id": "station_1728",
+    "name": "안성3동사전투표소",
+    "district": "경기",
+    "sido": "경기",
+    "sigungu": "안성시",
+    "dong": "안성3동",
+    "address": "경기 안성시 안성3동",
+    "coordinates": {
+      "lat": 37.0142855,
+      "lng": 127.2577231
+    },
+    "isActive": false,
+    "entryCount": 0,
+    "exitCount": 0,
+    "lastUpdated": "2025-05-27T10:48:27.399Z",
+    "alerts": [],
+    "youtubeUrls": {
+      "morning": "",
+      "afternoon": ""
+    },
+    "geocoded_address": "안성3동 주민센터, 11, 고수2로, 신소현동, 소현리, 안성시, 경기도, 17572, 대한민국",
+    "matched_address": "경기 안성시 안성3동",
+    "geocode_attempt": 1,
+    "processed_section": "section2"
+  },
+  {
+    "id": "station_1729",
+    "name": "통진읍사전투표소",
+    "district": "경기",
+    "sido": "경기",
+    "sigungu": "김포시",
+    "dong": "통진읍",
+    "address": "경기 김포시 통진읍",
+    "coordinates": {
+      "lat": 37.6948,
+      "lng": 126.60312
+    },
+    "isActive": false,
+    "entryCount": 0,
+    "exitCount": 0,
+    "lastUpdated": "2025-05-27T10:48:30.409Z",
+    "alerts": [],
+    "youtubeUrls": {
+      "morning": "",
+      "afternoon": ""
+    },
+    "geocoded_address": "통진읍, 김포시, 경기도, 대한민국",
+    "matched_address": "경기 김포시 통진읍",
+    "geocode_attempt": 1,
+    "processed_section": "section2"
+  },
+  {
+    "id": "station_1730",
+    "name": "고촌읍사전투표소",
+    "district": "경기",
+    "sido": "경기",
+    "sigungu": "김포시",
+    "dong": "고촌읍",
+    "address": "경기 김포시 고촌읍",
+    "coordinates": {
+      "lat": 37.60599,
+      "lng": 126.76195
+    },
+    "isActive": false,
+    "entryCount": 0,
+    "exitCount": 0,
+    "lastUpdated": "2025-05-27T10:48:34.415Z",
+    "alerts": [],
+    "youtubeUrls": {
+      "morning": "",
+      "afternoon": ""
+    },
+    "geocoded_address": "고촌읍, 김포시, 경기도, 대한민국",
+    "matched_address": "경기 김포시 고촌읍",
+    "geocode_attempt": 1,
+    "processed_section": "section2"
+  },
+  {
+    "id": "station_1731",
+    "name": "양촌읍사전투표소",
+    "district": "경기",
+    "sido": "경기",
+    "sigungu": "김포시",
+    "dong": "양촌읍",
+    "address": "경기 김포시 양촌읍",
+    "coordinates": {
+      "lat": 37.6570591,
+      "lng": 126.6254451
+    },
+    "isActive": false,
+    "entryCount": 0,
+    "exitCount": 0,
+    "lastUpdated": "2025-05-27T10:48:38.406Z",
+    "alerts": [],
+    "youtubeUrls": {
+      "morning": "",
+      "afternoon": ""
+    },
+    "geocoded_address": "양촌읍, 김포시, 경기도, 대한민국",
+    "matched_address": "경기 김포시 양촌읍",
+    "geocode_attempt": 1,
+    "processed_section": "section2"
+  },
+  {
+    "id": "station_1732",
+    "name": "대곶면사전투표소",
+    "district": "경기",
+    "sido": "경기",
+    "sigungu": "김포시",
+    "dong": "대곶면",
+    "address": "경기 김포시 대곶면",
+    "coordinates": {
+      "lat": 37.65206,
+      "lng": 126.57169
+    },
+    "isActive": false,
+    "entryCount": 0,
+    "exitCount": 0,
+    "lastUpdated": "2025-05-27T10:48:41.437Z",
+    "alerts": [],
+    "youtubeUrls": {
+      "morning": "",
+      "afternoon": ""
+    },
+    "geocoded_address": "대곶면, 김포시, 경기도, 대한민국",
+    "matched_address": "경기 김포시 대곶면",
+    "geocode_attempt": 1,
+    "processed_section": "section2"
+  },
+  {
+    "id": "station_1733",
+    "name": "월곶면사전투표소",
+    "district": "경기",
+    "sido": "경기",
+    "sigungu": "김포시",
+    "dong": "월곶면",
+    "address": "경기 김포시 월곶면",
+    "coordinates": {
+      "lat": 37.718175,
+      "lng": 126.5500645
+    },
+    "isActive": false,
+    "entryCount": 0,
+    "exitCount": 0,
+    "lastUpdated": "2025-05-27T10:48:45.415Z",
+    "alerts": [],
+    "youtubeUrls": {
+      "morning": "",
+      "afternoon": ""
+    },
+    "geocoded_address": "월곶면, 김포시, 경기도, 10024, 대한민국",
+    "matched_address": "경기 김포시 월곶면",
+    "geocode_attempt": 1,
+    "processed_section": "section2"
+  },
+  {
+    "id": "station_1734",
+    "name": "하성면사전투표소",
+    "district": "경기",
+    "sido": "경기",
+    "sigungu": "김포시",
+    "dong": "하성면",
+    "address": "경기 김포시 하성면",
+    "coordinates": {
+      "lat": 37.72975,
+      "lng": 126.63616
+    },
+    "isActive": false,
+    "entryCount": 0,
+    "exitCount": 0,
+    "lastUpdated": "2025-05-27T10:48:48.387Z",
+    "alerts": [],
+    "youtubeUrls": {
+      "morning": "",
+      "afternoon": ""
+    },
+    "geocoded_address": "하성면, 김포시, 경기도, 대한민국",
+    "matched_address": "경기 김포시 하성면",
+    "geocode_attempt": 1,
+    "processed_section": "section2"
+  },
+  {
+    "id": "station_1735",
+    "name": "김포본동사전투표소",
+    "district": "경기",
+    "sido": "경기",
+    "sigungu": "김포시",
+    "dong": "김포본동",
+    "address": "경기 김포시 김포본동",
+    "coordinates": {
+      "lat": 37.6275594,
+      "lng": 126.7056939
+    },
+    "isActive": false,
+    "entryCount": 0,
+    "exitCount": 0,
+    "lastUpdated": "2025-05-27T10:48:52.396Z",
+    "alerts": [],
+    "youtubeUrls": {
+      "morning": "",
+      "afternoon": ""
+    },
+    "geocoded_address": "김포본동 행정복지센터, 13, 북변1로, 북변동, 김포시, 경기도, 10106, 대한민국",
+    "matched_address": "경기 김포시 김포본동",
+    "geocode_attempt": 1,
+    "processed_section": "section2"
+  },
+  {
+    "id": "station_1736",
+    "name": "장기본동사전투표소",
+    "district": "경기",
+    "sido": "경기",
+    "sigungu": "김포시",
+    "dong": "장기본동",
+    "address": "경기 김포시 장기본동",
+    "coordinates": {
+      "lat": 37.6523062,
+      "lng": 126.6717281
+    },
+    "isActive": false,
+    "entryCount": 0,
+    "exitCount": 0,
+    "lastUpdated": "2025-05-27T10:48:56.377Z",
+    "alerts": [],
+    "youtubeUrls": {
+      "morning": "",
+      "afternoon": ""
+    },
+    "geocoded_address": "장기본동 행정복지센터, 1433, 김포대로, 장기동, 김포시, 경기도, 10081, 대한민국",
+    "matched_address": "경기 김포시 장기본동",
+    "geocode_attempt": 1,
+    "processed_section": "section2"
+  },
+  {
+    "id": "station_1737",
+    "name": "사우동사전투표소",
+    "district": "경기",
+    "sido": "경기",
+    "sigungu": "김포시",
+    "dong": "사우동",
+    "address": "경기 김포시 사우동",
+    "coordinates": {
+      "lat": 37.6199671,
+      "lng": 126.726365
+    },
+    "isActive": false,
+    "entryCount": 0,
+    "exitCount": 0,
+    "lastUpdated": "2025-05-27T10:48:59.390Z",
+    "alerts": [],
+    "youtubeUrls": {
+      "morning": "",
+      "afternoon": ""
+    },
+    "geocoded_address": "사우동, 김포시, 경기도, 10111, 대한민국",
+    "matched_address": "경기 김포시 사우동",
+    "geocode_attempt": 1,
+    "processed_section": "section2"
+  },
+  {
+    "id": "station_1738",
+    "name": "풍무동사전투표소",
+    "district": "경기",
+    "sido": "경기",
+    "sigungu": "김포시",
+    "dong": "풍무동",
+    "address": "경기 김포시 풍무동",
+    "coordinates": {
+      "lat": 37.6067383,
+      "lng": 126.7228355
+    },
+    "isActive": false,
+    "entryCount": 0,
+    "exitCount": 0,
+    "lastUpdated": "2025-05-27T10:49:03.412Z",
+    "alerts": [],
+    "youtubeUrls": {
+      "morning": "",
+      "afternoon": ""
+    },
+    "geocoded_address": "풍무동, 김포시, 경기도, 10115, 대한민국",
+    "matched_address": "경기 김포시 풍무동",
+    "geocode_attempt": 1,
+    "processed_section": "section2"
+  },
+  {
+    "id": "station_1739",
+    "name": "장기동사전투표소",
+    "district": "경기",
+    "sido": "경기",
+    "sigungu": "김포시",
+    "dong": "장기동",
+    "address": "경기 김포시 장기동",
+    "coordinates": {
+      "lat": 37.646,
+      "lng": 126.66784
+    },
+    "isActive": false,
+    "entryCount": 0,
+    "exitCount": 0,
+    "lastUpdated": "2025-05-27T10:49:06.401Z",
+    "alerts": [],
+    "youtubeUrls": {
+      "morning": "",
+      "afternoon": ""
+    },
+    "geocoded_address": "장기동, 김포시, 경기도, 10080, 대한민국",
+    "matched_address": "경기 김포시 장기동",
+    "geocode_attempt": 1,
+    "processed_section": "section2"
+  },
+  {
+    "id": "station_1740",
+    "name": "구래동사전투표소",
+    "district": "경기",
+    "sido": "경기",
+    "sigungu": "김포시",
+    "dong": "구래동",
+    "address": "경기 김포시 구래동",
+    "coordinates": {
+      "lat": 37.6438664,
+      "lng": 126.6290477
+    },
+    "isActive": false,
+    "entryCount": 0,
+    "exitCount": 0,
+    "lastUpdated": "2025-05-27T10:49:10.400Z",
+    "alerts": [],
+    "youtubeUrls": {
+      "morning": "",
+      "afternoon": ""
+    },
+    "geocoded_address": "구래동, 김포시, 경기도, 대한민국",
+    "matched_address": "경기 김포시 구래동",
+    "geocode_attempt": 1,
+    "processed_section": "section2"
+  },
+  {
+    "id": "station_1741",
+    "name": "마산동사전투표소",
+    "district": "경기",
+    "sido": "경기",
+    "sigungu": "김포시",
+    "dong": "마산동",
+    "address": "경기 김포시 마산동",
+    "coordinates": {
+      "lat": 37.6400169,
+      "lng": 126.6431466
+    },
+    "isActive": false,
+    "entryCount": 0,
+    "exitCount": 0,
+    "lastUpdated": "2025-05-27T10:49:14.388Z",
+    "alerts": [],
+    "youtubeUrls": {
+      "morning": "",
+      "afternoon": ""
+    },
+    "geocoded_address": "마산동, 김포시, 경기도, 대한민국",
+    "matched_address": "경기 김포시 마산동",
+    "geocode_attempt": 1,
+    "processed_section": "section2"
+  },
+  {
+    "id": "station_1742",
+    "name": "운양동사전투표소",
+    "district": "경기",
+    "sido": "경기",
+    "sigungu": "김포시",
+    "dong": "운양동",
+    "address": "경기 김포시 운양동",
+    "coordinates": {
+      "lat": 37.6562562,
+      "lng": 126.6829889
+    },
+    "isActive": false,
+    "entryCount": 0,
+    "exitCount": 0,
+    "lastUpdated": "2025-05-27T10:49:17.398Z",
+    "alerts": [],
+    "youtubeUrls": {
+      "morning": "",
+      "afternoon": ""
+    },
+    "geocoded_address": "운양동, 김포시, 경기도, 10078, 대한민국",
+    "matched_address": "경기 김포시 운양동",
+    "geocode_attempt": 1,
+    "processed_section": "section2"
+  },
+  {
+    "id": "station_1743",
+    "name": "초월읍사전투표소",
+    "district": "경기",
+    "sido": "경기",
+    "sigungu": "광주시",
+    "dong": "초월읍",
+    "address": "경기 광주시 초월읍",
+    "coordinates": {
+      "lat": 37.39598,
+      "lng": 127.31009
+    },
+    "isActive": false,
+    "entryCount": 0,
+    "exitCount": 0,
+    "lastUpdated": "2025-05-27T10:49:21.383Z",
+    "alerts": [],
+    "youtubeUrls": {
+      "morning": "",
+      "afternoon": ""
+    },
+    "geocoded_address": "초월읍, 광주시, 경기도, 대한민국",
+    "matched_address": "경기 광주시 초월읍",
+    "geocode_attempt": 1,
+    "processed_section": "section2"
+  },
+  {
+    "id": "station_1744",
+    "name": "곤지암읍사전투표소",
+    "district": "경기",
+    "sido": "경기",
+    "sigungu": "광주시",
+    "dong": "곤지암읍",
+    "address": "경기 광주시 곤지암읍",
+    "coordinates": {
+      "lat": 37.3499544,
+      "lng": 127.3619528
+    },
+    "isActive": false,
+    "entryCount": 0,
+    "exitCount": 0,
+    "lastUpdated": "2025-05-27T10:49:24.399Z",
+    "alerts": [],
+    "youtubeUrls": {
+      "morning": "",
+      "afternoon": ""
+    },
+    "geocoded_address": "곤지암읍, 광주시, 경기도, 대한민국",
+    "matched_address": "경기 광주시 곤지암읍",
+    "geocode_attempt": 1,
+    "processed_section": "section2"
+  },
+  {
+    "id": "station_1745",
+    "name": "도척면사전투표소",
+    "district": "경기",
+    "sido": "경기",
+    "sigungu": "광주시",
+    "dong": "도척면",
+    "address": "경기 광주시 도척면",
+    "coordinates": {
+      "lat": 37.3062,
+      "lng": 127.31809
+    },
+    "isActive": false,
+    "entryCount": 0,
+    "exitCount": 0,
+    "lastUpdated": "2025-05-27T10:49:28.412Z",
+    "alerts": [],
+    "youtubeUrls": {
+      "morning": "",
+      "afternoon": ""
+    },
+    "geocoded_address": "도척면, 광주시, 경기도, 대한민국",
+    "matched_address": "경기 광주시 도척면",
+    "geocode_attempt": 1,
+    "processed_section": "section2"
+  },
+  {
+    "id": "station_1746",
+    "name": "퇴촌면사전투표소",
+    "district": "경기",
+    "sido": "경기",
+    "sigungu": "광주시",
+    "dong": "퇴촌면",
+    "address": "경기 광주시 퇴촌면",
+    "coordinates": {
+      "lat": 37.45878,
+      "lng": 127.3256
+    },
+    "isActive": false,
+    "entryCount": 0,
+    "exitCount": 0,
+    "lastUpdated": "2025-05-27T10:49:32.417Z",
+    "alerts": [],
+    "youtubeUrls": {
+      "morning": "",
+      "afternoon": ""
+    },
+    "geocoded_address": "퇴촌면, 광주시, 경기도, 대한민국",
+    "matched_address": "경기 광주시 퇴촌면",
+    "geocode_attempt": 1,
+    "processed_section": "section2"
+  },
+  {
+    "id": "station_1747",
+    "name": "남종면사전투표소",
+    "district": "경기",
+    "sido": "경기",
+    "sigungu": "광주시",
+    "dong": "남종면",
+    "address": "경기 광주시 남종면",
+    "coordinates": {
+      "lat": 37.50048,
+      "lng": 127.31753
+    },
+    "isActive": false,
+    "entryCount": 0,
+    "exitCount": 0,
+    "lastUpdated": "2025-05-27T10:49:35.404Z",
+    "alerts": [],
+    "youtubeUrls": {
+      "morning": "",
+      "afternoon": ""
+    },
+    "geocoded_address": "남종면, 광주시, 경기도, 대한민국",
+    "matched_address": "경기 광주시 남종면",
+    "geocode_attempt": 1,
+    "processed_section": "section2"
+  },
+  {
+    "id": "station_1748",
+    "name": "남한산성면사전투표소",
+    "district": "경기",
+    "sido": "경기",
+    "sigungu": "광주시",
+    "dong": "남한산성면",
+    "address": "경기 광주시 남한산성면",
+    "coordinates": {
+      "lat": 37.4611375,
+      "lng": 127.2324427
+    },
+    "isActive": false,
+    "entryCount": 0,
+    "exitCount": 0,
+    "lastUpdated": "2025-05-27T10:49:39.410Z",
+    "alerts": [],
+    "youtubeUrls": {
+      "morning": "",
+      "afternoon": ""
+    },
+    "geocoded_address": "남한산성면, 광주시, 경기도, 대한민국",
+    "matched_address": "경기 광주시 남한산성면",
+    "geocode_attempt": 1,
+    "processed_section": "section2"
+  },
+  {
+    "id": "station_1749",
+    "name": "오포1동사전투표소",
+    "district": "경기",
+    "sido": "경기",
+    "sigungu": "광주시",
+    "dong": "오포1동",
+    "address": "경기 광주시 오포1동",
+    "coordinates": {
+      "lat": 37.3569168,
+      "lng": 127.2081261
+    },
+    "isActive": false,
+    "entryCount": 0,
+    "exitCount": 0,
+    "lastUpdated": "2025-05-27T10:49:42.407Z",
+    "alerts": [],
+    "youtubeUrls": {
+      "morning": "",
+      "afternoon": ""
+    },
+    "geocoded_address": "오포1동, 광주시, 경기도, 대한민국",
+    "matched_address": "경기 광주시 오포1동",
+    "geocode_attempt": 1,
+    "processed_section": "section2"
+  },
+  {
+    "id": "station_1750",
+    "name": "오포2동사전투표소",
+    "district": "경기",
+    "sido": "경기",
+    "sigungu": "광주시",
+    "dong": "오포2동",
+    "address": "경기 광주시 오포2동",
+    "coordinates": {
+      "lat": 37.3725271,
+      "lng": 127.2606054
+    },
+    "isActive": false,
+    "entryCount": 0,
+    "exitCount": 0,
+    "lastUpdated": "2025-05-27T10:49:46.387Z",
+    "alerts": [],
+    "youtubeUrls": {
+      "morning": "",
+      "afternoon": ""
+    },
+    "geocoded_address": "오포2동, 광주시, 경기도, 대한민국",
+    "matched_address": "경기 광주시 오포2동",
+    "geocode_attempt": 1,
+    "processed_section": "section2"
+  }
+]

@@ -1,10 +1,21 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { supabase } from '@/lib/supabase'
 import { PollingStation } from '@/types'
+import fs from 'fs'
+import path from 'path'
 
 // 모든 투표소 조회
 export async function GET() {
   try {
+    // 환경 변수 확인
+    const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
+    const isSupabaseConfigured = supabaseUrl && supabaseUrl !== 'https://placeholder.supabase.co';
+    
+    if (!isSupabaseConfigured) {
+      console.log('⚠️ Supabase 미설정, JSON 데이터 직접 로드');
+      throw new Error('Supabase 설정 필요');
+    }
+
     // 투표소 데이터 조회
     const { data: stations, error: stationsError } = await supabase
       .from('polling_stations')
@@ -13,7 +24,13 @@ export async function GET() {
 
     if (stationsError) {
       console.error('투표소 조회 오류:', stationsError)
-      return NextResponse.json({ error: '투표소 데이터를 불러올 수 없습니다.' }, { status: 500 })
+      throw new Error('Supabase 조회 실패');
+    }
+
+    // 데이터가 없으면 JSON 폴백 시도
+    if (!stations || stations.length === 0) {
+      console.log('⚠️ Supabase에 데이터 없음, JSON 폴백 시도');
+      throw new Error('데이터 없음');
     }
 
     // 알림 데이터 별도 조회
@@ -65,8 +82,38 @@ export async function GET() {
 
     return NextResponse.json(formattedStations)
   } catch (error) {
-    console.error('투표소 조회 오류:', error)
-    return NextResponse.json({ error: '서버 오류가 발생했습니다.' }, { status: 500 })
+    console.error('❌ Supabase 오류, JSON 폴백 시도:', error)
+    
+    try {
+      // JSON 파일 폴백
+      const jsonPath = path.join(process.cwd(), 'public', 'data', 'polling_stations_complete_all.json')
+      const jsonData = JSON.parse(fs.readFileSync(jsonPath, 'utf8'))
+      
+      console.log('📄 JSON 폴백 데이터 로드:', jsonData.length, '개 투표소')
+      return NextResponse.json(jsonData)
+      
+    } catch (fallbackError) {
+      console.error('❌ JSON 폴백도 실패:', fallbackError)
+      
+      // 최종 목 데이터
+      const mockData = [
+        {
+          id: "station_1",
+          name: "청운효자동사전투표소",
+          address: "서울 종로구 청운효자동",
+          district: "서울",
+          coordinates: { lat: 37.5857308, lng: 126.9695124 },
+          isActive: false,
+          entryCount: 0,
+          exitCount: 0,
+          lastUpdated: new Date('2025-01-27T10:00:00.000Z'),
+          alerts: [],
+          youtubeUrls: { morning: "", afternoon: "" }
+        }
+      ]
+      
+      return NextResponse.json(mockData)
+    }
   }
 }
 

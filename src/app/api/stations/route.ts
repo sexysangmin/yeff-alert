@@ -21,7 +21,6 @@ export async function GET() {
       .from('polling_stations')
       .select('*')
       .order('created_at', { ascending: true })
-      .limit(5000) // 모든 투표소를 가져오기 위해 충분한 limit 설정
 
     if (stationsError) {
       console.error('투표소 조회 오류:', stationsError)
@@ -41,7 +40,6 @@ export async function GET() {
       .from('alerts')
       .select('*')
       .order('timestamp', { ascending: false })
-      .limit(10000) // 알림도 충분한 limit 설정
 
     if (alertsError) {
       console.error('알림 조회 오류:', alertsError)

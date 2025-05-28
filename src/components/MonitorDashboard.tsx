@@ -58,8 +58,12 @@ export default function MonitorDashboard({ pollingStations, onStationUpdate }: M
     // 유튜브 URL 검증
     const validateYouTubeUrl = (url: string) => {
       if (!url.trim()) return true; // 빈 값은 허용
-      const youtubeRegex = /^(https?:\/\/)?(www\.)?(youtube\.com\/watch\?v=|youtu\.be\/)[\w-]+/;
-      return youtubeRegex.test(url.trim());
+      
+      // 더 관대한 유튜브 URL 검증 - 도메인만 확인
+      const trimmedUrl = url.trim().toLowerCase();
+      return trimmedUrl.includes('youtube.com') || 
+             trimmedUrl.includes('youtu.be') ||
+             trimmedUrl.includes('youtube');
     };
 
     const morningUrlTrimmed = morningUrl.trim();

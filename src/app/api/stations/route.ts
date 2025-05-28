@@ -16,24 +16,43 @@ export async function GET() {
       throw new Error('Supabase 설정 필요');
     }
 
-    // 투표소 데이터 조회
-    const { data: stations, error: stationsError } = await supabase
-      .from('polling_stations')
-      .select('*')
-      .order('created_at', { ascending: true })
+    // 투표소 데이터 조회 - 페이지네이션으로 모든 데이터 가져오기
+    let allStations: any[] = [];
+    let from = 0;
+    const pageSize = 1000;
+    let hasMore = true;
 
-    if (stationsError) {
-      console.error('투표소 조회 오류:', stationsError)
-      throw new Error('Supabase 조회 실패');
+    while (hasMore) {
+      const { data: stations, error: stationsError } = await supabase
+        .from('polling_stations')
+        .select('*')
+        .order('created_at', { ascending: true })
+        .range(from, from + pageSize - 1);
+
+      if (stationsError) {
+        console.error('투표소 조회 오류:', stationsError)
+        throw new Error('Supabase 조회 실패');
+      }
+
+      if (!stations || stations.length === 0) {
+        hasMore = false;
+      } else {
+        allStations = [...allStations, ...stations];
+        from += pageSize;
+        hasMore = stations.length === pageSize; // 페이지 크기만큼 왔으면 더 있을 수 있음
+      }
     }
 
     // 데이터가 없으면 JSON 폴백 시도
-    if (!stations || stations.length === 0) {
+    if (allStations.length === 0) {
       console.log('⚠️ Supabase에 데이터 없음, JSON 폴백 시도');
       throw new Error('데이터 없음');
     }
 
-    console.log(`✅ Supabase에서 ${stations.length}개 투표소 로드 완료`);
+    // 개발 환경에서만 로딩 메시지 출력
+    if (process.env.NODE_ENV === 'development') {
+      console.log(`✅ Supabase에서 ${allStations.length}개 투표소 로드 완료`);
+    }
 
     // 알림 데이터 별도 조회
     const { data: alerts, error: alertsError } = await supabase
@@ -47,7 +66,7 @@ export async function GET() {
     }
 
     // 데이터베이스 형식을 프론트엔드 형식으로 변환
-    const formattedStations = stations?.map(station => ({
+    const formattedStations = allStations?.map(station => ({
       id: station.id,
       name: station.name,
       address: station.address,
@@ -82,7 +101,12 @@ export async function GET() {
       }
     })) || []
 
-    return NextResponse.json(formattedStations)
+    const response = NextResponse.json(formattedStations);
+    
+    // 캐싱 헤더 추가 (30초 캐시)
+    response.headers.set('Cache-Control', 'public, s-maxage=30, stale-while-revalidate=60');
+    
+    return response;
   } catch (error) {
     console.error('❌ Supabase 오류, JSON 폴백 시도:', error)
     
@@ -140,6 +164,11 @@ export async function PUT(request: NextRequest) {
     if (updates.youtubeUrls) {
       updateData.youtube_morning_url = updates.youtubeUrls.morning || null
       updateData.youtube_afternoon_url = updates.youtubeUrls.afternoon || null
+      
+      // 유튜브 링크가 모두 제거되면 모니터링 비활성화
+      if (!updates.youtubeUrls.morning && !updates.youtubeUrls.afternoon) {
+        updateData.is_active = false
+      }
     }
 
     if (updates.entryDetails) {

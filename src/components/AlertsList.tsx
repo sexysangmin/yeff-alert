@@ -36,10 +36,19 @@ export default function AlertsList({ pollingStations, onStationSelect, onAlertsV
     }))
     .sort((a, b) => new Date(b.latestAlert.timestamp).getTime() - new Date(a.latestAlert.timestamp).getTime());
 
-  // 새로운 알림이 있는지 확인
-  const hasNewAlerts = alertStations.some(station => 
-    !viewedAlerts.has(`${station.id}-${station.latestAlert.id}`)
-  );
+  // 새로운 알림이 있는지 확인 (5분 이내)
+  const hasNewAlerts = alertStations.some(station => {
+    const alertKey = `${station.id}-${station.latestAlert.id}`;
+    const isNewAlert = !viewedAlerts.has(alertKey);
+    
+    // 5분 이내의 알림인지 확인
+    const alertTime = new Date(station.latestAlert.timestamp);
+    const now = new Date();
+    const timeDiff = now.getTime() - alertTime.getTime();
+    const isRecentAlert = timeDiff < 5 * 60 * 1000; // 5분
+    
+    return isNewAlert && isRecentAlert;
+  });
 
   const handleStationClick = (station: PollingStation) => {
     // 알림 확인 처리
@@ -145,12 +154,21 @@ export default function AlertsList({ pollingStations, onStationSelect, onAlertsV
               const alertKey = `${station.id}-${station.latestAlert.id}`;
               const isNewAlert = !viewedAlerts.has(alertKey);
               
+              // 5분 이내의 알림인지 확인
+              const alertTime = new Date(station.latestAlert.timestamp);
+              const now = new Date();
+              const timeDiff = now.getTime() - alertTime.getTime();
+              const isRecentAlert = timeDiff < 5 * 60 * 1000; // 5분
+              
+              // NEW 표시와 애니메이션은 새 알림이면서 5분 이내일 때만
+              const showNewEffect = isNewAlert && isRecentAlert;
+              
               return (
                 <div
                   key={station.id}
                   onClick={() => handleStationClick(station)}
                   className={`border rounded-lg p-3 cursor-pointer transition-all ${
-                    isNewAlert 
+                    showNewEffect 
                       ? 'bg-red-50 border-red-300 animate-pulse hover:bg-red-100' 
                       : 'bg-secondary/50 border-border hover:bg-secondary/80'
                   }`}
@@ -159,7 +177,7 @@ export default function AlertsList({ pollingStations, onStationSelect, onAlertsV
                     <div className="flex-1">
                       <div className="flex items-center gap-2 mb-1">
                         <h4 className="font-medium text-foreground text-sm">{station.name}</h4>
-                        {isNewAlert && (
+                        {showNewEffect && (
                           <span className="bg-red-500 text-white text-xs px-2 py-0.5 rounded-full animate-pulse">
                             NEW
                           </span>
@@ -170,12 +188,12 @@ export default function AlertsList({ pollingStations, onStationSelect, onAlertsV
                         {station.district} {station.address}
                       </p>
                       <div className="bg-red-100 border border-red-200 rounded p-2">
-                                                 <p className="text-sm text-red-800 font-medium mb-1">
-                           {station.latestAlert.type === 'emergency' && '🚨 긴급상황'}
-                           {station.latestAlert.type === 'unusual' && '⚠️ 이상상황'}
-                           {station.latestAlert.type === 'notice' && '📢 공지사항'}
-                         </p>
-                         <p className="text-xs text-red-700">{station.latestAlert.message}</p>
+                        <p className="text-sm text-red-900 font-medium mb-1">
+                          {station.latestAlert.type === 'emergency' && '🚨 긴급상황'}
+                          {station.latestAlert.type === 'unusual' && '⚠️ 이상상황'}
+                          {station.latestAlert.type === 'notice' && '📢 공지사항'}
+                        </p>
+                        <p className="text-xs text-red-800">{station.latestAlert.message}</p>
                         <p className="text-xs text-red-600 flex items-center gap-1 mt-1">
                           <Clock className="w-3 h-3" />
                           {formatDistanceToNow(new Date(station.latestAlert.timestamp), { 

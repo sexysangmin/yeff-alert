@@ -384,8 +384,8 @@ export default function Home() {
         {/* 통계 */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           <div className="bg-card/50 border border-border rounded-lg p-6 text-center shadow-lg hover:bg-card/70 transition-colors">
+            <p className="text-muted-foreground mb-2">총 투표소</p>
             <h3 className="text-2xl font-bold text-foreground">{pollingStations.length}</h3>
-            <p className="text-muted-foreground">총 투표소</p>
           </div>
           <button
             onClick={() => {

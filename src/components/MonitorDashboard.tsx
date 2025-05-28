@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { PollingStation } from '@/types';
-import { Search, MapPin, Youtube, Clock, AlertTriangle, Users, DoorOpen, Building, UserCheck } from 'lucide-react';
+import { Search, MapPin, Youtube, Clock, AlertTriangle } from 'lucide-react';
 
 interface MonitorDashboardProps {
   pollingStations: PollingStation[];
@@ -18,11 +18,6 @@ export default function MonitorDashboard({ pollingStations, onStationUpdate }: M
   // 긴급상황 신고 관련
   const [emergencyComment, setEmergencyComment] = useState('');
   const [showEmergencyForm, setShowEmergencyForm] = useState(false);
-  
-  // 출입 인원 관련
-  const [entranceCount, setEntranceCount] = useState(0);
-  const [insideCount, setInsideCount] = useState(0);
-  const [outsideCount, setOutsideCount] = useState(0);
 
   // 검색 필터링
   const filteredStations = pollingStations.filter(station =>
@@ -51,12 +46,6 @@ export default function MonitorDashboard({ pollingStations, onStationUpdate }: M
     setSelectedStation(station);
     setMorningUrl(station.youtubeUrls?.morning || '');
     setAfternoonUrl(station.youtubeUrls?.afternoon || '');
-    
-    // 출입 인원 초기화
-    const entryDetails = station.entryDetails;
-    setEntranceCount(entryDetails?.entrance || 0);
-    setInsideCount(entryDetails?.inside || 0);
-    setOutsideCount(entryDetails?.outside || 0);
     
     // 긴급상황 폼 초기화
     setShowEmergencyForm(false);
@@ -201,53 +190,6 @@ export default function MonitorDashboard({ pollingStations, onStationUpdate }: M
     }
   };
 
-  const handleEntryUpdate = async () => {
-    if (!selectedStation) return;
-    
-    const updates = {
-      entryDetails: {
-        entrance: entranceCount,
-        inside: insideCount,
-        outside: outsideCount,
-        lastUpdated: new Date()
-      }
-    };
-    
-    console.log('👥 API로 출입 인원 업데이트 시도');
-    
-    try {
-      // API로 업데이트 요청
-      const response = await fetch('/api/stations', {
-        method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          stationId: selectedStation.id,
-          updates
-        })
-      });
-
-      if (!response.ok) {
-        throw new Error(`API 오류: ${response.status}`);
-      }
-
-      const result = await response.json();
-      console.log('✅ API 출입 인원 업데이트 성공:', result);
-      
-      // 로컬 상태도 업데이트
-      onStationUpdate(selectedStation.id, updates);
-      alert('✅ 출입 인원이 성공적으로 업데이트되었습니다!');
-      
-    } catch (error) {
-      console.error('❌ API 출입 인원 업데이트 실패:', error);
-      
-      // API 실패 시 로컬 상태만 업데이트
-      onStationUpdate(selectedStation.id, updates);
-      alert('⚠️ 출입 인원이 임시로 업데이트되었습니다. (서버 동기화 필요)');
-    }
-  };
-
   return (
     <div className="min-h-screen bg-background">
       <div className="max-w-7xl mx-auto px-4 py-6">
@@ -329,7 +271,7 @@ export default function MonitorDashboard({ pollingStations, onStationUpdate }: M
                       type="url"
                       value={morningUrl}
                       onChange={(e) => setMorningUrl(e.target.value)}
-                      placeholder="https://www.youtube.com/watch?v=..."
+                      placeholder="유튜브 주소"
                       className="w-full bg-background border border-border rounded-md px-3 py-2 text-foreground placeholder-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary"
                     />
                   </div>
@@ -343,7 +285,7 @@ export default function MonitorDashboard({ pollingStations, onStationUpdate }: M
                       type="url"
                       value={afternoonUrl}
                       onChange={(e) => setAfternoonUrl(e.target.value)}
-                      placeholder="https://www.youtube.com/watch?v=..."
+                      placeholder="유튜브 주소"
                       className="w-full bg-background border border-border rounded-md px-3 py-2 text-foreground placeholder-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary"
                     />
                   </div>
@@ -400,81 +342,6 @@ export default function MonitorDashboard({ pollingStations, onStationUpdate }: M
                         </div>
                       </div>
                     )}
-                  </div>
-
-                  {/* 출입 인원 관리 */}
-                  <div className="pt-4 border-t border-border">
-                    <h3 className="font-medium text-foreground mb-3 flex items-center">
-                      <Users className="h-4 w-4 mr-2" />
-                      출입 인원 관리
-                    </h3>
-                    
-                    <div className="space-y-3">
-                      <div className="grid grid-cols-3 gap-3">
-                        <div>
-                          <label className="block text-xs font-medium text-muted-foreground mb-1">
-                            <DoorOpen className="inline h-3 w-3 mr-1" />
-                            입구
-                          </label>
-                          <input
-                            type="number"
-                            value={entranceCount}
-                            onChange={(e) => setEntranceCount(parseInt(e.target.value) || 0)}
-                            min="0"
-                            className="w-full bg-background border border-border rounded-md px-2 py-1 text-sm text-foreground focus:outline-none focus:ring-1 focus:ring-primary"
-                          />
-                        </div>
-                        
-                        <div>
-                          <label className="block text-xs font-medium text-muted-foreground mb-1">
-                            <Building className="inline h-3 w-3 mr-1" />
-                            관내
-                          </label>
-                          <input
-                            type="number"
-                            value={insideCount}
-                            onChange={(e) => setInsideCount(parseInt(e.target.value) || 0)}
-                            min="0"
-                            className="w-full bg-background border border-border rounded-md px-2 py-1 text-sm text-foreground focus:outline-none focus:ring-1 focus:ring-primary"
-                          />
-                        </div>
-                        
-                        <div>
-                          <label className="block text-xs font-medium text-muted-foreground mb-1">
-                            <UserCheck className="inline h-3 w-3 mr-1" />
-                            관외
-                          </label>
-                          <input
-                            type="number"
-                            value={outsideCount}
-                            onChange={(e) => setOutsideCount(parseInt(e.target.value) || 0)}
-                            min="0"
-                            className="w-full bg-background border border-border rounded-md px-2 py-1 text-sm text-foreground focus:outline-none focus:ring-1 focus:ring-primary"
-                          />
-                        </div>
-                      </div>
-                      
-                      <button
-                        onClick={handleEntryUpdate}
-                        className="w-full bg-blue-600 text-white py-2 rounded-md font-medium hover:bg-blue-700 transition-colors flex items-center justify-center text-sm"
-                      >
-                        <Users className="h-4 w-4 mr-2" />
-                        출입 인원 업데이트
-                      </button>
-                      
-                      {selectedStation.entryDetails && (
-                        <div className="text-xs text-muted-foreground text-center">
-                          마지막 업데이트: {selectedStation.entryDetails.lastUpdated.toLocaleString('ko-KR', {
-                            year: 'numeric',
-                            month: '2-digit',
-                            day: '2-digit',
-                            hour: '2-digit',
-                            minute: '2-digit',
-                            second: '2-digit'
-                          })}
-                        </div>
-                      )}
-                    </div>
                   </div>
                 </div>
 

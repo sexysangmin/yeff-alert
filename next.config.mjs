@@ -14,6 +14,28 @@ const nextConfig = {
       exclude: ['error']
     } : false,
   },
+  // 개발 모드 최적화
+  experimental: {
+    turbo: {
+      rules: {
+        '*.svg': {
+          loaders: ['@svgr/webpack'],
+          as: '*.js',
+        },
+      },
+    },
+  },
+  // 개발 서버 설정
+  devIndicators: {
+    buildActivity: false,
+    buildActivityPosition: 'bottom-right',
+  },
+  // 로깅 레벨 조정
+  logging: {
+    fetches: {
+      fullUrl: false,
+    },
+  },
 };
 
 export default nextConfig; 

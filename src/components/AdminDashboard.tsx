@@ -41,7 +41,7 @@ interface ActivityLog {
 }
 
 export default function AdminDashboard({ pollingStations, onLogout }: AdminDashboardProps) {
-  const [activeTab, setActiveTab] = useState<'youtube' | 'alerts' | 'logs' | 'backup'>('youtube');
+  const [activeTab, setActiveTab] = useState<'youtube' | 'alerts' | 'logs' | 'backup'>('alerts');
   const [filterType, setFilterType] = useState<'all' | 'morning' | 'afternoon'>('all');
   const [activityLogs, setActivityLogs] = useState<ActivityLog[]>([]);
   const [lastUpdate, setLastUpdate] = useState<Date>(new Date());
@@ -70,6 +70,18 @@ export default function AdminDashboard({ pollingStations, onLogout }: AdminDashb
   useEffect(() => {
     const logs: ActivityLog[] = [];
     
+    // localStorage에서 유튜브 등록시간 기록 가져오기
+    const getYoutubeRegistrationTime = (stationId: string, period: 'morning' | 'afternoon'): Date => {
+      const key = `youtube_${stationId}_${period}_registered_at`;
+      const savedTime = localStorage.getItem(key);
+      if (savedTime) {
+        return new Date(savedTime);
+      }
+      // 등록시간이 없으면 현재 투표소의 lastUpdated 사용
+      const station = pollingStations.find(s => s.id === stationId);
+      return station ? station.lastUpdated : new Date();
+    };
+    
     // 유튜브 링크 추가 로그
     youtubeStations.forEach(station => {
       if (station.youtubeUrls?.morning) {
@@ -79,7 +91,7 @@ export default function AdminDashboard({ pollingStations, onLogout }: AdminDashb
           stationId: station.id,
           stationName: station.name,
           message: '오전 유튜브 링크 등록',
-          timestamp: station.lastUpdated,
+          timestamp: getYoutubeRegistrationTime(station.id, 'morning'),
           data: { url: station.youtubeUrls.morning, period: 'morning' }
         });
       }
@@ -90,7 +102,7 @@ export default function AdminDashboard({ pollingStations, onLogout }: AdminDashb
           stationId: station.id,
           stationName: station.name,
           message: '오후 유튜브 링크 등록',
-          timestamp: station.lastUpdated,
+          timestamp: getYoutubeRegistrationTime(station.id, 'afternoon'),
           data: { url: station.youtubeUrls.afternoon, period: 'afternoon' }
         });
       }

@@ -162,26 +162,33 @@ export async function GET() {
       })) || []
     })) || []
 
-    // 중복 제거 비활성화 - 실제 3568개 투표소 모두 표시
-    /* 
+    // 중복 제거 및 상세 분석
+    console.log(`🔍 포맷 완료: ${formattedStations.length}개 투표소 처리`);
+    
+    // 중복 ID 상세 분석
+    const allIds = formattedStations.map(s => s.id);
+    const idCounts = allIds.reduce((acc: Record<string, number>, id) => {
+      acc[id] = (acc[id] || 0) + 1;
+      return acc;
+    }, {});
+    
+    const duplicateIds = Object.entries(idCounts)
+      .filter(([id, count]) => count > 1)
+      .map(([id, count]) => ({ id, count }));
+    
+    if (duplicateIds.length > 0) {
+      console.warn(`⚠️ 중복 ID 발견: ${duplicateIds.length}개`);
+      duplicateIds.forEach(({ id, count }) => {
+        console.warn(`  - ${id}: ${count}번 중복`);
+      });
+    }
+
     const uniqueStations = formattedStations.filter((station, index) => 
       formattedStations.findIndex(s => s.id === station.id) === index
     );
 
-    // 중복 감지 및 로그
-    if (formattedStations.length !== uniqueStations.length) {
-      const duplicateCount = formattedStations.length - uniqueStations.length;
-      console.warn(`⚠️ 중복된 투표소 ${duplicateCount}개 제거됨 (원본: ${formattedStations.length}개 → 정리 후: ${uniqueStations.length}개)`);
-      
-      // 중복된 ID들 찾기
-      const allIds = formattedStations.map(s => s.id);
-      const duplicateIds = allIds.filter((id, index) => allIds.indexOf(id) !== index);
-      console.warn('중복된 ID들:', [...new Set(duplicateIds)]);
-    }
-    */
-
-    console.log(`✅ 총 ${formattedStations.length}개 투표소 반환`);
-    const response = NextResponse.json(formattedStations);
+    console.log(`✅ 중복 제거 완료: ${formattedStations.length}개 → ${uniqueStations.length}개 (${formattedStations.length - uniqueStations.length}개 제거)`);
+    const response = NextResponse.json(uniqueStations);
     response.headers.set('Cache-Control', 'no-cache, no-store, must-revalidate');
     
     return response;

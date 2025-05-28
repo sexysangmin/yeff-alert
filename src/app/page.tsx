@@ -104,7 +104,7 @@ export default function Home() {
         const ids = data.map((station: any) => station.id);
         const duplicateIds = ids.filter((id: string, index: number) => ids.indexOf(id) !== index);
         if (duplicateIds.length > 0) {
-          console.error('⚠️ 중복된 투표소 ID 발견:', duplicateIds);
+          console.warn('⚠️ 중복된 투표소 ID 발견:', duplicateIds);
           
           // 중복 제거
           const uniqueData = data.filter((station: any, index: number) => 
@@ -140,7 +140,7 @@ export default function Home() {
             const backupIds = processedBackupData.map(station => station.id);
             const backupDuplicateIds = backupIds.filter((id, index) => backupIds.indexOf(id) !== index);
             if (backupDuplicateIds.length > 0) {
-              console.error('⚠️ 백업 데이터에 중복된 투표소 ID 발견:', backupDuplicateIds);
+              console.warn('⚠️ 백업 데이터에 중복된 투표소 ID 발견:', backupDuplicateIds);
               const uniqueBackupData = processedBackupData.filter((station, index) => 
                 backupIds.indexOf(station.id) === index
               );
@@ -171,7 +171,7 @@ export default function Home() {
           const ids = processedData.map(station => station.id);
           const duplicateIds = ids.filter((id, index) => ids.indexOf(id) !== index);
           if (duplicateIds.length > 0) {
-            console.error('⚠️ JSON 데이터에 중복된 투표소 ID 발견:', duplicateIds);
+            console.warn('⚠️ JSON 데이터에 중복된 투표소 ID 발견:', duplicateIds);
             const uniqueData = processedData.filter((station, index) => 
               ids.indexOf(station.id) === index
             );

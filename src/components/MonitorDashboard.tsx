@@ -258,7 +258,12 @@ export default function MonitorDashboard({ pollingStations, onStationUpdate }: M
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
           {/* 투표소 목록 */}
           <div className="bg-card border border-border rounded-lg p-6">
-            <h2 className="text-lg font-semibold text-foreground mb-4">투표소 목록</h2>
+            <div className="flex items-center justify-between mb-4">
+              <h2 className="text-lg font-semibold text-foreground">투표소 목록</h2>
+              <div className="text-sm text-muted-foreground">
+                총 {pollingStations.length}개 / 표시 {filteredStations.length}개
+              </div>
+            </div>
             
             <div className="mb-4">
               <div className="relative">
@@ -271,42 +276,63 @@ export default function MonitorDashboard({ pollingStations, onStationUpdate }: M
                   className="w-full pl-10 pr-4 py-2 bg-background border border-border rounded-md text-foreground placeholder-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary"
                 />
               </div>
+              {searchQuery.trim() && (
+                <div className="mt-2 text-xs text-muted-foreground">
+                  '{searchQuery}' 검색 결과: {filteredStations.length}개 투표소
+                </div>
+              )}
             </div>
 
-            <div className="space-y-2 max-h-96 overflow-y-auto">
-              {filteredStations.map((station) => (
-                <div
-                  key={station.id}
-                  onClick={() => handleStationSelect(station)}
-                  className={`p-3 rounded-md border cursor-pointer transition-colors ${
-                    selectedStation?.id === station.id
-                      ? 'bg-primary/10 border-primary'
-                      : 'bg-background border-border hover:bg-muted'
-                  }`}
-                >
-                  <div className="flex items-center justify-between">
-                    <div>
-                      <h3 className="font-medium text-foreground">{station.name}</h3>
-                      <p className="text-sm text-muted-foreground flex items-center">
-                        <MapPin className="h-3 w-3 mr-1" />
-                        {station.address}
-                      </p>
-                    </div>
-                    <div className="flex flex-col items-end space-y-1">
-                      {station.isActive && (
-                        <span className="text-xs px-2 py-1 bg-green-600 text-white rounded">
-                          활성
-                        </span>
-                      )}
-                      {station.alerts.some(alert => !alert.resolved) && (
-                        <span className="text-xs px-2 py-1 bg-red-600 text-white rounded">
-                          알림
-                        </span>
-                      )}
-                    </div>
-                  </div>
+            <div className="space-y-2 max-h-96 overflow-y-auto border border-border/50 rounded-md p-2 bg-background/50">
+              {filteredStations.length === 0 ? (
+                <div className="text-center text-muted-foreground py-8">
+                  {searchQuery.trim() 
+                    ? `'${searchQuery}' 검색 결과가 없습니다.`
+                    : '투표소 데이터를 불러오는 중...'
+                  }
                 </div>
-              ))}
+              ) : (
+                <>
+                  {filteredStations.length > 10 && (
+                    <div className="text-xs text-muted-foreground text-center pb-2 border-b border-border/30 mb-2">
+                      📜 스크롤하여 더 많은 투표소를 확인하세요
+                    </div>
+                  )}
+                  {filteredStations.map((station) => (
+                    <div
+                      key={station.id}
+                      onClick={() => handleStationSelect(station)}
+                      className={`p-3 rounded-md border cursor-pointer transition-colors ${
+                        selectedStation?.id === station.id
+                          ? 'bg-primary/10 border-primary'
+                          : 'bg-background border-border hover:bg-muted'
+                      }`}
+                    >
+                      <div className="flex items-center justify-between">
+                        <div>
+                          <h3 className="font-medium text-foreground">{station.name}</h3>
+                          <p className="text-sm text-muted-foreground flex items-center">
+                            <MapPin className="h-3 w-3 mr-1" />
+                            {station.address}
+                          </p>
+                        </div>
+                        <div className="flex flex-col items-end space-y-1">
+                          {station.isActive && (
+                            <span className="text-xs px-2 py-1 bg-green-600 text-white rounded">
+                              활성
+                            </span>
+                          )}
+                          {station.alerts.some(alert => !alert.resolved) && (
+                            <span className="text-xs px-2 py-1 bg-red-600 text-white rounded">
+                              알림
+                            </span>
+                          )}
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </>
+              )}
             </div>
           </div>
 

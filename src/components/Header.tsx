@@ -10,10 +10,10 @@ interface HeaderProps {
 
 export default function Header({ onHomeClick, onMonitorClick }: HeaderProps) {
   const handleLogoClick = () => {
-    if (onHomeClick) {
-      onHomeClick();
+    // 홈으로 이동한 후 새로고침 (현재 페이지가 홈이 아닐 수도 있으므로)
+    if (window.location.pathname !== '/') {
+      window.location.href = '/';
     } else {
-      // 기본적으로 페이지 새로고침으로 홈으로 이동
       window.location.reload();
     }
   };

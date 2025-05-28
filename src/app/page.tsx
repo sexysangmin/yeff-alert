@@ -8,8 +8,7 @@ import SearchResults from '@/components/SearchResults';
 import AlertsList from '@/components/AlertsList';
 import ClusteredMap from '@/components/ClusteredMap';
 import PollingStationDetail from '@/components/PollingStationDetail';
-import MonitorLoginModal from '@/components/MonitorLoginModal';
-import MonitorDashboard from '@/components/MonitorDashboard';
+import VideoRegistrationModal from '@/components/VideoRegistrationModal';
 import NoSSR from '@/components/NoSSR';
 import { PollingStation } from '@/types';
 
@@ -31,8 +30,7 @@ const NoSSRComponent = dynamic(() => import('@/components/NoSSR'), { ssr: false 
 export default function Home() {
   const [pollingStations, setPollingStations] = useState<PollingStation[]>([]);
   const [selectedStation, setSelectedStation] = useState<PollingStation | null>(null);
-  const [isMonitorLoginOpen, setIsMonitorLoginOpen] = useState(false);
-  const [isMonitorMode, setIsMonitorMode] = useState(false);
+  const [isVideoRegistrationOpen, setIsVideoRegistrationOpen] = useState(false);
   const [filteredStations, setFilteredStations] = useState<PollingStation[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [searchQuery, setSearchQuery] = useState('');
@@ -102,6 +100,21 @@ export default function Home() {
         setFilteredStations(data);
         setIsLoading(false);
         
+        // 중복 ID 체크
+        const ids = data.map((station: any) => station.id);
+        const duplicateIds = ids.filter((id: string, index: number) => ids.indexOf(id) !== index);
+        if (duplicateIds.length > 0) {
+          console.error('⚠️ 중복된 투표소 ID 발견:', duplicateIds);
+          
+          // 중복 제거
+          const uniqueData = data.filter((station: any, index: number) => 
+            ids.indexOf(station.id) === index
+          );
+          console.log('🔧 중복 제거 후:', uniqueData.length, '개 투표소');
+          setPollingStations(uniqueData);
+          setFilteredStations(uniqueData);
+        }
+        
       } catch (error) {
         console.error('❌ API 데이터 로드 실패, JSON 폴백 시도:', error);
         
@@ -122,8 +135,22 @@ export default function Home() {
                 timestamp: alert.timestamp ? new Date(alert.timestamp instanceof Date ? alert.timestamp.toISOString() : String(alert.timestamp)) : new Date('2025-01-27T10:00:00.000Z')
               }))
             }));
-            setPollingStations(processedBackupData);
-            setFilteredStations(processedBackupData);
+            
+            // 중복 ID 체크 및 제거
+            const backupIds = processedBackupData.map(station => station.id);
+            const backupDuplicateIds = backupIds.filter((id, index) => backupIds.indexOf(id) !== index);
+            if (backupDuplicateIds.length > 0) {
+              console.error('⚠️ 백업 데이터에 중복된 투표소 ID 발견:', backupDuplicateIds);
+              const uniqueBackupData = processedBackupData.filter((station, index) => 
+                backupIds.indexOf(station.id) === index
+              );
+              console.log('🔧 백업 중복 제거 후:', uniqueBackupData.length, '개 투표소');
+              setPollingStations(uniqueBackupData);
+              setFilteredStations(uniqueBackupData);
+            } else {
+              setPollingStations(processedBackupData);
+              setFilteredStations(processedBackupData);
+            }
             setIsLoading(false);
             return;
           }
@@ -140,8 +167,21 @@ export default function Home() {
             }))
           }));
           
-          setPollingStations(processedData);
-          setFilteredStations(processedData);
+          // 중복 ID 체크 및 제거
+          const ids = processedData.map(station => station.id);
+          const duplicateIds = ids.filter((id, index) => ids.indexOf(id) !== index);
+          if (duplicateIds.length > 0) {
+            console.error('⚠️ JSON 데이터에 중복된 투표소 ID 발견:', duplicateIds);
+            const uniqueData = processedData.filter((station, index) => 
+              ids.indexOf(station.id) === index
+            );
+            console.log('🔧 JSON 중복 제거 후:', uniqueData.length, '개 투표소');
+            setPollingStations(uniqueData);
+            setFilteredStations(uniqueData);
+          } else {
+            setPollingStations(processedData);
+            setFilteredStations(processedData);
+          }
           setIsLoading(false);
           
         } catch (fallbackError) {
@@ -227,59 +267,6 @@ export default function Home() {
     setSelectedStation(station);
   }, []);
 
-  // 감시단 로그인 핸들러
-  const handleMonitorLogin = useCallback((isAuthenticated: boolean) => {
-    setIsMonitorMode(isAuthenticated);
-  }, []);
-
-  // 홈으로 돌아가기 핸들러
-  const handleHomeClick = useCallback(() => {
-    setIsMonitorMode(false);
-    setSelectedStation(null);
-  }, []);
-
-  // 투표소 업데이트 핸들러 (감시단용)
-  const handleStationUpdate = useCallback((stationId: string, updates: Partial<PollingStation>) => {
-    console.log('📝 page.tsx - 투표소 업데이트 받음:', {
-      stationId,
-      updates,
-      isActive: updates.isActive
-    });
-    
-    setPollingStations(prev => {
-      const updated = prev.map(station => 
-        station.id === stationId 
-          ? { ...station, ...updates }
-          : station
-      );
-      
-      const updatedStation = updated.find(s => s.id === stationId);
-      console.log('🔄 pollingStations 업데이트 완료:', {
-        stationId,
-        oldActive: prev.find(s => s.id === stationId)?.isActive,
-        newActive: updatedStation?.isActive
-      });
-      
-      return updated;
-    });
-    
-    setFilteredStations(prev => {
-      const updated = prev.map(station =>
-        station.id === stationId
-          ? { ...station, ...updates }
-          : station
-      );
-      
-      const updatedStation = updated.find(s => s.id === stationId);
-      console.log('🔄 filteredStations 업데이트 완료:', {
-        stationId,
-        newActive: updatedStation?.isActive
-      });
-      
-      return updated;
-    });
-  }, []);
-
   // 통계 데이터 메모이제이션
   const stats = useMemo(() => ({
     total: pollingStations.length,
@@ -307,27 +294,10 @@ export default function Home() {
     );
   }
 
-  // 감시단 모드일 때 다른 화면 표시
-  if (isMonitorMode) {
-    return (
-      <div className="min-h-screen bg-background">
-        <Header 
-          onHomeClick={handleHomeClick} 
-          onMonitorClick={() => setIsMonitorLoginOpen(true)}
-        />
-        <MonitorDashboard 
-          pollingStations={pollingStations}
-          onStationUpdate={handleStationUpdate}
-        />
-      </div>
-    );
-  }
-
   return (
     <div className="min-h-screen bg-background flex flex-col">
       <Header 
-        onHomeClick={handleHomeClick} 
-        onMonitorClick={() => setIsMonitorLoginOpen(true)}
+        onVideoRegistrationClick={() => setIsVideoRegistrationOpen(true)}
       />
       
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-16 lg:py-20 flex-1 flex flex-col justify-center">
@@ -509,6 +479,15 @@ export default function Home() {
         </div>
       </main>
 
+      {/* 연락처 정보 */}
+      <footer className="bg-card/30 border-t border-border py-4">
+        <div className="max-w-7xl mx-auto px-4 text-center">
+          <p className="text-sm text-muted-foreground">
+            🛠️ 사이트 오류 또는 문의사항: <a href="tel:01024635035" className="text-primary hover:underline font-medium">010-2463-5035</a> (사이트 관리자)
+          </p>
+        </div>
+      </footer>
+
       {/* 모달들 */}
       {selectedStation && (
         <PollingStationDetail
@@ -517,10 +496,9 @@ export default function Home() {
         />
       )}
 
-      <MonitorLoginModal
-        isOpen={isMonitorLoginOpen}
-        onClose={() => setIsMonitorLoginOpen(false)}
-        onLogin={handleMonitorLogin}
+      <VideoRegistrationModal
+        isOpen={isVideoRegistrationOpen}
+        onClose={() => setIsVideoRegistrationOpen(false)}
       />
     </div>
   );

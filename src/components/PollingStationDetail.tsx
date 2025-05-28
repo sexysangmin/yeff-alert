@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { PollingStation } from '@/types';
-import { X, MapPin, Users, Clock, AlertTriangle, Youtube, DoorOpen, Building, UserCheck } from 'lucide-react';
+import { X, MapPin, Users, Clock, AlertTriangle, Youtube, DoorOpen, Building, UserCheck, ExternalLink } from 'lucide-react';
 
 interface PollingStationDetailProps {
   station: PollingStation;
@@ -10,7 +10,8 @@ interface PollingStationDetailProps {
 }
 
 export default function PollingStationDetail({ station, onClose }: PollingStationDetailProps) {
-  const [selectedTime, setSelectedTime] = useState<'morning' | 'afternoon'>('morning');
+  const [selectedDate, setSelectedDate] = useState<'day1' | 'day2'>('day1');
+  const [activeStreamIndex, setActiveStreamIndex] = useState(0);
   
   const getYoutubeEmbedUrl = (url: string) => {
     if (!url) return null;
@@ -47,15 +48,54 @@ export default function PollingStationDetail({ station, onClose }: PollingStatio
     return embedUrl;
   };
 
-  const currentUrl = selectedTime === 'morning' 
-    ? station.youtubeUrls?.morning 
-    : station.youtubeUrls?.afternoon;
-  
-  const embedUrl = currentUrl ? getYoutubeEmbedUrl(currentUrl) : null;
-  
-  // 현재 시간에 따라 기본 선택 결정
-  const currentHour = new Date().getHours();
-  const defaultTime = currentHour < 12 ? 'morning' : 'afternoon';
+  // targetDate 기준으로 필터링 (승인되지 않은 영상도 포함)
+  const filteredStreams = station.streams ? 
+    station.streams.filter(stream => stream.targetDate === selectedDate) : [];
+
+  // 감시관 영상을 위로, 승인된 영상을 우선 정렬
+  const sortedStreams = [...filteredStreams].sort((a, b) => {
+    // 감시단 영상을 최우선으로 배치
+    if (a.registeredByType === 'monitor' && b.registeredByType !== 'monitor') return -1;
+    if (a.registeredByType !== 'monitor' && b.registeredByType === 'monitor') return 1;
+    
+    // 같은 유형 내에서는 승인된 영상을 먼저 배치
+    if (a.isActive && !b.isActive) return -1;
+    if (!a.isActive && b.isActive) return 1;
+    
+    // streamStatus가 undefined인 경우 'unknown'으로 처리
+    const aStatus = a.streamStatus || 'unknown';
+    const bStatus = b.streamStatus || 'unknown';
+    
+    // 라이브중인 영상을 먼저 배치
+    if (aStatus === 'live' && bStatus !== 'live') return -1;
+    if (aStatus !== 'live' && bStatus === 'live') return 1;
+    // 같은 상태일 경우 등록일 기준으로 정렬
+    return new Date(b.registeredAt).getTime() - new Date(a.registeredAt).getTime();
+  });
+
+  // 스트림 상태 텍스트 반환 함수
+  const getStreamStatusText = (status?: string) => {
+    switch (status) {
+      case 'live':
+        return '라이브중';
+      case 'offline':
+        return '라이브 종료';
+      default:
+        return '상태 확인중';
+    }
+  };
+
+  // 스트림 상태 색상 반환 함수
+  const getStreamStatusColor = (status?: string) => {
+    switch (status) {
+      case 'live':
+        return 'bg-red-500';
+      case 'offline':
+        return 'bg-gray-400';
+      default:
+        return 'bg-yellow-500';
+    }
+  };
 
   return (
     <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-[9999] p-4">
@@ -78,60 +118,347 @@ export default function PollingStationDetail({ station, onClose }: PollingStatio
         </div>
 
         <div className="p-6 space-y-6">
-          {/* 시간 선택 탭 */}
+          {/* 날짜 선택 탭 */}
           <div className="flex space-x-2">
             <button
-              onClick={() => setSelectedTime('morning')}
+              onClick={() => setSelectedDate('day1')}
               className={`flex items-center px-4 py-2 rounded-md transition-colors ${
-                selectedTime === 'morning'
+                selectedDate === 'day1'
                   ? 'bg-primary text-primary-foreground'
                   : 'bg-secondary text-secondary-foreground hover:bg-secondary/80'
               }`}
             >
               <Clock className="h-4 w-4 mr-2" />
-              오전 (06:00 - 12:00)
+              5월 29일 (첫째날)
             </button>
             <button
-              onClick={() => setSelectedTime('afternoon')}
+              onClick={() => setSelectedDate('day2')}
               className={`flex items-center px-4 py-2 rounded-md transition-colors ${
-                selectedTime === 'afternoon'
+                selectedDate === 'day2'
                   ? 'bg-primary text-primary-foreground'
                   : 'bg-secondary text-secondary-foreground hover:bg-secondary/80'
               }`}
             >
               <Clock className="h-4 w-4 mr-2" />
-              오후 (12:00 - 18:00)
+              5월 30일 (둘째날)
             </button>
           </div>
-
-          {/* 라이브 스트림 */}
-          <div className="space-y-4">
-            <h3 className="text-lg font-semibold text-foreground flex items-center">
+          
+          {/* 유튜브 영상 섹션 */}
+          <div className="bg-card border border-border rounded-lg p-6">
+            <h3 className="text-lg font-semibold text-foreground mb-4 flex items-center">
               <Youtube className="h-5 w-5 mr-2" />
-              실시간 모니터링
+              실시간 영상
             </h3>
             
-            {embedUrl ? (
-              <div className="aspect-video bg-black rounded-lg overflow-hidden">
-                <iframe
-                  src={embedUrl}
-                  className="w-full h-full"
-                  frameBorder="0"
-                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                  allowFullScreen
-                  title={`${station.name} ${selectedTime === 'morning' ? '오전' : '오후'} 라이브`}
-                />
-              </div>
-            ) : (
-              <div className="aspect-video bg-muted rounded-lg flex items-center justify-center">
-                <div className="text-center text-muted-foreground">
-                  <Youtube className="h-12 w-12 mx-auto mb-4 opacity-50" />
-                  <p>
-                    {selectedTime === 'morning' ? '오전' : '오후'} 라이브 스트림이 
-                    <br />
-                    아직 등록되지 않았습니다
-                  </p>
+            {/* 공식 감시단 영상 (크게 표시) - 선택된 날짜의 오전/오후 영상 */}
+            {station.youtubeDayUrls && (
+              <div className="mb-8">
+                <div className="flex items-center justify-between mb-4">
+                  <h3 className="text-lg font-semibold text-foreground flex items-center">
+                    <Youtube className="h-5 w-5 mr-2 text-red-500" />
+                    공식 감시단 영상 ({selectedDate === 'day1' ? '5월 29일' : '5월 30일'})
+                  </h3>
+                  <span className="text-xs bg-blue-100 text-blue-800 px-2 py-1 rounded font-medium">
+                    👁️ 공식 모니터링
+                  </span>
                 </div>
+                
+                <div className="space-y-6">
+                  {/* 선택된 날짜의 오전 영상 */}
+                  {station.youtubeDayUrls[selectedDate]?.morning && (
+                    <div className="space-y-3">
+                      <div className="flex items-center justify-between">
+                        <span className="text-sm bg-blue-100 text-blue-800 px-3 py-1 rounded-full font-medium">
+                          🌅 오전 영상 ({selectedDate === 'day1' ? '5월 29일' : '5월 30일'})
+                        </span>
+                        <a
+                          href={station.youtubeDayUrls[selectedDate].morning}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="text-sm text-blue-600 hover:text-blue-800 flex items-center font-medium"
+                        >
+                          <ExternalLink className="h-4 w-4 mr-1" />
+                          실시간 댓글 참여
+                        </a>
+                      </div>
+                      <div className="aspect-video bg-secondary rounded-xl overflow-hidden shadow-lg">
+                        {getYoutubeEmbedUrl(station.youtubeDayUrls[selectedDate].morning) ? (
+                          <iframe
+                            src={getYoutubeEmbedUrl(station.youtubeDayUrls[selectedDate].morning)!}
+                            title={`${selectedDate === 'day1' ? '5월 29일' : '5월 30일'} 오전 공식 감시단 영상`}
+                            className="w-full h-full"
+                            allowFullScreen
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                          />
+                        ) : (
+                          <div className="w-full h-full flex items-center justify-center text-muted-foreground">
+                            <p>유효하지 않은 유튜브 링크입니다</p>
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                  )}
+                  
+                  {/* 선택된 날짜의 오후 영상 */}
+                  {station.youtubeDayUrls[selectedDate]?.afternoon && (
+                    <div className="space-y-3">
+                      <div className="flex items-center justify-between">
+                        <span className="text-sm bg-orange-100 text-orange-800 px-3 py-1 rounded-full font-medium">
+                          🌆 오후 영상 ({selectedDate === 'day1' ? '5월 29일' : '5월 30일'})
+                        </span>
+                        <a
+                          href={station.youtubeDayUrls[selectedDate].afternoon}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="text-sm text-blue-600 hover:text-blue-800 flex items-center font-medium"
+                        >
+                          <ExternalLink className="h-4 w-4 mr-1" />
+                          실시간 댓글 참여
+                        </a>
+                      </div>
+                      <div className="aspect-video bg-secondary rounded-xl overflow-hidden shadow-lg">
+                        {getYoutubeEmbedUrl(station.youtubeDayUrls[selectedDate].afternoon) ? (
+                          <iframe
+                            src={getYoutubeEmbedUrl(station.youtubeDayUrls[selectedDate].afternoon)!}
+                            title={`${selectedDate === 'day1' ? '5월 29일' : '5월 30일'} 오후 공식 감시단 영상`}
+                            className="w-full h-full"
+                            allowFullScreen
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                          />
+                        ) : (
+                          <div className="w-full h-full flex items-center justify-center text-muted-foreground">
+                            <p>유효하지 않은 유튜브 링크입니다</p>
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                  )}
+                </div>
+              </div>
+            )}
+
+            {/* 기존 공식 감시단 영상 (폴백용) */}
+            {!station.youtubeDayUrls && (station.youtubeUrls?.morning || station.youtubeUrls?.afternoon) && (
+              <div className="mb-8">
+                <div className="flex items-center justify-between mb-4">
+                  <h3 className="text-lg font-semibold text-foreground flex items-center">
+                    <Youtube className="h-5 w-5 mr-2 text-red-500" />
+                    공식 감시단 영상 (기존)
+                  </h3>
+                  <span className="text-xs bg-blue-100 text-blue-800 px-2 py-1 rounded font-medium">
+                    👁️ 공식 모니터링
+                  </span>
+                </div>
+                
+                <div className="space-y-6">
+                  {station.youtubeUrls?.morning && (
+                    <div className="space-y-3">
+                      <div className="flex items-center justify-between">
+                        <span className="text-sm bg-blue-100 text-blue-800 px-3 py-1 rounded-full font-medium">
+                          🌅 오전 영상
+                        </span>
+                        <a
+                          href={station.youtubeUrls.morning}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="text-sm text-blue-600 hover:text-blue-800 flex items-center font-medium"
+                        >
+                          <ExternalLink className="h-4 w-4 mr-1" />
+                          실시간 댓글 참여
+                        </a>
+                      </div>
+                      <div className="aspect-video bg-secondary rounded-xl overflow-hidden shadow-lg">
+                        {getYoutubeEmbedUrl(station.youtubeUrls.morning) ? (
+                          <iframe
+                            src={getYoutubeEmbedUrl(station.youtubeUrls.morning)!}
+                            title="오전 공식 감시단 영상"
+                            className="w-full h-full"
+                            allowFullScreen
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                          />
+                        ) : (
+                          <div className="w-full h-full flex items-center justify-center text-muted-foreground">
+                            <p>유효하지 않은 유튜브 링크입니다</p>
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                  )}
+                  
+                  {station.youtubeUrls?.afternoon && (
+                    <div className="space-y-3">
+                      <div className="flex items-center justify-between">
+                        <span className="text-sm bg-orange-100 text-orange-800 px-3 py-1 rounded-full font-medium">
+                          🌆 오후 영상
+                        </span>
+                        <a
+                          href={station.youtubeUrls.afternoon}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="text-sm text-blue-600 hover:text-blue-800 flex items-center font-medium"
+                        >
+                          <ExternalLink className="h-4 w-4 mr-1" />
+                          실시간 댓글 참여
+                        </a>
+                      </div>
+                      <div className="aspect-video bg-secondary rounded-xl overflow-hidden shadow-lg">
+                        {getYoutubeEmbedUrl(station.youtubeUrls.afternoon) ? (
+                          <iframe
+                            src={getYoutubeEmbedUrl(station.youtubeUrls.afternoon)!}
+                            title="오후 공식 감시단 영상"
+                            className="w-full h-full"
+                            allowFullScreen
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                          />
+                        ) : (
+                          <div className="w-full h-full flex items-center justify-center text-muted-foreground">
+                            <p>유효하지 않은 유튜브 링크입니다</p>
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                  )}
+                </div>
+              </div>
+            )}
+
+            {/* 시민 및 감시단 등록 영상들 (그리드 형식, 감시단 우선 정렬) */}
+            {sortedStreams.length > 0 && (
+              <div className="mb-6">
+                <div className="flex items-center justify-between mb-4">
+                  <h4 className="text-lg font-semibold text-foreground flex items-center">
+                    <Users className="h-5 w-5 mr-2 text-green-500" />
+                    등록된 영상 ({selectedDate === 'day1' ? '5월 29일' : '5월 30일'})
+                  </h4>
+                  <div className="flex items-center space-x-2">
+                    <span className="text-xs bg-blue-100 text-blue-800 px-2 py-1 rounded font-medium">
+                      👁️ 감시단: {sortedStreams.filter(s => s.registeredByType === 'monitor').length}개
+                    </span>
+                    <span className="text-xs bg-green-100 text-green-800 px-2 py-1 rounded font-medium">
+                      👤 시민: {sortedStreams.filter(s => s.registeredByType === 'public').length}개
+                    </span>
+                  </div>
+                </div>
+                
+                {/* 영상 그리드 */}
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                  {sortedStreams.map((stream) => (
+                    <div key={stream.id} className="bg-card border border-border rounded-xl p-4 shadow-sm">
+                      {/* 영상 헤더 */}
+                      <div className="flex items-center justify-between mb-3">
+                        <div className="flex items-center space-x-2">
+                          <span className={`text-xs px-2 py-1 rounded-full font-medium ${
+                            stream.registeredByType === 'admin' 
+                              ? 'bg-purple-100 text-purple-800'
+                              : stream.registeredByType === 'monitor'
+                              ? 'bg-blue-100 text-blue-800'
+                              : 'bg-green-100 text-green-800'
+                          }`}>
+                            {stream.registeredByType === 'admin' ? '👮 관리자' :
+                             stream.registeredByType === 'monitor' ? '👁️ 감시단' :
+                             '👤 시민'}
+                          </span>
+                          <div className="flex items-center space-x-1">
+                            <div className={`w-2 h-2 rounded-full ${getStreamStatusColor(stream.streamStatus)}`} />
+                            <span className="text-xs font-medium text-foreground">
+                              {getStreamStatusText(stream.streamStatus)}
+                            </span>
+                          </div>
+                        </div>
+                        {!stream.isActive && stream.registeredByType !== 'monitor' && (
+                          <span className="text-xs bg-yellow-100 text-yellow-800 px-2 py-1 rounded-full">
+                            승인 대기
+                          </span>
+                        )}
+                        {stream.registeredByType === 'monitor' && (
+                          <span className="text-xs bg-green-100 text-green-800 px-2 py-1 rounded-full">
+                            자동 승인
+                          </span>
+                        )}
+                      </div>
+
+                      {/* 영상 제목 */}
+                      <h5 className="font-medium text-foreground mb-2" style={{
+                        display: '-webkit-box',
+                        WebkitLineClamp: 2,
+                        WebkitBoxOrient: 'vertical',
+                        overflow: 'hidden'
+                      }}>
+                        {stream.title}
+                      </h5>
+
+                      {/* 영상 플레이어 */}
+                      <div className="aspect-video bg-secondary rounded-lg overflow-hidden mb-3">
+                        {getYoutubeEmbedUrl(stream.url) ? (
+                          <iframe
+                            src={getYoutubeEmbedUrl(stream.url)!}
+                            title={stream.title}
+                            className="w-full h-full"
+                            allowFullScreen
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                          />
+                        ) : (
+                          <div className="w-full h-full flex items-center justify-center text-muted-foreground">
+                            <p className="text-sm">유효하지 않은 유튜브 링크</p>
+                          </div>
+                        )}
+                      </div>
+
+                      {/* 영상 설명 */}
+                      {stream.description && (
+                        <div className="bg-secondary/30 rounded-lg p-3 mb-3">
+                          <p className="text-sm text-foreground" style={{
+                            display: '-webkit-box',
+                            WebkitLineClamp: 3,
+                            WebkitBoxOrient: 'vertical',
+                            overflow: 'hidden'
+                          }}>
+                            {stream.description}
+                          </p>
+                        </div>
+                      )}
+
+                      {/* 영상 정보 및 액션 */}
+                      <div className="flex items-center justify-between">
+                        <div className="text-xs text-muted-foreground space-y-1">
+                          <p>등록자: {stream.registeredBy}</p>
+                          <p>등록: {stream.registeredAt.toLocaleString('ko-KR', {
+                            month: 'short',
+                            day: 'numeric',
+                            hour: '2-digit',
+                            minute: '2-digit'
+                          })}</p>
+                        </div>
+                        <a
+                          href={stream.url}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="text-sm text-blue-600 hover:text-blue-800 flex items-center font-medium"
+                        >
+                          <ExternalLink className="h-3 w-3 mr-1" />
+                          실시간 댓글 참여
+                        </a>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {/* 영상이 없을 때 */}
+            {(!station.youtubeDayUrls || 
+              (!station.youtubeDayUrls[selectedDate]?.morning && !station.youtubeDayUrls[selectedDate]?.afternoon)) && 
+             (!station.youtubeUrls?.morning && !station.youtubeUrls?.afternoon) && 
+             sortedStreams.length === 0 && (
+              <div className="text-center py-8">
+                <Youtube className="h-12 w-12 text-muted-foreground mx-auto mb-3 opacity-50" />
+                <p className="text-muted-foreground mb-4">
+                  {selectedDate === 'day1' ? '5월 29일' : '5월 30일'}에 등록된 실시간 영상이 없습니다.
+                </p>
+                <p className="text-sm text-muted-foreground">
+                  영상 등록을 원하시면 우측 상단의 "영상등록" 버튼을 이용해주세요.
+                </p>
               </div>
             )}
           </div>

@@ -39,8 +39,23 @@ export async function DELETE(request: NextRequest) {
       
       const { data: currentData, error: fetchError } = await supabase
         .from('polling_stations')
-        .select('id, name, youtube_morning_url, youtube_afternoon_url, youtube_morning_registered_at, youtube_afternoon_registered_at')
-        .or('youtube_morning_url.not.is.null,youtube_afternoon_url.not.is.null');
+        .select(`
+          id, name, 
+          youtube_morning_url, youtube_afternoon_url, 
+          youtube_morning_registered_at, youtube_afternoon_registered_at,
+          youtube_day1_morning_url, youtube_day1_afternoon_url,
+          youtube_day1_morning_registered_at, youtube_day1_afternoon_registered_at,
+          youtube_day2_morning_url, youtube_day2_afternoon_url,
+          youtube_day2_morning_registered_at, youtube_day2_afternoon_registered_at
+        `)
+        .or(`
+          youtube_morning_url.not.is.null,
+          youtube_afternoon_url.not.is.null,
+          youtube_day1_morning_url.not.is.null,
+          youtube_day1_afternoon_url.not.is.null,
+          youtube_day2_morning_url.not.is.null,
+          youtube_day2_afternoon_url.not.is.null
+        `);
 
       if (fetchError) {
         console.error('현재 데이터 조회 실패:', fetchError);
@@ -52,7 +67,9 @@ export async function DELETE(request: NextRequest) {
         const deletionData = {
           total_count: currentData.length,
           deleted_stations: currentData.filter(station => 
-            station.youtube_morning_url || station.youtube_afternoon_url
+            station.youtube_morning_url || station.youtube_afternoon_url ||
+            station.youtube_day1_morning_url || station.youtube_day1_afternoon_url ||
+            station.youtube_day2_morning_url || station.youtube_day2_afternoon_url
           ),
           timestamp: new Date().toISOString()
         };
@@ -61,14 +78,24 @@ export async function DELETE(request: NextRequest) {
         console.log(`📊 ${deletionData.deleted_stations.length}개 투표소의 유튜브 링크 백업 완료`);
       }
 
-      // 모든 유튜브 링크 삭제 및 모니터링 비활성화
+      // 모든 유튜브 링크 삭제 (기존 + 새로운 날짜별 필드)
       const { error } = await supabase
         .from('polling_stations')
         .update({
+          // 기존 필드
           youtube_morning_url: null,
           youtube_afternoon_url: null,
           youtube_morning_registered_at: null,
           youtube_afternoon_registered_at: null,
+          // 새로운 날짜별 필드
+          youtube_day1_morning_url: null,
+          youtube_day1_afternoon_url: null,
+          youtube_day1_morning_registered_at: null,
+          youtube_day1_afternoon_registered_at: null,
+          youtube_day2_morning_url: null,
+          youtube_day2_afternoon_url: null,
+          youtube_day2_morning_registered_at: null,
+          youtube_day2_afternoon_registered_at: null,
           is_active: false, // 모니터링 비활성화
           updated_at: new Date().toISOString()
         })

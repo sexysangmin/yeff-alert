@@ -1,17 +1,22 @@
 'use client';
 
-import { Users, Shield } from 'lucide-react';
+import { Users, Youtube } from 'lucide-react';
 import Image from 'next/image';
 
 interface HeaderProps {
   onHomeClick?: () => void;
-  onMonitorClick?: () => void;
+  onVideoRegistrationClick?: () => void;
 }
 
-export default function Header({ onHomeClick, onMonitorClick }: HeaderProps) {
+export default function Header({ onHomeClick, onVideoRegistrationClick }: HeaderProps) {
   const handleLogoClick = () => {
-    // 항상 새로고침하여 최신 데이터 로드
-    window.location.reload();
+    if (onHomeClick) {
+      // 감시단 페이지 등에서 홈으로 이동
+      onHomeClick();
+    } else {
+      // 메인 페이지에서는 새로고침하여 최신 데이터 로드
+      window.location.reload();
+    }
   };
 
   return (
@@ -98,14 +103,14 @@ export default function Header({ onHomeClick, onMonitorClick }: HeaderProps) {
               <span className="text-sm">📊</span>
             </a>
             
-            {/* 감시단 버튼 - 모바일에서 더 작게 */}
+            {/* 영상등록 버튼 - 모바일에서 더 작게 */}
             <button
-              onClick={onMonitorClick}
-              className="inline-flex items-center px-2 py-1 sm:px-4 sm:py-2 bg-gray-600 text-white rounded-lg font-medium hover:bg-gray-500 hover:shadow-lg transition-all duration-200 shadow-sm text-xs sm:text-sm"
+              onClick={onVideoRegistrationClick}
+              className="inline-flex items-center px-2 py-1 sm:px-4 sm:py-2 bg-red-600 text-white rounded-lg font-medium hover:bg-red-500 hover:shadow-lg transition-all duration-200 shadow-sm text-xs sm:text-sm"
             >
-              <Shield className="h-3 w-3 sm:h-4 sm:w-4 mr-1 sm:mr-2" />
-              <span className="hidden sm:inline">감시단입니다</span>
-              <span className="sm:hidden">감시단</span>
+              <Youtube className="h-3 w-3 sm:h-4 sm:w-4 mr-1 sm:mr-2" />
+              <span className="hidden sm:inline">영상등록</span>
+              <span className="sm:hidden">등록</span>
             </button>
           </div>
         </div>

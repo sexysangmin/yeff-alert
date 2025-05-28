@@ -93,8 +93,17 @@ export default function AdminPage() {
   }
 
   return (
-    <div>
+    <div className="min-h-screen flex flex-col">
       <AdminDashboard pollingStations={pollingStations} />
+      
+      {/* 연락처 정보 */}
+      <footer className="bg-card/30 border-t border-border py-4">
+        <div className="max-w-7xl mx-auto px-4 text-center">
+          <p className="text-sm text-muted-foreground">
+            🛠️ 사이트 오류 또는 문의사항: <a href="tel:01024635035" className="text-primary hover:underline font-medium">010-2463-5035</a> (사이트 관리자)
+          </p>
+        </div>
+      </footer>
     </div>
   );
 } 

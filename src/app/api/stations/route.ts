@@ -66,6 +66,17 @@ export async function GET() {
       // 알림 에러는 무시하고 계속 진행
     }
 
+    // 비디오 스트림 데이터 별도 조회
+    const { data: streams, error: streamsError } = await supabase
+      .from('video_streams')
+      .select('*')
+      .order('registered_at', { ascending: false });
+
+    if (streamsError) {
+      console.error('스트림 조회 오류:', streamsError)
+      // 스트림 에러는 무시하고 계속 진행
+    }
+
     // 데이터가 없으면 JSON 폴백 시도
     if (allStations.length === 0) {
       console.log('⚠️ Supabase에 데이터 없음, JSON 폴백 시도');
@@ -111,10 +122,63 @@ export async function GET() {
       youtubeRegisteredAt: {
         morning: station.youtube_morning_registered_at ? new Date(station.youtube_morning_registered_at) : null,
         afternoon: station.youtube_afternoon_registered_at ? new Date(station.youtube_afternoon_registered_at) : null
-      }
+      },
+      // 새로운 날짜별 유튜브 URL 구조
+      youtubeDayUrls: {
+        day1: {
+          morning: station.youtube_day1_morning_url || '',
+          afternoon: station.youtube_day1_afternoon_url || ''
+        },
+        day2: {
+          morning: station.youtube_day2_morning_url || '',
+          afternoon: station.youtube_day2_afternoon_url || ''
+        }
+      },
+      youtubeDayRegisteredAt: {
+        day1: {
+          morning: station.youtube_day1_morning_registered_at ? new Date(station.youtube_day1_morning_registered_at) : null,
+          afternoon: station.youtube_day1_afternoon_registered_at ? new Date(station.youtube_day1_afternoon_registered_at) : null
+        },
+        day2: {
+          morning: station.youtube_day2_morning_registered_at ? new Date(station.youtube_day2_morning_registered_at) : null,
+          afternoon: station.youtube_day2_afternoon_registered_at ? new Date(station.youtube_day2_afternoon_registered_at) : null
+        }
+      },
+      // 새로운 다중 스트림 데이터
+      streams: streams?.filter(stream => stream.polling_station_id === station.id)?.map((stream: any) => ({
+        id: String(stream.id),
+        url: String(stream.url),
+        title: String(stream.title),
+        description: stream.description ? String(stream.description) : undefined,
+        registeredBy: String(stream.registered_by),
+        registeredByType: String(stream.registered_by_type) as 'admin' | 'monitor' | 'public',
+        contact: stream.contact ? String(stream.contact) : undefined,
+        registeredAt: new Date(String(stream.registered_at)),
+        isActive: Boolean(stream.is_active),
+        viewCount: stream.view_count || 0,
+        lastChecked: stream.last_checked ? new Date(String(stream.last_checked)) : undefined,
+        streamStatus: String(stream.stream_status) as 'live' | 'offline' | 'unknown',
+        targetDate: String(stream.target_date || 'day1') as 'day1' | 'day2'
+      })) || []
     })) || []
 
-    const response = NextResponse.json(formattedStations);
+    // 중복 제거 (ID 기준)
+    const uniqueStations = formattedStations.filter((station, index) => 
+      formattedStations.findIndex(s => s.id === station.id) === index
+    );
+
+    // 중복 감지 및 로그
+    if (formattedStations.length !== uniqueStations.length) {
+      const duplicateCount = formattedStations.length - uniqueStations.length;
+      console.warn(`⚠️ 중복된 투표소 ${duplicateCount}개 제거됨 (원본: ${formattedStations.length}개 → 정리 후: ${uniqueStations.length}개)`);
+      
+      // 중복된 ID들 찾기
+      const allIds = formattedStations.map(s => s.id);
+      const duplicateIds = allIds.filter((id, index) => allIds.indexOf(id) !== index);
+      console.warn('중복된 ID들:', [...new Set(duplicateIds)]);
+    }
+
+    const response = NextResponse.json(uniqueStations);
     response.headers.set('Cache-Control', 'no-cache, no-store, must-revalidate');
     
     return response;
@@ -195,7 +259,8 @@ export async function PUT(request: NextRequest) {
       updateData.youtube_morning_url = updates.youtubeUrls.morning || null
       updateData.youtube_afternoon_url = updates.youtubeUrls.afternoon || null
       
-      // 처음 등록되는 경우에만 등록시간 설정
+      // 처음 등록되는 경우에만 등록시간 설정 (컬럼이 있을 때만)
+      /* 임시 주석처리 - Supabase 컬럼 추가 후 활성화
       if (updates.youtubeUrls.morning && !currentStation?.youtube_morning_url) {
         updateData.youtube_morning_registered_at = new Date().toISOString();
         console.log('📅 오전 유튜브 링크 첫 등록시간 설정');
@@ -216,12 +281,13 @@ export async function PUT(request: NextRequest) {
         updateData.youtube_afternoon_registered_at = null;
         console.log('🗑️ 오후 유튜브 링크 등록시간 제거');
       }
+      */
       
       console.log('📺 유튜브 URL 업데이트:', {
         morning: updateData.youtube_morning_url,
-        afternoon: updateData.youtube_afternoon_url,
-        morningRegisteredAt: updateData.youtube_morning_registered_at,
-        afternoonRegisteredAt: updateData.youtube_afternoon_registered_at
+        afternoon: updateData.youtube_afternoon_url
+        // morningRegisteredAt: updateData.youtube_morning_registered_at,
+        // afternoonRegisteredAt: updateData.youtube_afternoon_registered_at
       });
       
       // 유튜브 링크가 모두 제거되면 모니터링 비활성화
@@ -250,6 +316,31 @@ export async function PUT(request: NextRequest) {
     if (updates.exitCount !== undefined) {
       updateData.exit_count = updates.exitCount
       console.log('📊 퇴장 수 업데이트:', updates.exitCount);
+    }
+
+    if (updates.youtubeDayUrls) {
+      updateData.youtube_day1_morning_url = updates.youtubeDayUrls.day1?.morning || null
+      updateData.youtube_day1_afternoon_url = updates.youtubeDayUrls.day1?.afternoon || null
+      updateData.youtube_day2_morning_url = updates.youtubeDayUrls.day2?.morning || null
+      updateData.youtube_day2_afternoon_url = updates.youtubeDayUrls.day2?.afternoon || null
+      
+      console.log('📺 날짜별 유튜브 URL 업데이트:', {
+        day1Morning: updateData.youtube_day1_morning_url,
+        day1Afternoon: updateData.youtube_day1_afternoon_url,
+        day2Morning: updateData.youtube_day2_morning_url,
+        day2Afternoon: updateData.youtube_day2_afternoon_url
+      });
+      
+      // 유튜브 링크가 모두 제거되면 모니터링 비활성화
+      const hasAnyUrls = !!(updateData.youtube_day1_morning_url || updateData.youtube_day1_afternoon_url || 
+                           updateData.youtube_day2_morning_url || updateData.youtube_day2_afternoon_url);
+      if (!hasAnyUrls) {
+        updateData.is_active = false
+        console.log('❌ 모든 유튜브 링크 제거됨, 비활성화');
+      } else {
+        updateData.is_active = true
+        console.log('✅ 유튜브 링크 있음, 활성화');
+      }
     }
 
     console.log('💾 최종 업데이트 데이터:', updateData);

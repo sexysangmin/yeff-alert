@@ -12,8 +12,13 @@ interface MonitorDashboardProps {
 export default function MonitorDashboard({ pollingStations, onStationUpdate }: MonitorDashboardProps) {
   const [selectedStation, setSelectedStation] = useState<PollingStation | null>(null);
   const [searchQuery, setSearchQuery] = useState('');
-  const [morningUrl, setMorningUrl] = useState('');
-  const [afternoonUrl, setAfternoonUrl] = useState('');
+  const [selectedDate, setSelectedDate] = useState<'day1' | 'day2'>('day1');
+  
+  // 날짜별 오전/오후 URL 상태
+  const [day1MorningUrl, setDay1MorningUrl] = useState('');
+  const [day1AfternoonUrl, setDay1AfternoonUrl] = useState('');
+  const [day2MorningUrl, setDay2MorningUrl] = useState('');
+  const [day2AfternoonUrl, setDay2AfternoonUrl] = useState('');
   
   // 긴급상황 신고 관련
   const [emergencyComment, setEmergencyComment] = useState('');
@@ -35,8 +40,11 @@ export default function MonitorDashboard({ pollingStations, onStationUpdate }: M
           new: updatedStation.isActive
         });
         setSelectedStation(updatedStation);
-        setMorningUrl(updatedStation.youtubeUrls?.morning || '');
-        setAfternoonUrl(updatedStation.youtubeUrls?.afternoon || '');
+        // 새로운 날짜별 구조 사용
+        setDay1MorningUrl(updatedStation.youtubeDayUrls?.day1?.morning || '');
+        setDay1AfternoonUrl(updatedStation.youtubeDayUrls?.day1?.afternoon || '');
+        setDay2MorningUrl(updatedStation.youtubeDayUrls?.day2?.morning || '');
+        setDay2AfternoonUrl(updatedStation.youtubeDayUrls?.day2?.afternoon || '');
       }
     }
   }, [pollingStations, selectedStation]);
@@ -44,8 +52,11 @@ export default function MonitorDashboard({ pollingStations, onStationUpdate }: M
   const handleStationSelect = (station: PollingStation) => {
     console.log('🎯 투표소 선택:', station.name, 'isActive:', station.isActive);
     setSelectedStation(station);
-    setMorningUrl(station.youtubeUrls?.morning || '');
-    setAfternoonUrl(station.youtubeUrls?.afternoon || '');
+    // 새로운 날짜별 구조 사용
+    setDay1MorningUrl(station.youtubeDayUrls?.day1?.morning || '');
+    setDay1AfternoonUrl(station.youtubeDayUrls?.day1?.afternoon || '');
+    setDay2MorningUrl(station.youtubeDayUrls?.day2?.morning || '');
+    setDay2AfternoonUrl(station.youtubeDayUrls?.day2?.afternoon || '');
     
     // 긴급상황 폼 초기화
     setShowEmergencyForm(false);
@@ -62,8 +73,10 @@ export default function MonitorDashboard({ pollingStations, onStationUpdate }: M
     console.log('🔄 유튜브 URL 업데이트 시작:', {
       stationId: selectedStation.id,
       stationName: selectedStation.name,
-      morningUrl: morningUrl,
-      afternoonUrl: afternoonUrl
+      day1MorningUrl: day1MorningUrl,
+      day1AfternoonUrl: day1AfternoonUrl,
+      day2MorningUrl: day2MorningUrl,
+      day2AfternoonUrl: day2AfternoonUrl
     });
     
     // 유튜브 URL 검증
@@ -77,36 +90,58 @@ export default function MonitorDashboard({ pollingStations, onStationUpdate }: M
              trimmedUrl.includes('youtube');
     };
 
-    const morningUrlTrimmed = morningUrl.trim();
-    const afternoonUrlTrimmed = afternoonUrl.trim();
+    const day1MorningUrlTrimmed = day1MorningUrl.trim();
+    const day1AfternoonUrlTrimmed = day1AfternoonUrl.trim();
+    const day2MorningUrlTrimmed = day2MorningUrl.trim();
+    const day2AfternoonUrlTrimmed = day2AfternoonUrl.trim();
 
     console.log('🔍 URL 검증:', {
-      morningUrlTrimmed,
-      afternoonUrlTrimmed,
-      morningValid: validateYouTubeUrl(morningUrlTrimmed),
-      afternoonValid: validateYouTubeUrl(afternoonUrlTrimmed)
+      day1MorningUrlTrimmed,
+      day1AfternoonUrlTrimmed,
+      day2MorningUrlTrimmed,
+      day2AfternoonUrlTrimmed,
+      day1Valid: validateYouTubeUrl(day1MorningUrlTrimmed),
+      day2Valid: validateYouTubeUrl(day2MorningUrlTrimmed)
     });
 
     // URL 검증
-    if (morningUrlTrimmed && !validateYouTubeUrl(morningUrlTrimmed)) {
-      console.error('❌ 오전 유튜브 링크 검증 실패:', morningUrlTrimmed);
+    if (day1MorningUrlTrimmed && !validateYouTubeUrl(day1MorningUrlTrimmed)) {
+      console.error('❌ 오전 유튜브 링크 검증 실패:', day1MorningUrlTrimmed);
       alert('❌ 오전 유튜브 링크가 올바르지 않습니다. YouTube URL을 확인해주세요.');
       return;
     }
 
-    if (afternoonUrlTrimmed && !validateYouTubeUrl(afternoonUrlTrimmed)) {
-      console.error('❌ 오후 유튜브 링크 검증 실패:', afternoonUrlTrimmed);
+    if (day1AfternoonUrlTrimmed && !validateYouTubeUrl(day1AfternoonUrlTrimmed)) {
+      console.error('❌ 오후 유튜브 링크 검증 실패:', day1AfternoonUrlTrimmed);
+      alert('❌ 오후 유튜브 링크가 올바르지 않습니다. YouTube URL을 확인해주세요.');
+      return;
+    }
+
+    if (day2MorningUrlTrimmed && !validateYouTubeUrl(day2MorningUrlTrimmed)) {
+      console.error('❌ 오전 유튜브 링크 검증 실패:', day2MorningUrlTrimmed);
+      alert('❌ 오전 유튜브 링크가 올바르지 않습니다. YouTube URL을 확인해주세요.');
+      return;
+    }
+
+    if (day2AfternoonUrlTrimmed && !validateYouTubeUrl(day2AfternoonUrlTrimmed)) {
+      console.error('❌ 오후 유튜브 링크 검증 실패:', day2AfternoonUrlTrimmed);
       alert('❌ 오후 유튜브 링크가 올바르지 않습니다. YouTube URL을 확인해주세요.');
       return;
     }
     
-    const hasUrls = !!(morningUrlTrimmed || afternoonUrlTrimmed);
-    console.log('📊 URL 상태:', { hasUrls, morningUrlTrimmed, afternoonUrlTrimmed });
+    const hasUrls = !!(day1MorningUrlTrimmed || day1AfternoonUrlTrimmed || day2MorningUrlTrimmed || day2AfternoonUrlTrimmed);
+    console.log('📊 URL 상태:', { hasUrls, day1MorningUrlTrimmed, day1AfternoonUrlTrimmed, day2MorningUrlTrimmed, day2AfternoonUrlTrimmed });
     
     const updates = {
-      youtubeUrls: {
-        morning: morningUrlTrimmed,
-        afternoon: afternoonUrlTrimmed
+      youtubeDayUrls: {
+        day1: {
+          morning: day1MorningUrlTrimmed,
+          afternoon: day1AfternoonUrlTrimmed
+        },
+        day2: {
+          morning: day2MorningUrlTrimmed,
+          afternoon: day2AfternoonUrlTrimmed
+        }
       },
       isActive: hasUrls,
       lastUpdated: new Date()
@@ -131,9 +166,15 @@ export default function MonitorDashboard({ pollingStations, onStationUpdate }: M
         body: JSON.stringify({
           stationId: selectedStation.id,
           updates: {
-            youtubeUrls: {
-              morning: morningUrlTrimmed,
-              afternoon: afternoonUrlTrimmed
+            youtubeDayUrls: {
+              day1: {
+                morning: day1MorningUrlTrimmed,
+                afternoon: day1AfternoonUrlTrimmed
+              },
+              day2: {
+                morning: day2MorningUrlTrimmed,
+                afternoon: day2AfternoonUrlTrimmed
+              }
             }
           }
         })
@@ -345,15 +386,41 @@ export default function MonitorDashboard({ pollingStations, onStationUpdate }: M
                 </h2>
                 
                 <div className="space-y-4">
+                  {/* 날짜 선택 탭 */}
+                  <div className="flex space-x-2 mb-4">
+                    <button
+                      onClick={() => setSelectedDate('day1')}
+                      className={`flex items-center px-3 py-2 rounded-md text-sm transition-colors ${
+                        selectedDate === 'day1'
+                          ? 'bg-primary text-primary-foreground'
+                          : 'bg-secondary text-secondary-foreground hover:bg-secondary/80'
+                      }`}
+                    >
+                      <Clock className="h-4 w-4 mr-1" />
+                      5월 29일 (첫째날)
+                    </button>
+                    <button
+                      onClick={() => setSelectedDate('day2')}
+                      className={`flex items-center px-3 py-2 rounded-md text-sm transition-colors ${
+                        selectedDate === 'day2'
+                          ? 'bg-primary text-primary-foreground'
+                          : 'bg-secondary text-secondary-foreground hover:bg-secondary/80'
+                      }`}
+                    >
+                      <Clock className="h-4 w-4 mr-1" />
+                      5월 30일 (둘째날)
+                    </button>
+                  </div>
+
                   <div>
                     <label className="block text-sm font-medium text-foreground mb-2">
                       <Clock className="inline h-4 w-4 mr-1" />
-                      오전 유튜브 라이브 링크
+                      {selectedDate === 'day1' ? '5월 29일' : '5월 30일'} 오전 유튜브 라이브 링크
                     </label>
                     <input
                       type="url"
-                      value={morningUrl}
-                      onChange={(e) => setMorningUrl(e.target.value)}
+                      value={selectedDate === 'day1' ? day1MorningUrl : day2MorningUrl}
+                      onChange={(e) => selectedDate === 'day1' ? setDay1MorningUrl(e.target.value) : setDay2MorningUrl(e.target.value)}
                       placeholder="유튜브 주소"
                       className="w-full bg-background border border-border rounded-md px-3 py-2 text-foreground placeholder-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary"
                     />
@@ -362,12 +429,12 @@ export default function MonitorDashboard({ pollingStations, onStationUpdate }: M
                   <div>
                     <label className="block text-sm font-medium text-foreground mb-2">
                       <Clock className="inline h-4 w-4 mr-1" />
-                      오후 유튜브 라이브 링크
+                      {selectedDate === 'day1' ? '5월 29일' : '5월 30일'} 오후 유튜브 라이브 링크
                     </label>
                     <input
                       type="url"
-                      value={afternoonUrl}
-                      onChange={(e) => setAfternoonUrl(e.target.value)}
+                      value={selectedDate === 'day1' ? day1AfternoonUrl : day2AfternoonUrl}
+                      onChange={(e) => selectedDate === 'day1' ? setDay1AfternoonUrl(e.target.value) : setDay2AfternoonUrl(e.target.value)}
                       placeholder="유튜브 주소"
                       className="w-full bg-background border border-border rounded-md px-3 py-2 text-foreground placeholder-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary"
                     />
@@ -376,13 +443,13 @@ export default function MonitorDashboard({ pollingStations, onStationUpdate }: M
                   <button
                     onClick={handleUrlUpdate}
                     className={`w-full py-2 rounded-md font-medium transition-colors flex items-center justify-center ${
-                      (morningUrl.trim() || afternoonUrl.trim()) 
+                      (selectedDate === 'day1' ? day1MorningUrl.trim() || day1AfternoonUrl.trim() : day2MorningUrl.trim() || day2AfternoonUrl.trim()) 
                         ? 'bg-green-600 text-white hover:bg-green-700' 
                         : 'bg-red-600 text-white hover:bg-red-700'
                     }`}
                   >
                     <Youtube className="h-4 w-4 mr-2" />
-                    {(morningUrl.trim() || afternoonUrl.trim()) ? '링크 등록 (활성화)' : '링크 제거 (비활성화)'}
+                    {(selectedDate === 'day1' ? day1MorningUrl.trim() || day1AfternoonUrl.trim() : day2MorningUrl.trim() || day2AfternoonUrl.trim()) ? '링크 등록 (활성화)' : '링크 제거 (비활성화)'}
                   </button>
 
                   <div className="pt-4 border-t border-border">
@@ -437,12 +504,12 @@ export default function MonitorDashboard({ pollingStations, onStationUpdate }: M
                         <span className={selectedStation.isActive ? 'text-green-500' : 'text-red-500'}>
                           {selectedStation.isActive ? '활성' : '비활성'}
                         </span>
-                        {(morningUrl.trim() || afternoonUrl.trim()) && !selectedStation.isActive && (
+                        {(selectedDate === 'day1' ? day1MorningUrl.trim() || day1AfternoonUrl.trim() : day2MorningUrl.trim() || day2AfternoonUrl.trim()) && !selectedStation.isActive && (
                           <span className="text-xs text-amber-500 animate-pulse">
                             → 등록시 활성화됨
                           </span>
                         )}
-                        {!(morningUrl.trim() || afternoonUrl.trim()) && selectedStation.isActive && (
+                        {!(selectedDate === 'day1' ? day1MorningUrl.trim() || day1AfternoonUrl.trim() : day2MorningUrl.trim() || day2AfternoonUrl.trim()) && selectedStation.isActive && (
                           <span className="text-xs text-red-500 animate-pulse">
                             → 등록시 비활성화됨
                           </span>
@@ -452,8 +519,8 @@ export default function MonitorDashboard({ pollingStations, onStationUpdate }: M
                     <div className="flex justify-between">
                       <span className="text-muted-foreground">영상 링크:</span>
                       <span className="text-foreground">
-                        {(morningUrl.trim() || afternoonUrl.trim()) ? 
-                          `${morningUrl.trim() ? '오전' : ''}${morningUrl.trim() && afternoonUrl.trim() ? '+' : ''}${afternoonUrl.trim() ? '오후' : ''}` : 
+                        {(selectedDate === 'day1' ? day1MorningUrl.trim() || day1AfternoonUrl.trim() : day2MorningUrl.trim() || day2AfternoonUrl.trim()) ? 
+                          `${selectedDate === 'day1' ? (day1MorningUrl.trim() ? '오전' : '') + (day1MorningUrl.trim() && day1AfternoonUrl.trim() ? '+' : '') + (day1AfternoonUrl.trim() ? '오후' : '') : (day2MorningUrl.trim() ? '오전' : '') + (day2MorningUrl.trim() && day2AfternoonUrl.trim() ? '+' : '') + (day2AfternoonUrl.trim() ? '오후' : '')}` : 
                           '없음'
                         }
                       </span>

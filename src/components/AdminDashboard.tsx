@@ -40,8 +40,9 @@ interface ActivityLog {
 }
 
 export default function AdminDashboard({ pollingStations }: AdminDashboardProps) {
-  const [activeTab, setActiveTab] = useState<'youtube' | 'alerts' | 'logs' | 'backup' | 'deletions'>('alerts');
-  const [filterType, setFilterType] = useState<'all' | 'morning' | 'afternoon'>('all');
+  const [activeTab, setActiveTab] = useState<'alerts' | 'streams' | 'youtube' | 'logs' | 'backup' | 'deletions'>('alerts');
+  const [filterType, setFilterType] = useState<'all' | 'morning' | 'afternoon' | 'registered' | 'empty'>('all');
+  const [selectedDate, setSelectedDate] = useState<'day1' | 'day2'>('day1');
   const [activityLogs, setActivityLogs] = useState<ActivityLog[]>([]);
   const [deletionLogs, setDeletionLogs] = useState<any[]>([]);
   const [lastUpdate, setLastUpdate] = useState<Date>(new Date());
@@ -54,11 +55,26 @@ export default function AdminDashboard({ pollingStations }: AdminDashboardProps)
   const intervalRef = useRef<NodeJS.Timeout | null>(null);
   const isMountedRef = useRef(true);
 
-  // 유튜브 링크가 있는 투표소들 (메모이제이션)
+  // 유튜브 링크가 있는 투표소들 (메모이제이션) - 감시관 영상 스트림 포함
   const youtubeStations = useMemo(() => 
-    pollingStations.filter(station => 
-      station.youtubeUrls?.morning || station.youtubeUrls?.afternoon
-    ), [pollingStations]
+    pollingStations.filter(station => {
+      // 기존 공식 유튜브 링크 확인
+      const hasOfficialUrls = station.youtubeUrls?.morning || station.youtubeUrls?.afternoon;
+      
+      // 새로운 날짜별 유튜브 링크 확인
+      const hasDayUrls = station.youtubeDayUrls && (
+        station.youtubeDayUrls.day1?.morning || station.youtubeDayUrls.day1?.afternoon ||
+        station.youtubeDayUrls.day2?.morning || station.youtubeDayUrls.day2?.afternoon
+      );
+      
+      // 감시관이 등록한 승인된 영상 스트림 확인
+      const hasMonitorStreams = station.streams && station.streams.some(stream => 
+        stream.isActive && stream.registeredByType === 'monitor'
+      );
+      
+      // 셋 중 하나라도 있으면 포함
+      return hasOfficialUrls || hasDayUrls || hasMonitorStreams;
+    }), [pollingStations]
   );
 
   // 알림이 있는 투표소들 (메모이제이션)
@@ -290,26 +306,38 @@ export default function AdminDashboard({ pollingStations }: AdminDashboardProps)
     }
 
     try {
-      const response = await fetch('/api/admin/bulk-delete', {
+      console.log('🗑️ 유튜브 링크 삭제 시작...');
+      const response = await fetch('/api/admin/clear-youtube', {
         method: 'DELETE',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ type: 'youtube' }),
       });
+
+      console.log('📡 API 응답 상태:', response.status, response.statusText);
 
       if (response.ok) {
         const result = await response.json();
+        console.log('✅ 삭제 성공:', result);
         alert(result.message);
         handleRefresh(); // 데이터 새로고침
       } else {
-        const errorData = await response.json();
-        console.error('유튜브 링크 삭제 실패:', errorData);
-        alert(`유튜브 링크 삭제에 실패했습니다: ${errorData.error || '알 수 없는 오류'}`);
+        let errorMessage = '알 수 없는 오류';
+        try {
+          const errorData = await response.json();
+          console.error('❌ 유튜브 링크 삭제 실패:', errorData);
+          errorMessage = errorData.error || errorData.details || JSON.stringify(errorData);
+        } catch (parseError) {
+          console.error('❌ 오류 응답 파싱 실패:', parseError);
+          const errorText = await response.text();
+          console.error('❌ 원시 오류 응답:', errorText);
+          errorMessage = `HTTP ${response.status}: ${errorText || response.statusText}`;
+        }
+        alert(`유튜브 링크 삭제에 실패했습니다: ${errorMessage}`);
       }
     } catch (error) {
-      console.error('유튜브 링크 삭제 오류:', error);
-      alert('네트워크 오류가 발생했습니다. 다시 시도해주세요.');
+      console.error('❌ 유튜브 링크 삭제 오류:', error);
+      alert(`네트워크 오류가 발생했습니다: ${error instanceof Error ? error.message : '알 수 없는 오류'}`);
     }
   };
 
@@ -588,6 +616,38 @@ export default function AdminDashboard({ pollingStations }: AdminDashboardProps)
             {/* 유튜브 링크 탭 */}
             {activeTab === 'youtube' && (
               <div>
+                {/* 날짜 선택 헤더 */}
+                <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-6">
+                  <div className="flex items-center justify-between">
+                    <h3 className="text-lg font-semibold text-blue-800">📅 선거 일정</h3>
+                    <div className="flex items-center space-x-2">
+                      <button
+                        onClick={() => setSelectedDate('day1')}
+                        className={`px-4 py-2 rounded-md text-sm font-medium transition-colors ${
+                          selectedDate === 'day1'
+                            ? 'bg-blue-600 text-white shadow-md'
+                            : 'bg-white text-blue-600 hover:bg-blue-100'
+                        }`}
+                      >
+                        첫째날 (5월 29일)
+                      </button>
+                      <button
+                        onClick={() => setSelectedDate('day2')}
+                        className={`px-4 py-2 rounded-md text-sm font-medium transition-colors ${
+                          selectedDate === 'day2'
+                            ? 'bg-blue-600 text-white shadow-md'
+                            : 'bg-white text-blue-600 hover:bg-blue-100'
+                        }`}
+                      >
+                        둘째날 (5월 30일)
+                      </button>
+                    </div>
+                  </div>
+                  <div className="mt-2 text-sm text-blue-600">
+                    현재 선택: <strong>{selectedDate === 'day1' ? '첫째날 (5월 29일)' : '둘째날 (5월 30일)'}</strong> 유튜브 링크 관리
+                  </div>
+                </div>
+
                 <div className="flex flex-col sm:flex-row gap-4 mb-6">
                   <select
                     value={filterType}
@@ -631,9 +691,10 @@ export default function AdminDashboard({ pollingStations }: AdminDashboardProps)
                                 {station.address}
                               </p>
                               <div className="mt-3 space-y-2">
+                                {/* 기존 공식 유튜브 링크 */}
                                 {station.youtubeUrls?.morning && (
                                   <div className="flex items-center gap-2">
-                                    <span className="text-xs bg-blue-100 text-blue-800 px-2 py-1 rounded">오전</span>
+                                    <span className="text-xs bg-blue-100 text-blue-800 px-2 py-1 rounded">🎥 공식 오전</span>
                                     <a
                                       href={station.youtubeUrls.morning}
                                       target="_blank"
@@ -647,7 +708,7 @@ export default function AdminDashboard({ pollingStations }: AdminDashboardProps)
                                 )}
                                 {station.youtubeUrls?.afternoon && (
                                   <div className="flex items-center gap-2">
-                                    <span className="text-xs bg-orange-100 text-orange-800 px-2 py-1 rounded">오후</span>
+                                    <span className="text-xs bg-orange-100 text-orange-800 px-2 py-1 rounded">🎥 공식 오후</span>
                                     <a
                                       href={station.youtubeUrls.afternoon}
                                       target="_blank"
@@ -658,6 +719,90 @@ export default function AdminDashboard({ pollingStations }: AdminDashboardProps)
                                       {station.youtubeUrls.afternoon.substring(0, 50)}...
                                     </a>
                                   </div>
+                                )}
+                                
+                                {/* 감시관이 등록한 영상 스트림 */}
+                                {station.streams?.filter(stream => stream.isActive && stream.registeredByType === 'monitor').map((stream, index) => (
+                                  <div key={stream.id} className="flex items-center gap-2">
+                                    <span className="text-xs bg-green-100 text-green-800 px-2 py-1 rounded">👁️ 감시관</span>
+                                    <a
+                                      href={stream.url}
+                                      target="_blank"
+                                      rel="noopener noreferrer"
+                                      className="text-sm text-blue-600 hover:text-blue-800 flex items-center"
+                                    >
+                                      <ExternalLink className="h-3 w-3 mr-1" />
+                                      {stream.title.substring(0, 40)}...
+                                    </a>
+                                    <span className="text-xs text-muted-foreground">
+                                      ({stream.registeredBy})
+                                    </span>
+                                  </div>
+                                ))}
+                                
+                                {/* 새로운 날짜별 유튜브 링크 */}
+                                {station.youtubeDayUrls && (
+                                  <>
+                                    {/* Day 1 링크들 */}
+                                    {station.youtubeDayUrls.day1?.morning && (
+                                      <div className="flex items-center gap-2">
+                                        <span className="text-xs bg-purple-100 text-purple-800 px-2 py-1 rounded">📅 Day1 오전</span>
+                                        <a
+                                          href={station.youtubeDayUrls.day1.morning}
+                                          target="_blank"
+                                          rel="noopener noreferrer"
+                                          className="text-sm text-blue-600 hover:text-blue-800 flex items-center"
+                                        >
+                                          <ExternalLink className="h-3 w-3 mr-1" />
+                                          {station.youtubeDayUrls.day1.morning.substring(0, 50)}...
+                                        </a>
+                                      </div>
+                                    )}
+                                    {station.youtubeDayUrls.day1?.afternoon && (
+                                      <div className="flex items-center gap-2">
+                                        <span className="text-xs bg-purple-100 text-purple-800 px-2 py-1 rounded">📅 Day1 오후</span>
+                                        <a
+                                          href={station.youtubeDayUrls.day1.afternoon}
+                                          target="_blank"
+                                          rel="noopener noreferrer"
+                                          className="text-sm text-blue-600 hover:text-blue-800 flex items-center"
+                                        >
+                                          <ExternalLink className="h-3 w-3 mr-1" />
+                                          {station.youtubeDayUrls.day1.afternoon.substring(0, 50)}...
+                                        </a>
+                                      </div>
+                                    )}
+                                    
+                                    {/* Day 2 링크들 */}
+                                    {station.youtubeDayUrls.day2?.morning && (
+                                      <div className="flex items-center gap-2">
+                                        <span className="text-xs bg-indigo-100 text-indigo-800 px-2 py-1 rounded">📅 Day2 오전</span>
+                                        <a
+                                          href={station.youtubeDayUrls.day2.morning}
+                                          target="_blank"
+                                          rel="noopener noreferrer"
+                                          className="text-sm text-blue-600 hover:text-blue-800 flex items-center"
+                                        >
+                                          <ExternalLink className="h-3 w-3 mr-1" />
+                                          {station.youtubeDayUrls.day2.morning.substring(0, 50)}...
+                                        </a>
+                                      </div>
+                                    )}
+                                    {station.youtubeDayUrls.day2?.afternoon && (
+                                      <div className="flex items-center gap-2">
+                                        <span className="text-xs bg-indigo-100 text-indigo-800 px-2 py-1 rounded">📅 Day2 오후</span>
+                                        <a
+                                          href={station.youtubeDayUrls.day2.afternoon}
+                                          target="_blank"
+                                          rel="noopener noreferrer"
+                                          className="text-sm text-blue-600 hover:text-blue-800 flex items-center"
+                                        >
+                                          <ExternalLink className="h-3 w-3 mr-1" />
+                                          {station.youtubeDayUrls.day2.afternoon.substring(0, 50)}...
+                                        </a>
+                                      </div>
+                                    )}
+                                  </>
                                 )}
                               </div>
                             </div>
@@ -670,16 +815,44 @@ export default function AdminDashboard({ pollingStations }: AdminDashboardProps)
                                     const morningRegisteredAt = station.youtubeRegisteredAt?.morning;
                                     const afternoonRegisteredAt = station.youtubeRegisteredAt?.afternoon;
                                     
-                                    // 오전/오후 중 가장 최근 등록시간 사용
-                                    let latestRegisteredAt = null;
+                                    // 새로운 날짜별 등록시간들 가져오기
+                                    const day1MorningRegisteredAt = station.youtubeDayRegisteredAt?.day1?.morning;
+                                    const day1AfternoonRegisteredAt = station.youtubeDayRegisteredAt?.day1?.afternoon;
+                                    const day2MorningRegisteredAt = station.youtubeDayRegisteredAt?.day2?.morning;
+                                    const day2AfternoonRegisteredAt = station.youtubeDayRegisteredAt?.day2?.afternoon;
                                     
-                                    if (morningRegisteredAt && afternoonRegisteredAt) {
-                                      latestRegisteredAt = morningRegisteredAt > afternoonRegisteredAt ? 
-                                        morningRegisteredAt : afternoonRegisteredAt;
-                                    } else if (morningRegisteredAt) {
-                                      latestRegisteredAt = morningRegisteredAt;
-                                    } else if (afternoonRegisteredAt) {
-                                      latestRegisteredAt = afternoonRegisteredAt;
+                                    // 감시관 영상 등록시간들 가져오기
+                                    const monitorStreams = station.streams?.filter(stream => 
+                                      stream.isActive && stream.registeredByType === 'monitor'
+                                    ) || [];
+                                    
+                                    const allRegisteredTimes = [];
+                                    
+                                    // 기존 공식 링크 등록시간
+                                    if (morningRegisteredAt) allRegisteredTimes.push(morningRegisteredAt);
+                                    if (afternoonRegisteredAt) allRegisteredTimes.push(afternoonRegisteredAt);
+                                    
+                                    // 새로운 날짜별 등록시간
+                                    if (day1MorningRegisteredAt) allRegisteredTimes.push(day1MorningRegisteredAt);
+                                    if (day1AfternoonRegisteredAt) allRegisteredTimes.push(day1AfternoonRegisteredAt);
+                                    if (day2MorningRegisteredAt) allRegisteredTimes.push(day2MorningRegisteredAt);
+                                    if (day2AfternoonRegisteredAt) allRegisteredTimes.push(day2AfternoonRegisteredAt);
+                                    
+                                    // 감시관 영상 등록시간
+                                    monitorStreams.forEach(stream => {
+                                      if (stream.registeredAt) {
+                                        allRegisteredTimes.push(stream.registeredAt);
+                                      }
+                                    });
+                                    
+                                    // 가장 최근 등록시간 찾기
+                                    let latestRegisteredAt = null;
+                                    if (allRegisteredTimes.length > 0) {
+                                      latestRegisteredAt = allRegisteredTimes.reduce((latest, current) => {
+                                        const currentDate = current instanceof Date ? current : new Date(current);
+                                        const latestDate = latest instanceof Date ? latest : new Date(latest);
+                                        return currentDate > latestDate ? currentDate : latestDate;
+                                      });
                                     }
                                     
                                     if (latestRegisteredAt) {
@@ -725,6 +898,38 @@ export default function AdminDashboard({ pollingStations }: AdminDashboardProps)
             {/* 알림 관리 탭 */}
             {activeTab === 'alerts' && (
               <div>
+                {/* 날짜 선택 헤더 */}
+                <div className="bg-orange-50 border border-orange-200 rounded-lg p-4 mb-6">
+                  <div className="flex items-center justify-between">
+                    <h3 className="text-lg font-semibold text-orange-800">📅 선거 일정</h3>
+                    <div className="flex items-center space-x-2">
+                      <button
+                        onClick={() => setSelectedDate('day1')}
+                        className={`px-4 py-2 rounded-md text-sm font-medium transition-colors ${
+                          selectedDate === 'day1'
+                            ? 'bg-orange-600 text-white shadow-md'
+                            : 'bg-white text-orange-600 hover:bg-orange-100'
+                        }`}
+                      >
+                        첫째날 (5월 29일)
+                      </button>
+                      <button
+                        onClick={() => setSelectedDate('day2')}
+                        className={`px-4 py-2 rounded-md text-sm font-medium transition-colors ${
+                          selectedDate === 'day2'
+                            ? 'bg-orange-600 text-white shadow-md'
+                            : 'bg-white text-orange-600 hover:bg-orange-100'
+                        }`}
+                      >
+                        둘째날 (5월 30일)
+                      </button>
+                    </div>
+                  </div>
+                  <div className="mt-2 text-sm text-orange-600">
+                    현재 선택: <strong>{selectedDate === 'day1' ? '첫째날 (5월 29일)' : '둘째날 (5월 30일)'}</strong> 알림 관리
+                  </div>
+                </div>
+
                 <div className="flex justify-between items-center mb-6">
                   <div className="flex items-center space-x-4">
                     <h2 className="text-lg font-semibold text-foreground">알림 관리</h2>

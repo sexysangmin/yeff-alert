@@ -91,7 +91,7 @@ export default function AlertsList({ pollingStations, onStationSelect, onAlertsV
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3 max-h-40 overflow-y-auto">
               {monitoringStations.slice(0, 6).map((station) => (
                 <div
-                  key={station.id}
+                  key={`monitoring-${station.id}`}
                   onClick={() => handleStationClick(station)}
                   className="bg-secondary/50 hover:bg-secondary/80 border border-border rounded-lg p-3 cursor-pointer transition-colors"
                 >
@@ -165,7 +165,7 @@ export default function AlertsList({ pollingStations, onStationSelect, onAlertsV
               
               return (
                 <div
-                  key={station.id}
+                  key={`alert-${station.id}`}
                   onClick={() => handleStationClick(station)}
                   className={`border rounded-lg p-3 cursor-pointer transition-all ${
                     showNewEffect 
@@ -246,7 +246,7 @@ export default function AlertsList({ pollingStations, onStationSelect, onAlertsV
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3 max-h-60 overflow-y-auto">
               {inactiveStations.slice(0, 9).map((station) => (
                 <div
-                  key={station.id}
+                  key={`inactive-${station.id}`}
                   onClick={() => handleStationClick(station)}
                   className="bg-secondary/30 hover:bg-secondary/50 border border-gray-200 rounded-lg p-3 cursor-pointer transition-colors opacity-75"
                 >

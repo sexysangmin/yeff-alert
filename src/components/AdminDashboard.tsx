@@ -40,9 +40,10 @@ interface ActivityLog {
 }
 
 export default function AdminDashboard({ pollingStations }: AdminDashboardProps) {
-  const [activeTab, setActiveTab] = useState<'youtube' | 'alerts' | 'logs' | 'backup'>('alerts');
+  const [activeTab, setActiveTab] = useState<'youtube' | 'alerts' | 'logs' | 'backup' | 'deletions'>('alerts');
   const [filterType, setFilterType] = useState<'all' | 'morning' | 'afternoon'>('all');
   const [activityLogs, setActivityLogs] = useState<ActivityLog[]>([]);
+  const [deletionLogs, setDeletionLogs] = useState<any[]>([]);
   const [lastUpdate, setLastUpdate] = useState<Date>(new Date());
   const [isAutoRefresh, setIsAutoRefresh] = useState(true);
   const [refreshInterval, setRefreshInterval] = useState(60); // 60초로 변경
@@ -116,7 +117,56 @@ export default function AdminDashboard({ pollingStations }: AdminDashboardProps)
     // 시간순 정렬
     logs.sort((a, b) => new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime());
     setActivityLogs(logs);
+    
+    // 삭제 로그 로드
+    loadDeletionLogs();
   }, [youtubeStations, pollingStations]);
+
+  // 삭제 로그 로드 함수
+  const loadDeletionLogs = async () => {
+    try {
+      const response = await fetch('/api/admin/deletion-logs');
+      if (response.ok) {
+        const data = await response.json();
+        setDeletionLogs(data.logs || []);
+      }
+    } catch (error) {
+      console.error('삭제 로그 로드 실패:', error);
+    }
+  };
+
+  // 데이터 복원 함수
+  const handleRestoreData = async (logId: string, restoreType: string) => {
+    if (!confirm(`정말로 이 데이터를 복원하시겠습니까?\n복원된 데이터는 현재 시스템에 다시 적용됩니다.`)) {
+      return;
+    }
+
+    try {
+      const response = await fetch('/api/admin/deletion-logs', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          logId,
+          restoreType
+        })
+      });
+
+      if (response.ok) {
+        const result = await response.json();
+        alert(result.message);
+        loadDeletionLogs(); // 로그 새로고침
+        handleRefresh(); // 전체 데이터 새로고침
+      } else {
+        const errorData = await response.json();
+        alert(`복원 실패: ${errorData.error}`);
+      }
+    } catch (error) {
+      console.error('복원 오류:', error);
+      alert('네트워크 오류가 발생했습니다.');
+    }
+  };
 
   // 컴포넌트 언마운트 시 정리
   useEffect(() => {
@@ -294,7 +344,7 @@ export default function AdminDashboard({ pollingStations }: AdminDashboardProps)
   };
 
   // CSV 다운로드 함수
-  const downloadCSV = (type: 'youtube' | 'alerts' | 'logs') => {
+  const downloadCSV = (type: 'youtube' | 'alerts' | 'logs' | 'deletions') => {
     let csvContent = '';
     let filename = '';
 
@@ -318,6 +368,13 @@ export default function AdminDashboard({ pollingStations }: AdminDashboardProps)
         csvContent += `${log.id},"${log.type}","${log.stationName}","${log.message}","${log.timestamp.toLocaleString('ko-KR')}","${log.adminId || ''}"\n`;
       });
       filename = `activity_logs_${new Date().toISOString().split('T')[0]}.csv`;
+    } else if (type === 'deletions') {
+      csvContent = 'ID,삭제타입,삭제시간,관리자ID,복원가능,데이터개수\n';
+      deletionLogs.forEach(log => {
+        const dataCount = log.deleted_data?.total_count || 0;
+        csvContent += `${log.id},"${log.deletion_type}","${new Date(log.deleted_at).toLocaleString('ko-KR')}","${log.admin_id}","${log.can_restore ? 'Y' : 'N'}","${dataCount}"\n`;
+      });
+      filename = `deletion_logs_${new Date().toISOString().split('T')[0]}.csv`;
     }
 
     const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
@@ -512,6 +569,17 @@ export default function AdminDashboard({ pollingStations }: AdminDashboardProps)
               >
                 <Download className="inline h-4 w-4 mr-2" />
                 백업 관리
+              </button>
+              <button
+                onClick={() => setActiveTab('deletions')}
+                className={`py-4 px-1 border-b-2 font-medium text-sm ${
+                  activeTab === 'deletions'
+                    ? 'border-primary text-primary'
+                    : 'border-transparent text-muted-foreground hover:text-foreground'
+                }`}
+              >
+                <Trash2 className="inline h-4 w-4 mr-2" />
+                삭제 로그 ({deletionLogs.length})
               </button>
             </nav>
           </div>
@@ -1114,6 +1182,145 @@ export default function AdminDashboard({ pollingStations }: AdminDashboardProps)
                         </p>
                       </div>
                     </div>
+                  )}
+                </div>
+              </div>
+            )}
+
+            {/* 삭제 로그 탭 */}
+            {activeTab === 'deletions' && (
+              <div>
+                <div className="flex justify-between items-center mb-6">
+                  <div className="flex items-center space-x-4">
+                    <h2 className="text-lg font-semibold text-foreground">삭제된 데이터 로그</h2>
+                    <p className="text-sm text-muted-foreground">
+                      삭제된 데이터를 확인하고 필요시 복원할 수 있습니다.
+                    </p>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <button
+                      onClick={loadDeletionLogs}
+                      className="px-3 py-1.5 bg-blue-600 text-white rounded-md text-sm font-medium hover:bg-blue-700 transition-colors"
+                    >
+                      🔄 새로고침
+                    </button>
+                    <button
+                      onClick={() => downloadCSV('deletions')}
+                      className="px-4 py-2 bg-primary text-primary-foreground rounded-md hover:bg-primary/90 transition-colors flex items-center"
+                    >
+                      <Download className="h-4 w-4 mr-2" />
+                      CSV 다운로드
+                    </button>
+                  </div>
+                </div>
+
+                <div className="space-y-4">
+                  {deletionLogs.length === 0 ? (
+                    <div className="text-center py-12">
+                      <Trash2 className="h-12 w-12 text-muted-foreground mx-auto mb-4 opacity-50" />
+                      <p className="text-muted-foreground">삭제된 데이터가 없습니다.</p>
+                    </div>
+                  ) : (
+                    deletionLogs.map((log) => (
+                      <div key={log.id} className="bg-secondary/50 border border-border rounded-lg p-4">
+                        <div className="flex items-start justify-between">
+                          <div className="flex-1">
+                            <div className="flex items-center gap-3 mb-2">
+                              <div className={`w-3 h-3 rounded-full ${
+                                log.deletion_type === 'youtube_bulk_delete' ? 'bg-red-500' :
+                                log.deletion_type === 'alerts_bulk_delete' ? 'bg-orange-500' :
+                                'bg-gray-500'
+                              }`} />
+                              <span className={`text-sm px-2 py-1 rounded font-medium ${
+                                log.deletion_type === 'youtube_bulk_delete' 
+                                  ? 'bg-red-100 text-red-800' 
+                                  : log.deletion_type === 'alerts_bulk_delete'
+                                  ? 'bg-orange-100 text-orange-800'
+                                  : 'bg-gray-100 text-gray-800'
+                              }`}>
+                                {log.deletion_type === 'youtube_bulk_delete' ? '🗑️ 유튜브 링크 전체 삭제' :
+                                 log.deletion_type === 'alerts_bulk_delete' ? '🚨 알림 전체 삭제' :
+                                 '🔄 기타 삭제'}
+                              </span>
+                              {log.can_restore && (
+                                <span className="text-xs bg-green-100 text-green-800 px-2 py-1 rounded">
+                                  복원 가능
+                                </span>
+                              )}
+                              {log.restored_at && (
+                                <span className="text-xs bg-blue-100 text-blue-800 px-2 py-1 rounded">
+                                  복원됨
+                                </span>
+                              )}
+                            </div>
+                            
+                            <div className="text-sm text-muted-foreground space-y-1">
+                              <p>
+                                <strong>삭제 시간:</strong> {new Date(log.deleted_at).toLocaleString('ko-KR', {
+                                  timeZone: 'Asia/Seoul',
+                                  year: 'numeric',
+                                  month: '2-digit',
+                                  day: '2-digit',
+                                  hour: '2-digit',
+                                  minute: '2-digit'
+                                })}
+                              </p>
+                              <p>
+                                <strong>관리자:</strong> {log.admin_id}
+                              </p>
+                              <p>
+                                <strong>삭제된 항목 수:</strong> {log.deleted_data?.total_count || 0}개
+                              </p>
+                              {log.restored_at && (
+                                <p>
+                                  <strong>복원 시간:</strong> {new Date(log.restored_at).toLocaleString('ko-KR', {
+                                    timeZone: 'Asia/Seoul',
+                                    year: 'numeric',
+                                    month: '2-digit',
+                                    day: '2-digit',
+                                    hour: '2-digit',
+                                    minute: '2-digit'
+                                  })}
+                                </p>
+                              )}
+                            </div>
+                          </div>
+                          
+                          <div className="flex items-center gap-2 ml-4">
+                            {log.can_restore && !log.restored_at && (
+                              <button
+                                onClick={() => {
+                                  const restoreType = log.deletion_type === 'youtube_bulk_delete' ? 'youtube' : 'alerts';
+                                  handleRestoreData(log.id, restoreType);
+                                }}
+                                className="px-3 py-1.5 bg-green-600 text-white rounded-md hover:bg-green-700 transition-colors flex items-center text-sm"
+                                title="데이터 복원"
+                              >
+                                <RotateCcw className="h-3 w-3 mr-1" />
+                                복원
+                              </button>
+                            )}
+                            
+                            <button
+                              onClick={() => {
+                                const dataStr = JSON.stringify(log.deleted_data, null, 2);
+                                const blob = new Blob([dataStr], { type: 'application/json' });
+                                const url = URL.createObjectURL(blob);
+                                const a = document.createElement('a');
+                                a.href = url;
+                                a.download = `deletion_backup_${log.id}.json`;
+                                a.click();
+                              }}
+                              className="px-3 py-1.5 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors flex items-center text-sm"
+                              title="백업 데이터 다운로드"
+                            >
+                              <Download className="h-3 w-3 mr-1" />
+                              다운로드
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+                    ))
                   )}
                 </div>
               </div>

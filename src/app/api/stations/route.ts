@@ -58,6 +58,7 @@ export async function GET() {
     const { data: alerts, error: alertsError } = await supabase
       .from('alerts')
       .select('*')
+      .is('deleted_at', null)
       .order('timestamp', { ascending: false });
 
     if (alertsError) {

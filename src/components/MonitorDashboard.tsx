@@ -53,7 +53,18 @@ export default function MonitorDashboard({ pollingStations, onStationUpdate }: M
   };
 
   const handleUrlUpdate = async () => {
-    if (!selectedStation) return;
+    if (!selectedStation) {
+      console.error('❌ 선택된 투표소가 없습니다.');
+      alert('❌ 투표소를 먼저 선택해주세요.');
+      return;
+    }
+    
+    console.log('🔄 유튜브 URL 업데이트 시작:', {
+      stationId: selectedStation.id,
+      stationName: selectedStation.name,
+      morningUrl: morningUrl,
+      afternoonUrl: afternoonUrl
+    });
     
     // 유튜브 URL 검증
     const validateYouTubeUrl = (url: string) => {
@@ -69,18 +80,28 @@ export default function MonitorDashboard({ pollingStations, onStationUpdate }: M
     const morningUrlTrimmed = morningUrl.trim();
     const afternoonUrlTrimmed = afternoonUrl.trim();
 
+    console.log('🔍 URL 검증:', {
+      morningUrlTrimmed,
+      afternoonUrlTrimmed,
+      morningValid: validateYouTubeUrl(morningUrlTrimmed),
+      afternoonValid: validateYouTubeUrl(afternoonUrlTrimmed)
+    });
+
     // URL 검증
     if (morningUrlTrimmed && !validateYouTubeUrl(morningUrlTrimmed)) {
+      console.error('❌ 오전 유튜브 링크 검증 실패:', morningUrlTrimmed);
       alert('❌ 오전 유튜브 링크가 올바르지 않습니다. YouTube URL을 확인해주세요.');
       return;
     }
 
     if (afternoonUrlTrimmed && !validateYouTubeUrl(afternoonUrlTrimmed)) {
+      console.error('❌ 오후 유튜브 링크 검증 실패:', afternoonUrlTrimmed);
       alert('❌ 오후 유튜브 링크가 올바르지 않습니다. YouTube URL을 확인해주세요.');
       return;
     }
     
     const hasUrls = !!(morningUrlTrimmed || afternoonUrlTrimmed);
+    console.log('📊 URL 상태:', { hasUrls, morningUrlTrimmed, afternoonUrlTrimmed });
     
     const updates = {
       youtubeUrls: {
@@ -110,8 +131,12 @@ export default function MonitorDashboard({ pollingStations, onStationUpdate }: M
         })
       });
 
+      console.log('📡 API 응답 상태:', response.status, response.statusText);
+
       if (!response.ok) {
-        throw new Error(`API 오류: ${response.status}`);
+        const errorText = await response.text();
+        console.error('❌ API 응답 에러:', errorText);
+        throw new Error(`API 오류: ${response.status} - ${errorText}`);
       }
 
       const result = await response.json();
@@ -127,6 +152,7 @@ export default function MonitorDashboard({ pollingStations, onStationUpdate }: M
       }
 
       // 즉시 반영을 위해 페이지 새로고침
+      console.log('🔄 1초 후 페이지 새로고침');
       setTimeout(() => {
         window.location.reload();
       }, 1000);
@@ -138,9 +164,9 @@ export default function MonitorDashboard({ pollingStations, onStationUpdate }: M
       onStationUpdate(selectedStation.id, updates);
       
       if (hasUrls) {
-        alert('⚠️ 유튜브 링크가 임시로 등록되었습니다. (서버 동기화 필요)');
+        alert('⚠️ 유튜브 링크가 임시로 등록되었습니다. (서버 동기화 필요)\n\n에러: ' + (error instanceof Error ? error.message : String(error)));
       } else {
-        alert('⚠️ 유튜브 링크가 임시로 제거되었습니다. (서버 동기화 필요)');
+        alert('⚠️ 유튜브 링크가 임시로 제거되었습니다. (서버 동기화 필요)\n\n에러: ' + (error instanceof Error ? error.message : String(error)));
       }
     }
   };

@@ -40,7 +40,7 @@ interface ActivityLog {
 }
 
 export default function AdminDashboard({ pollingStations }: AdminDashboardProps) {
-  const [activeTab, setActiveTab] = useState<'alerts' | 'streams' | 'youtube' | 'logs' | 'backup' | 'deletions'>('alerts');
+  const [activeTab, setActiveTab] = useState<'alerts' | 'streams' | 'approval' | 'youtube' | 'logs' | 'backup' | 'deletions'>('alerts');
   const [filterType, setFilterType] = useState<'all' | 'morning' | 'afternoon' | 'registered' | 'empty'>('all');
   const [selectedDate, setSelectedDate] = useState<'day1' | 'day2'>('day1');
   const [activityLogs, setActivityLogs] = useState<ActivityLog[]>([]);
@@ -83,6 +83,28 @@ export default function AdminDashboard({ pollingStations }: AdminDashboardProps)
       station.alerts.some(alert => !alert.resolved)
     ), [pollingStations]
   );
+
+  // 승인 대기 중인 스트림들 (메모이제이션)
+  const pendingApprovalStreams = useMemo(() => {
+    const streams: Array<{
+      stream: any;
+      station: PollingStation;
+    }> = [];
+    
+    pollingStations.forEach(station => {
+      if (station.streams) {
+        station.streams
+          .filter(stream => 
+            stream.registeredByType === 'public' && !stream.isActive
+          )
+          .forEach(stream => {
+            streams.push({ stream, station });
+          });
+      }
+    });
+    
+    return streams;
+  }, [pollingStations]);
 
   // 활동 로그 생성 (실제로는 API에서 가져와야 함)
   useEffect(() => {
@@ -299,6 +321,65 @@ export default function AdminDashboard({ pollingStations }: AdminDashboardProps)
     }
   };
 
+  // 영상 스트림 승인 처리
+  const handleApproveStream = async (streamId: string) => {
+    try {
+      const response = await fetch(`/api/admin/video-streams/${streamId}`, {
+        method: 'PATCH',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          isActive: true,
+          status: 'approved'
+        }),
+      });
+
+      if (response.ok) {
+        const result = await response.json();
+        alert('✅ 영상이 승인되었습니다!');
+        handleRefresh(); // 데이터 새로고침
+      } else {
+        const errorData = await response.json();
+        console.error('영상 승인 실패:', errorData);
+        alert(`영상 승인에 실패했습니다: ${errorData.error || '알 수 없는 오류'}`);
+      }
+    } catch (error) {
+      console.error('영상 승인 처리 오류:', error);
+      alert('네트워크 오류가 발생했습니다. 다시 시도해주세요.');
+    }
+  };
+
+  // 영상 스트림 거부 처리
+  const handleRejectStream = async (streamId: string, reason?: string) => {
+    const rejectReason = reason || prompt('거부 사유를 입력해주세요 (선택사항):');
+    
+    try {
+      const response = await fetch(`/api/admin/video-streams/${streamId}`, {
+        method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          reason: rejectReason
+        }),
+      });
+
+      if (response.ok) {
+        const result = await response.json();
+        alert('❌ 영상이 거부되었습니다.');
+        handleRefresh(); // 데이터 새로고침
+      } else {
+        const errorData = await response.json();
+        console.error('영상 거부 실패:', errorData);
+        alert(`영상 거부에 실패했습니다: ${errorData.error || '알 수 없는 오류'}`);
+      }
+    } catch (error) {
+      console.error('영상 거부 처리 오류:', error);
+      alert('네트워크 오류가 발생했습니다. 다시 시도해주세요.');
+    }
+  };
+
   // 유튜브 링크 전체 삭제
   const handleBulkDeleteYoutube = async () => {
     if (!confirm('정말로 모든 유튜브 링크를 삭제하시겠습니까? 이 작업은 되돌릴 수 없습니다.')) {
@@ -508,7 +589,7 @@ export default function AdminDashboard({ pollingStations }: AdminDashboardProps)
         </div>
 
         {/* 통계 카드 */}
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
+        <div className="grid grid-cols-1 md:grid-cols-5 gap-4 mb-6">
           <div className="bg-card border border-border rounded-lg p-4">
             <div className="flex items-center justify-between">
               <div>
@@ -526,6 +607,16 @@ export default function AdminDashboard({ pollingStations }: AdminDashboardProps)
                 <p className="text-2xl font-bold text-foreground">{youtubeStations.length}</p>
               </div>
               <Youtube className="h-8 w-8 text-red-500" />
+            </div>
+          </div>
+          
+          <div className="bg-card border border-border rounded-lg p-4">
+            <div className="flex items-center justify-between">
+              <div>
+                <p className="text-sm text-muted-foreground">승인 대기</p>
+                <p className="text-2xl font-bold text-foreground">{pendingApprovalStreams.length}</p>
+              </div>
+              <Check className="h-8 w-8 text-yellow-500" />
             </div>
           </div>
           
@@ -564,6 +655,17 @@ export default function AdminDashboard({ pollingStations }: AdminDashboardProps)
               >
                 <AlertTriangle className="inline h-4 w-4 mr-2" />
                 알림 관리 ({pollingStations.reduce((count, station) => count + station.alerts.length, 0)})
+              </button>
+              <button
+                onClick={() => setActiveTab('approval')}
+                className={`py-4 px-1 border-b-2 font-medium text-sm ${
+                  activeTab === 'approval'
+                    ? 'border-primary text-primary'
+                    : 'border-transparent text-muted-foreground hover:text-foreground'
+                }`}
+              >
+                <Check className="inline h-4 w-4 mr-2" />
+                승인 대기 ({pendingApprovalStreams.length})
               </button>
               <button
                 onClick={() => setActiveTab('youtube')}
@@ -1528,6 +1630,185 @@ export default function AdminDashboard({ pollingStations }: AdminDashboardProps)
                     ))
                   )}
                 </div>
+              </div>
+            )}
+
+            {/* 승인 대기 탭 */}
+            {activeTab === 'approval' && (
+              <div>
+                <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-4 mb-6">
+                  <h3 className="text-lg font-semibold text-yellow-800">🔍 승인 대기 중인 영상</h3>
+                  <p className="text-sm text-yellow-600 mt-1">
+                    일반 시민과 유튜버가 등록한 영상들을 검토하고 승인/거부할 수 있습니다.
+                  </p>
+                </div>
+
+                <div className="space-y-4">
+                  {pendingApprovalStreams.length === 0 ? (
+                    <div className="text-center py-12">
+                      <Check className="h-12 w-12 text-muted-foreground mx-auto mb-4" />
+                      <p className="text-muted-foreground">승인 대기 중인 영상이 없습니다.</p>
+                      <p className="text-sm text-muted-foreground mt-2">
+                        모든 등록된 영상이 처리되었습니다.
+                      </p>
+                    </div>
+                  ) : (
+                    pendingApprovalStreams.map(({ stream, station }) => (
+                      <div key={stream.id} className="bg-yellow-50 border border-yellow-200 rounded-lg p-6">
+                        <div className="flex items-start justify-between">
+                          <div className="flex-1">
+                            <div className="flex items-center gap-2 mb-3">
+                              <span className="text-xs bg-yellow-100 text-yellow-800 px-2 py-1 rounded font-medium">
+                                📹 승인 대기
+                              </span>
+                              <span className="text-xs bg-blue-100 text-blue-800 px-2 py-1 rounded">
+                                {stream.registeredByType === 'public' ? '👤 일반 시민' : '📺 유튜버'}
+                              </span>
+                              <span className="text-xs bg-gray-100 text-gray-800 px-2 py-1 rounded">
+                                📅 {stream.targetDate === 'day1' ? '첫째날 (5월 29일)' : '둘째날 (5월 30일)'}
+                              </span>
+                            </div>
+
+                            {/* 투표소 정보 */}
+                            <h3 className="font-medium text-foreground mb-2 flex items-center">
+                              <MapPin className="h-4 w-4 mr-2 text-blue-600" />
+                              {station.name}
+                            </h3>
+                            <p className="text-sm text-muted-foreground mb-3">
+                              📍 {station.address}
+                            </p>
+
+                            {/* 영상 정보 */}
+                            <div className="bg-white border border-yellow-200 rounded-lg p-4 mb-4">
+                              <h4 className="font-medium text-foreground mb-2">📹 영상 정보</h4>
+                              <div className="space-y-2">
+                                <div>
+                                  <span className="text-sm font-medium text-gray-700">제목:</span>
+                                  <p className="text-sm text-foreground">{stream.title}</p>
+                                </div>
+                                <div>
+                                  <span className="text-sm font-medium text-gray-700">URL:</span>
+                                  <a
+                                    href={stream.url}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="text-sm text-blue-600 hover:text-blue-800 flex items-center mt-1"
+                                  >
+                                    <ExternalLink className="h-3 w-3 mr-1" />
+                                    {stream.url}
+                                  </a>
+                                </div>
+                                {stream.description && (
+                                  <div>
+                                    <span className="text-sm font-medium text-gray-700">설명:</span>
+                                    <p className="text-sm text-muted-foreground">{stream.description}</p>
+                                  </div>
+                                )}
+                                <div>
+                                  <span className="text-sm font-medium text-gray-700">등록자:</span>
+                                  <p className="text-sm text-foreground">{stream.registeredBy}</p>
+                                </div>
+                                {stream.contact && (
+                                  <div>
+                                    <span className="text-sm font-medium text-gray-700">연락처:</span>
+                                    <p className="text-sm text-foreground">{stream.contact}</p>
+                                  </div>
+                                )}
+                                <div>
+                                  <span className="text-sm font-medium text-gray-700">등록 시간:</span>
+                                  <p className="text-sm text-muted-foreground">
+                                    {new Date(stream.registeredAt).toLocaleString('ko-KR', {
+                                      timeZone: 'Asia/Seoul',
+                                      year: 'numeric',
+                                      month: '2-digit',
+                                      day: '2-digit',
+                                      hour: '2-digit',
+                                      minute: '2-digit'
+                                    })}
+                                  </p>
+                                </div>
+                              </div>
+                            </div>
+
+                            {/* 미리보기 링크 */}
+                            <div className="bg-blue-50 border border-blue-200 rounded-lg p-3">
+                              <p className="text-sm text-blue-800 font-medium mb-2">🔍 영상 미리보기</p>
+                              <a
+                                href={stream.url}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="inline-flex items-center px-3 py-1.5 bg-blue-600 text-white rounded-md text-sm hover:bg-blue-700 transition-colors"
+                              >
+                                <ExternalLink className="h-3 w-3 mr-1" />
+                                영상 확인하기
+                              </a>
+                            </div>
+                          </div>
+
+                          {/* 승인/거부 버튼 */}
+                          <div className="flex flex-col gap-2 ml-6">
+                            <button
+                              onClick={() => {
+                                if (confirm(`"${stream.title}" 영상을 승인하시겠습니까?\n\n승인 후 즉시 공개됩니다.`)) {
+                                  handleApproveStream(stream.id);
+                                }
+                              }}
+                              className="px-4 py-2 bg-green-600 text-white rounded-md hover:bg-green-700 transition-colors flex items-center text-sm font-medium"
+                            >
+                              <Check className="h-4 w-4 mr-1" />
+                              승인
+                            </button>
+                            
+                            <button
+                              onClick={() => {
+                                if (confirm(`"${stream.title}" 영상을 거부하시겠습니까?\n\n거부된 영상은 삭제됩니다.`)) {
+                                  handleRejectStream(stream.id);
+                                }
+                              }}
+                              className="px-4 py-2 bg-red-600 text-white rounded-md hover:bg-red-700 transition-colors flex items-center text-sm font-medium"
+                            >
+                              <X className="h-4 w-4 mr-1" />
+                              거부
+                            </button>
+
+                            <button
+                              onClick={() => handleStationSelect(station)}
+                              className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors flex items-center text-sm"
+                            >
+                              <Eye className="h-4 w-4 mr-1" />
+                              투표소 보기
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+                    ))
+                  )}
+                </div>
+
+                {/* 승인 통계 */}
+                {pendingApprovalStreams.length > 0 && (
+                  <div className="mt-6 bg-gray-50 border border-gray-200 rounded-lg p-4">
+                    <h4 className="font-medium text-foreground mb-2">📊 승인 통계</h4>
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                      <div className="text-center">
+                        <p className="text-2xl font-bold text-yellow-600">{pendingApprovalStreams.length}</p>
+                        <p className="text-sm text-muted-foreground">승인 대기</p>
+                      </div>
+                      <div className="text-center">
+                        <p className="text-2xl font-bold text-blue-600">
+                          {pendingApprovalStreams.filter(({ stream }) => stream.targetDate === 'day1').length}
+                        </p>
+                        <p className="text-sm text-muted-foreground">첫째날 영상</p>
+                      </div>
+                      <div className="text-center">
+                        <p className="text-2xl font-bold text-purple-600">
+                          {pendingApprovalStreams.filter(({ stream }) => stream.targetDate === 'day2').length}
+                        </p>
+                        <p className="text-sm text-muted-foreground">둘째날 영상</p>
+                      </div>
+                    </div>
+                  </div>
+                )}
               </div>
             )}
           </div>

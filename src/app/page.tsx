@@ -325,8 +325,8 @@ export default function Home() {
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-16 lg:py-20 flex-1 flex flex-col justify-center">
         {/* 히어로 섹션 */}
         <div className="text-center mb-4">
-          <h1 className="text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold text-foreground mb-4 lg:mb-6 leading-tight">
-            전국 투표소<br />실시간 모니터링
+          <h1 className="text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold text-foreground mb-4 lg:mb-6">
+            전국 투표소 실시간 모니터링
           </h1>
           <p className="text-xl md:text-2xl lg:text-3xl text-muted-foreground mb-8 lg:mb-10">
             투명하고 공정한 선거를 위한 시민 감시 시스템

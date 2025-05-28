@@ -581,7 +581,13 @@ export default function AdminDashboard({ pollingStations, onLogout }: AdminDashb
                                     const date = station.lastUpdated instanceof Date 
                                       ? station.lastUpdated 
                                       : new Date(station.lastUpdated);
-                                    return formatDistanceToNow(date, { addSuffix: true, locale: ko });
+                                    return date.toLocaleString('ko-KR', {
+                                      year: 'numeric',
+                                      month: '2-digit',
+                                      day: '2-digit',
+                                      hour: '2-digit',
+                                      minute: '2-digit'
+                                    });
                                   } catch (error) {
                                     return '시간 정보 없음';
                                   }
@@ -725,7 +731,13 @@ export default function AdminDashboard({ pollingStations, onLogout }: AdminDashb
                                       const date = alert.timestamp instanceof Date 
                                         ? alert.timestamp 
                                         : new Date(alert.timestamp);
-                                      return formatDistanceToNow(date, { addSuffix: true, locale: ko });
+                                      return date.toLocaleString('ko-KR', {
+                                        year: 'numeric',
+                                        month: '2-digit',
+                                        day: '2-digit',
+                                        hour: '2-digit',
+                                        minute: '2-digit'
+                                      });
                                     } catch (error) {
                                       return '시간 정보 없음';
                                     }
@@ -832,7 +844,13 @@ export default function AdminDashboard({ pollingStations, onLogout }: AdminDashb
                                 const date = log.timestamp instanceof Date 
                                   ? log.timestamp 
                                   : new Date(log.timestamp);
-                                return formatDistanceToNow(date, { addSuffix: true, locale: ko });
+                                return date.toLocaleString('ko-KR', {
+                                  year: 'numeric',
+                                  month: '2-digit',
+                                  day: '2-digit',
+                                  hour: '2-digit',
+                                  minute: '2-digit'
+                                });
                               } catch (error) {
                                 return '시간 정보 없음';
                               }

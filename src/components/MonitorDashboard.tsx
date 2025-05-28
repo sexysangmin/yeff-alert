@@ -87,7 +87,9 @@ export default function MonitorDashboard({ pollingStations, onStationUpdate }: M
       const trimmedUrl = url.trim().toLowerCase();
       return trimmedUrl.includes('youtube.com') || 
              trimmedUrl.includes('youtu.be') ||
-             trimmedUrl.includes('youtube');
+             trimmedUrl.includes('youtube') ||
+             trimmedUrl.includes('/live/') ||
+             trimmedUrl.includes('/shorts/');
     };
 
     const day1MorningUrlTrimmed = day1MorningUrl.trim();

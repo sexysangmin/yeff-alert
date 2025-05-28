@@ -80,6 +80,24 @@ export default function Home() {
         const data = await response.json();
         console.log('✅ API 데이터 로드 완료:', data.length, '개 투표소');
         
+        // 데이터 분석
+        if (data.length > 0) {
+          console.log(`🔍 로드된 첫 번째: ${data[0]?.name} (ID: ${data[0]?.id})`);
+          console.log(`🔍 로드된 마지막: ${data[data.length - 1]?.name} (ID: ${data[data.length - 1]?.id})`);
+          
+          // ID 범위 확인
+          const ids = data.map((station: any) => {
+            const match = station.id.match(/station_(\d+)/);
+            return match ? parseInt(match[1]) : 0;
+          }).filter((id: number) => id > 0);
+          
+          if (ids.length > 0) {
+            const minId = Math.min(...ids);
+            const maxId = Math.max(...ids);
+            console.log(`📊 ID 범위: ${minId} ~ ${maxId} (총 ${ids.length}개)`);
+          }
+        }
+        
         setPollingStations(data);
         setFilteredStations(data);
         setIsLoading(false);
@@ -307,8 +325,8 @@ export default function Home() {
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-16 lg:py-20 flex-1 flex flex-col justify-center">
         {/* 히어로 섹션 */}
         <div className="text-center mb-4">
-          <h1 className="text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold text-foreground mb-4 lg:mb-6">
-            전국 투표소 실시간 모니터링
+          <h1 className="text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold text-foreground mb-4 lg:mb-6 leading-tight">
+            전국 투표소<br />실시간 모니터링
           </h1>
           <p className="text-xl md:text-2xl lg:text-3xl text-muted-foreground mb-8 lg:mb-10">
             투명하고 공정한 선거를 위한 시민 감시 시스템

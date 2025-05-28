@@ -11,6 +11,31 @@ export async function GET() {
     const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
     const isSupabaseConfigured = supabaseUrl && supabaseUrl !== 'https://placeholder.supabase.co';
     
+    // 임시로 JSON 폴백을 먼저 시도 (디버깅용)
+    console.log('🔧 임시 디버깅: JSON 파일 직접 로드 시도');
+    
+    try {
+      // JSON 파일 직접 로드
+      const jsonPath = path.join(process.cwd(), 'public', 'data', 'polling_stations_complete_all.json')
+      const jsonData = JSON.parse(fs.readFileSync(jsonPath, 'utf8'))
+      
+      console.log('📄 JSON 직접 로드 성공:', jsonData.length, '개 투표소')
+      
+      // JSON 데이터 구조 확인
+      if (jsonData.length > 0) {
+        console.log(`🔍 JSON 첫 번째: ${jsonData[0]?.name || '이름없음'} (ID: ${jsonData[0]?.id})`);
+        console.log(`🔍 JSON 마지막: ${jsonData[jsonData.length - 1]?.name || '이름없음'} (ID: ${jsonData[jsonData.length - 1]?.id})`);
+      }
+      
+      const response = NextResponse.json(jsonData);
+      response.headers.set('Cache-Control', 'public, s-maxage=5, stale-while-revalidate=10');
+      return response;
+      
+    } catch (jsonError) {
+      console.error('❌ JSON 직접 로드 실패:', jsonError);
+      // JSON 실패하면 Supabase 시도
+    }
+    
     if (!isSupabaseConfigured) {
       console.log('⚠️ Supabase 미설정, JSON 데이터 직접 로드');
       throw new Error('Supabase 설정 필요');
@@ -52,6 +77,13 @@ export async function GET() {
     // 개발 환경에서만 로딩 메시지 출력
     if (process.env.NODE_ENV === 'development') {
       console.log(`✅ Supabase에서 ${allStations.length}개 투표소 로드 완료`);
+    }
+    
+    // 항상 개수 정보 출력 (디버깅용)
+    console.log(`📊 총 투표소 개수: ${allStations.length}개`);
+    if (allStations.length > 0) {
+      console.log(`🔍 첫 번째 투표소: ${allStations[0]?.name || '이름없음'} (ID: ${allStations[0]?.id})`);
+      console.log(`🔍 마지막 투표소: ${allStations[allStations.length - 1]?.name || '이름없음'} (ID: ${allStations[allStations.length - 1]?.id})`);
     }
 
     // 알림 데이터 별도 조회
@@ -116,8 +148,14 @@ export async function GET() {
       const jsonData = JSON.parse(fs.readFileSync(jsonPath, 'utf8'))
       
       console.log('📄 JSON 폴백 데이터 로드:', jsonData.length, '개 투표소')
-      return NextResponse.json(jsonData)
       
+      // JSON 데이터 구조 확인
+      if (jsonData.length > 0) {
+        console.log(`🔍 JSON 첫 번째: ${jsonData[0]?.name || '이름없음'} (ID: ${jsonData[0]?.id})`);
+        console.log(`🔍 JSON 마지막: ${jsonData[jsonData.length - 1]?.name || '이름없음'} (ID: ${jsonData[jsonData.length - 1]?.id})`);
+      }
+      
+      return NextResponse.json(jsonData)
     } catch (fallbackError) {
       console.error('❌ JSON 폴백도 실패:', fallbackError)
       

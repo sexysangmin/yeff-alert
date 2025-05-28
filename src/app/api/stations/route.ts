@@ -162,7 +162,8 @@ export async function GET() {
       })) || []
     })) || []
 
-    // 중복 제거 (ID 기준)
+    // 중복 제거 비활성화 - 실제 3568개 투표소 모두 표시
+    /* 
     const uniqueStations = formattedStations.filter((station, index) => 
       formattedStations.findIndex(s => s.id === station.id) === index
     );
@@ -177,8 +178,10 @@ export async function GET() {
       const duplicateIds = allIds.filter((id, index) => allIds.indexOf(id) !== index);
       console.warn('중복된 ID들:', [...new Set(duplicateIds)]);
     }
+    */
 
-    const response = NextResponse.json(uniqueStations);
+    console.log(`✅ 총 ${formattedStations.length}개 투표소 반환`);
+    const response = NextResponse.json(formattedStations);
     response.headers.set('Cache-Control', 'no-cache, no-store, must-revalidate');
     
     return response;

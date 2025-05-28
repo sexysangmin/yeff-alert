@@ -106,6 +106,10 @@ export async function GET() {
       youtubeUrls: {
         morning: station.youtube_morning_url || '',
         afternoon: station.youtube_afternoon_url || ''
+      },
+      youtubeRegisteredAt: {
+        morning: station.youtube_morning_registered_at ? new Date(station.youtube_morning_registered_at) : null,
+        afternoon: station.youtube_afternoon_registered_at ? new Date(station.youtube_afternoon_registered_at) : null
       }
     })) || []
 
@@ -142,7 +146,8 @@ export async function GET() {
           exitCount: 0,
           lastUpdated: new Date('2025-01-27T10:00:00.000Z'),
           alerts: [],
-          youtubeUrls: { morning: "", afternoon: "" }
+          youtubeUrls: { morning: "", afternoon: "" },
+          youtubeRegisteredAt: { morning: null, afternoon: null }
         }
       ]
       
@@ -180,12 +185,42 @@ export async function PUT(request: NextRequest) {
     }
 
     if (updates.youtubeUrls) {
+      const { data: currentStation } = await supabase
+        .from('polling_stations')
+        .select('youtube_morning_url, youtube_afternoon_url, youtube_morning_registered_at, youtube_afternoon_registered_at')
+        .eq('id', stationId)
+        .single();
+
       updateData.youtube_morning_url = updates.youtubeUrls.morning || null
       updateData.youtube_afternoon_url = updates.youtubeUrls.afternoon || null
       
+      // 처음 등록되는 경우에만 등록시간 설정
+      if (updates.youtubeUrls.morning && !currentStation?.youtube_morning_url) {
+        updateData.youtube_morning_registered_at = new Date().toISOString();
+        console.log('📅 오전 유튜브 링크 첫 등록시간 설정');
+      }
+      
+      if (updates.youtubeUrls.afternoon && !currentStation?.youtube_afternoon_url) {
+        updateData.youtube_afternoon_registered_at = new Date().toISOString();
+        console.log('📅 오후 유튜브 링크 첫 등록시간 설정');
+      }
+      
+      // 링크가 제거되는 경우 등록시간도 제거
+      if (!updates.youtubeUrls.morning && currentStation?.youtube_morning_url) {
+        updateData.youtube_morning_registered_at = null;
+        console.log('🗑️ 오전 유튜브 링크 등록시간 제거');
+      }
+      
+      if (!updates.youtubeUrls.afternoon && currentStation?.youtube_afternoon_url) {
+        updateData.youtube_afternoon_registered_at = null;
+        console.log('🗑️ 오후 유튜브 링크 등록시간 제거');
+      }
+      
       console.log('📺 유튜브 URL 업데이트:', {
         morning: updateData.youtube_morning_url,
-        afternoon: updateData.youtube_afternoon_url
+        afternoon: updateData.youtube_afternoon_url,
+        morningRegisteredAt: updateData.youtube_morning_registered_at,
+        afternoonRegisteredAt: updateData.youtube_afternoon_registered_at
       });
       
       // 유튜브 링크가 모두 제거되면 모니터링 비활성화

@@ -70,18 +70,6 @@ export default function AdminDashboard({ pollingStations, onLogout }: AdminDashb
   useEffect(() => {
     const logs: ActivityLog[] = [];
     
-    // localStorage에서 유튜브 등록시간 기록 가져오기
-    const getYoutubeRegistrationTime = (stationId: string, period: 'morning' | 'afternoon'): Date => {
-      const key = `youtube_${stationId}_${period}_registered_at`;
-      const savedTime = localStorage.getItem(key);
-      if (savedTime) {
-        return new Date(savedTime);
-      }
-      // 등록시간이 없으면 현재 투표소의 lastUpdated 사용
-      const station = pollingStations.find(s => s.id === stationId);
-      return station ? station.lastUpdated : new Date();
-    };
-    
     // 유튜브 링크 추가 로그
     youtubeStations.forEach(station => {
       if (station.youtubeUrls?.morning) {
@@ -91,7 +79,7 @@ export default function AdminDashboard({ pollingStations, onLogout }: AdminDashb
           stationId: station.id,
           stationName: station.name,
           message: '오전 유튜브 링크 등록',
-          timestamp: getYoutubeRegistrationTime(station.id, 'morning'),
+          timestamp: station.youtubeRegisteredAt?.morning || station.lastUpdated,
           data: { url: station.youtubeUrls.morning, period: 'morning' }
         });
       }
@@ -102,7 +90,7 @@ export default function AdminDashboard({ pollingStations, onLogout }: AdminDashb
           stationId: station.id,
           stationName: station.name,
           message: '오후 유튜브 링크 등록',
-          timestamp: getYoutubeRegistrationTime(station.id, 'afternoon'),
+          timestamp: station.youtubeRegisteredAt?.afternoon || station.lastUpdated,
           data: { url: station.youtubeUrls.afternoon, period: 'afternoon' }
         });
       }
@@ -603,26 +591,49 @@ export default function AdminDashboard({ pollingStations, onLogout }: AdminDashb
                               <p className="text-sm text-foreground">
                                 {(() => {
                                   try {
-                                    const originalDate = station.lastUpdated instanceof Date 
-                                      ? station.lastUpdated 
-                                      : new Date(station.lastUpdated);
+                                    // 데이터베이스에서 실제 등록시간 가져오기
+                                    const morningRegisteredAt = station.youtubeRegisteredAt?.morning;
+                                    const afternoonRegisteredAt = station.youtubeRegisteredAt?.afternoon;
                                     
-                                    // 디버깅: 콘솔에 원본 시간 출력
-                                    console.log('Original lastUpdated:', station.lastUpdated);
-                                    console.log('Parsed date:', originalDate);
+                                    // 오전/오후 중 가장 최근 등록시간 사용
+                                    let latestRegisteredAt = null;
                                     
-                                    // 임시로 현재 시간 사용 (실제 등록은 방금 전이므로)
-                                    const now = new Date();
+                                    if (morningRegisteredAt && afternoonRegisteredAt) {
+                                      latestRegisteredAt = morningRegisteredAt > afternoonRegisteredAt ? 
+                                        morningRegisteredAt : afternoonRegisteredAt;
+                                    } else if (morningRegisteredAt) {
+                                      latestRegisteredAt = morningRegisteredAt;
+                                    } else if (afternoonRegisteredAt) {
+                                      latestRegisteredAt = afternoonRegisteredAt;
+                                    }
                                     
-                                    return now.toLocaleString('ko-KR', {
-                                      timeZone: 'Asia/Seoul',
-                                      year: 'numeric',
-                                      month: '2-digit',
-                                      day: '2-digit',
-                                      hour: '2-digit',
-                                      minute: '2-digit'
-                                    });
+                                    if (latestRegisteredAt) {
+                                      const date = latestRegisteredAt instanceof Date ? 
+                                        latestRegisteredAt : new Date(latestRegisteredAt);
+                                      return date.toLocaleString('ko-KR', {
+                                        timeZone: 'Asia/Seoul',
+                                        year: 'numeric',
+                                        month: '2-digit',
+                                        day: '2-digit',
+                                        hour: '2-digit',
+                                        minute: '2-digit'
+                                      });
+                                    } else {
+                                      // 등록시간이 없으면 최근 업데이트 시간 사용 (기존 데이터 호환성)
+                                      const date = station.lastUpdated instanceof Date 
+                                        ? station.lastUpdated 
+                                        : new Date(station.lastUpdated);
+                                      return date.toLocaleString('ko-KR', {
+                                        timeZone: 'Asia/Seoul',
+                                        year: 'numeric',
+                                        month: '2-digit',
+                                        day: '2-digit',
+                                        hour: '2-digit',
+                                        minute: '2-digit'
+                                      }) + ' (추정)';
+                                    }
                                   } catch (error) {
+                                    console.error('등록시간 표시 오류:', error);
                                     return '시간 정보 없음';
                                   }
                                 })()}

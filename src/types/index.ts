@@ -12,6 +12,10 @@ export interface PollingStation {
     morning: string;
     afternoon: string;
   };
+  youtubeRegisteredAt?: {
+    morning: Date | null;
+    afternoon: Date | null;
+  };
   adminId?: string;
   entryCount: number;
   exitCount: number;

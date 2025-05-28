@@ -149,27 +149,6 @@ export default function MonitorDashboard({ pollingStations, onStationUpdate }: M
       const result = await response.json();
       console.log('✅ API 응답 성공:', result);
 
-      // 성공 시 등록시간을 localStorage에 저장
-      const now = new Date().toISOString();
-      if (morningUrlTrimmed) {
-        localStorage.setItem(`youtube_${selectedStation.id}_morning_registered_at`, now);
-        console.log('💾 오전 유튜브 등록시간 저장:', now);
-      }
-      if (afternoonUrlTrimmed) {
-        localStorage.setItem(`youtube_${selectedStation.id}_afternoon_registered_at`, now);
-        console.log('💾 오후 유튜브 등록시간 저장:', now);
-      }
-      
-      // 링크가 제거된 경우 등록시간도 제거
-      if (!morningUrlTrimmed) {
-        localStorage.removeItem(`youtube_${selectedStation.id}_morning_registered_at`);
-        console.log('🗑️ 오전 유튜브 등록시간 제거');
-      }
-      if (!afternoonUrlTrimmed) {
-        localStorage.removeItem(`youtube_${selectedStation.id}_afternoon_registered_at`);
-        console.log('🗑️ 오후 유튜브 등록시간 제거');
-      }
-
       // 성공 시 즉시 데이터 새로고침
       console.log('🔄 데이터 강제 새로고침...');
       window.location.reload();

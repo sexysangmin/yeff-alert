@@ -47,12 +47,6 @@ export default function AdminPage() {
     }
   };
 
-  const handleLogout = () => {
-    setIsAuthenticated(false);
-    sessionStorage.removeItem('admin_authenticated');
-    setPassword('');
-  };
-
   if (loading) {
     return (
       <div className="min-h-screen bg-background flex items-center justify-center">
@@ -100,7 +94,7 @@ export default function AdminPage() {
 
   return (
     <div>
-      <AdminDashboard pollingStations={pollingStations} onLogout={handleLogout} />
+      <AdminDashboard pollingStations={pollingStations} />
     </div>
   );
 } 

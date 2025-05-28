@@ -26,7 +26,6 @@ import {
 
 interface AdminDashboardProps {
   pollingStations: PollingStation[];
-  onLogout: () => void;
 }
 
 interface ActivityLog {
@@ -40,7 +39,7 @@ interface ActivityLog {
   data?: any;
 }
 
-export default function AdminDashboard({ pollingStations, onLogout }: AdminDashboardProps) {
+export default function AdminDashboard({ pollingStations }: AdminDashboardProps) {
   const [activeTab, setActiveTab] = useState<'youtube' | 'alerts' | 'logs' | 'backup'>('alerts');
   const [filterType, setFilterType] = useState<'all' | 'morning' | 'afternoon'>('all');
   const [activityLogs, setActivityLogs] = useState<ActivityLog[]>([]);
@@ -319,7 +318,7 @@ export default function AdminDashboard({ pollingStations, onLogout }: AdminDashb
       {/* 상단 헤더 */}
       <div className="bg-card border-b border-border">
         <div className="max-w-7xl mx-auto px-4 py-3">
-          <div className="flex items-center justify-between">
+          <div className="flex items-center">
             <a 
               href="/" 
               className="flex items-center space-x-3 hover:opacity-80 transition-opacity"
@@ -329,14 +328,8 @@ export default function AdminDashboard({ pollingStations, onLogout }: AdminDashb
                 alt="YEFF 로고" 
                 className="h-8 w-8"
               />
-              <h1 className="text-2xl font-bold text-foreground">YEFF ALERT</h1>
+              <h1 className="text-2xl font-bold text-foreground">YEFF ALERT 관리자</h1>
             </a>
-            <button
-              onClick={onLogout}
-              className="px-4 py-2 bg-red-600 text-white rounded-md hover:bg-red-700 transition-colors"
-            >
-              로그아웃
-            </button>
           </div>
         </div>
       </div>

@@ -196,10 +196,19 @@ export default function AlertsList({ pollingStations, onStationSelect, onAlertsV
                         <p className="text-xs text-red-800">{station.latestAlert.message}</p>
                         <p className="text-xs text-red-600 flex items-center gap-1 mt-1">
                           <Clock className="w-3 h-3" />
-                          {formatDistanceToNow(new Date(station.latestAlert.timestamp), { 
-                            addSuffix: true, 
-                            locale: ko 
-                          })}
+                          {(() => {
+                            try {
+                              const date = station.latestAlert.timestamp instanceof Date 
+                                ? station.latestAlert.timestamp 
+                                : new Date(station.latestAlert.timestamp);
+                              return formatDistanceToNow(date, { 
+                                addSuffix: true, 
+                                locale: ko 
+                              });
+                            } catch (error) {
+                              return '시간 정보 없음';
+                            }
+                          })()}
                         </p>
                       </div>
                     </div>
@@ -249,10 +258,19 @@ export default function AlertsList({ pollingStations, onStationSelect, onAlertsV
                         {station.district} {station.address}
                       </p>
                       <p className="text-xs text-gray-500 mt-1">
-                        최종 업데이트: {formatDistanceToNow(new Date(station.lastUpdated), { 
-                          addSuffix: true, 
-                          locale: ko 
-                        })}
+                        최종 업데이트: {(() => {
+                          try {
+                            const date = station.lastUpdated instanceof Date 
+                              ? station.lastUpdated 
+                              : new Date(station.lastUpdated);
+                            return formatDistanceToNow(date, { 
+                              addSuffix: true, 
+                              locale: ko 
+                            });
+                          } catch (error) {
+                            return '시간 정보 없음';
+                          }
+                        })()}
                       </p>
                     </div>
                     <div className="w-2 h-2 bg-gray-400 rounded-full"></div>

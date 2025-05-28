@@ -576,7 +576,16 @@ export default function AdminDashboard({ pollingStations, onLogout }: AdminDashb
                             <div className="text-right">
                               <p className="text-xs text-muted-foreground">등록시간</p>
                               <p className="text-sm text-foreground">
-                                {formatDistanceToNow(station.lastUpdated, { addSuffix: true, locale: ko })}
+                                {(() => {
+                                  try {
+                                    const date = station.lastUpdated instanceof Date 
+                                      ? station.lastUpdated 
+                                      : new Date(station.lastUpdated);
+                                    return formatDistanceToNow(date, { addSuffix: true, locale: ko });
+                                  } catch (error) {
+                                    return '시간 정보 없음';
+                                  }
+                                })()}
                               </p>
                             </div>
                           </div>
@@ -711,7 +720,16 @@ export default function AdminDashboard({ pollingStations, onLogout }: AdminDashb
                                 )}
                                 
                                 <p className="text-xs text-muted-foreground">
-                                  발생 시간: {formatDistanceToNow(alert.timestamp, { addSuffix: true, locale: ko })}
+                                  발생 시간: {(() => {
+                                    try {
+                                      const date = alert.timestamp instanceof Date 
+                                        ? alert.timestamp 
+                                        : new Date(alert.timestamp);
+                                      return formatDistanceToNow(date, { addSuffix: true, locale: ko });
+                                    } catch (error) {
+                                      return '시간 정보 없음';
+                                    }
+                                  })()}
                                 </p>
                               </div>
                               
@@ -809,7 +827,16 @@ export default function AdminDashboard({ pollingStations, onLogout }: AdminDashb
                         <div className="text-right">
                           <p className="text-xs text-muted-foreground flex items-center">
                             <Calendar className="h-3 w-3 mr-1" />
-                            {formatDistanceToNow(log.timestamp, { addSuffix: true, locale: ko })}
+                            {(() => {
+                              try {
+                                const date = log.timestamp instanceof Date 
+                                  ? log.timestamp 
+                                  : new Date(log.timestamp);
+                                return formatDistanceToNow(date, { addSuffix: true, locale: ko });
+                              } catch (error) {
+                                return '시간 정보 없음';
+                              }
+                            })()}
                           </p>
                         </div>
                       </div>

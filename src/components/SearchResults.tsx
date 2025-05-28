@@ -80,10 +80,19 @@ export default function SearchResults({ stations, onStationSelect, isVisible }: 
                     {station.isActive ? '모니터링 중' : '비활성'}
                   </div>
                   <div className="text-xs text-muted-foreground">
-                    {station.lastUpdated.toLocaleTimeString('ko-KR', {
-                      hour: '2-digit',
-                      minute: '2-digit'
-                    })}
+                    {(() => {
+                      try {
+                        const date = station.lastUpdated instanceof Date 
+                          ? station.lastUpdated 
+                          : new Date(station.lastUpdated);
+                        return date.toLocaleTimeString('ko-KR', {
+                          hour: '2-digit',
+                          minute: '2-digit'
+                        });
+                      } catch (error) {
+                        return '시간 정보 없음';
+                      }
+                    })()}
                   </div>
                 </div>
               </div>

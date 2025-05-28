@@ -4,6 +4,7 @@ import React, { useState, useEffect, useMemo, useRef, useCallback } from 'react'
 import { PollingStation } from '@/types';
 import { formatDistanceToNow } from 'date-fns';
 import { ko } from 'date-fns/locale';
+import PollingStationDetail from './PollingStationDetail';
 import { 
   Youtube, 
   AlertTriangle, 
@@ -46,6 +47,7 @@ export default function AdminDashboard({ pollingStations, onLogout }: AdminDashb
   const [lastUpdate, setLastUpdate] = useState<Date>(new Date());
   const [isAutoRefresh, setIsAutoRefresh] = useState(true);
   const [refreshInterval, setRefreshInterval] = useState(60); // 60초로 변경
+  const [selectedStation, setSelectedStation] = useState<PollingStation | null>(null);
   
   const intervalRef = useRef<NodeJS.Timeout | null>(null);
   const isMountedRef = useRef(true);
@@ -156,6 +158,11 @@ export default function AdminDashboard({ pollingStations, onLogout }: AdminDashb
   const handleRefresh = () => {
     setLastUpdate(new Date());
     window.location.reload();
+  };
+
+  // 투표소 선택 핸들러
+  const handleStationSelect = (station: PollingStation) => {
+    setSelectedStation(station);
   };
 
   // 알림 해결 처리
@@ -687,11 +694,17 @@ export default function AdminDashboard({ pollingStations, onLogout }: AdminDashb
                     .filter(station => station.alerts.length > 0)
                     .map((station) => (
                     <div key={station.id} className="bg-card border border-border rounded-lg p-4">
-                      <h3 className="font-medium text-foreground mb-3 flex items-center">
-                        <MapPin className="h-4 w-4 mr-2" />
-                        {station.name}
-                        <span className="ml-2 text-sm text-muted-foreground">({station.address})</span>
-                      </h3>
+                      <button
+                        onClick={() => handleStationSelect(station)}
+                        className="w-full text-left mb-3 hover:bg-muted/50 rounded-lg p-2 transition-colors"
+                      >
+                        <h3 className="font-medium text-foreground flex items-center">
+                          <MapPin className="h-4 w-4 mr-2" />
+                          {station.name}
+                          <span className="ml-2 text-sm text-muted-foreground">({station.address})</span>
+                          <span className="ml-auto text-xs text-blue-600">📺 영상 보기</span>
+                        </h3>
+                      </button>
                       
                       <div className="space-y-3">
                         {station.alerts.map((alert) => (
@@ -1016,6 +1029,14 @@ export default function AdminDashboard({ pollingStations, onLogout }: AdminDashb
           </div>
         </div>
       </div>
+
+      {/* 투표소 세부사항 모달 */}
+      {selectedStation && (
+        <PollingStationDetail
+          station={selectedStation}
+          onClose={() => setSelectedStation(null)}
+        />
+      )}
     </div>
   );
 }

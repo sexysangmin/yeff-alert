@@ -11,35 +11,12 @@ export async function GET() {
     const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
     const isSupabaseConfigured = supabaseUrl && supabaseUrl !== 'https://placeholder.supabase.co';
     
-    // 임시로 JSON 폴백을 먼저 시도 (디버깅용)
-    console.log('🔧 임시 디버깅: JSON 파일 직접 로드 시도');
-    
-    try {
-      // JSON 파일 직접 로드
-      const jsonPath = path.join(process.cwd(), 'public', 'data', 'polling_stations_complete_all.json')
-      const jsonData = JSON.parse(fs.readFileSync(jsonPath, 'utf8'))
-      
-      console.log('📄 JSON 직접 로드 성공:', jsonData.length, '개 투표소')
-      
-      // JSON 데이터 구조 확인
-      if (jsonData.length > 0) {
-        console.log(`🔍 JSON 첫 번째: ${jsonData[0]?.name || '이름없음'} (ID: ${jsonData[0]?.id})`);
-        console.log(`🔍 JSON 마지막: ${jsonData[jsonData.length - 1]?.name || '이름없음'} (ID: ${jsonData[jsonData.length - 1]?.id})`);
-      }
-      
-      const response = NextResponse.json(jsonData);
-      response.headers.set('Cache-Control', 'public, s-maxage=5, stale-while-revalidate=10');
-      return response;
-      
-    } catch (jsonError) {
-      console.error('❌ JSON 직접 로드 실패:', jsonError);
-      // JSON 실패하면 Supabase 시도
-    }
-    
     if (!isSupabaseConfigured) {
       console.log('⚠️ Supabase 미설정, JSON 데이터 직접 로드');
       throw new Error('Supabase 설정 필요');
     }
+
+    console.log('🔄 Supabase에서 데이터 로드 시도...');
 
     // 투표소 데이터 조회 - 페이지네이션으로 모든 데이터 가져오기
     let allStations: any[] = [];
@@ -64,7 +41,7 @@ export async function GET() {
       } else {
         allStations = [...allStations, ...stations];
         from += pageSize;
-        hasMore = stations.length === pageSize; // 페이지 크기만큼 왔으면 더 있을 수 있음
+        hasMore = stations.length === pageSize;
       }
     }
 
@@ -74,17 +51,7 @@ export async function GET() {
       throw new Error('데이터 없음');
     }
 
-    // 개발 환경에서만 로딩 메시지 출력
-    if (process.env.NODE_ENV === 'development') {
-      console.log(`✅ Supabase에서 ${allStations.length}개 투표소 로드 완료`);
-    }
-    
-    // 항상 개수 정보 출력 (디버깅용)
-    console.log(`📊 총 투표소 개수: ${allStations.length}개`);
-    if (allStations.length > 0) {
-      console.log(`🔍 첫 번째 투표소: ${allStations[0]?.name || '이름없음'} (ID: ${allStations[0]?.id})`);
-      console.log(`🔍 마지막 투표소: ${allStations[allStations.length - 1]?.name || '이름없음'} (ID: ${allStations[allStations.length - 1]?.id})`);
-    }
+    console.log(`✅ Supabase에서 ${allStations.length}개 투표소 로드 완료`);
 
     // 알림 데이터 별도 조회
     const { data: alerts, error: alertsError } = await supabase
@@ -94,7 +61,6 @@ export async function GET() {
 
     if (alertsError) {
       console.error('알림 조회 오류:', alertsError)
-      // 알림 에러는 무시하고 계속 진행
     }
 
     // 데이터베이스 형식을 프론트엔드 형식으로 변환
@@ -134,9 +100,7 @@ export async function GET() {
     })) || []
 
     const response = NextResponse.json(formattedStations);
-    
-    // 캐싱 시간을 5초로 단축 (유튜브 링크 등록 시 빠른 반영)
-    response.headers.set('Cache-Control', 'public, s-maxage=5, stale-while-revalidate=10');
+    response.headers.set('Cache-Control', 'no-cache, no-store, must-revalidate');
     
     return response;
   } catch (error) {
@@ -149,13 +113,9 @@ export async function GET() {
       
       console.log('📄 JSON 폴백 데이터 로드:', jsonData.length, '개 투표소')
       
-      // JSON 데이터 구조 확인
-      if (jsonData.length > 0) {
-        console.log(`🔍 JSON 첫 번째: ${jsonData[0]?.name || '이름없음'} (ID: ${jsonData[0]?.id})`);
-        console.log(`🔍 JSON 마지막: ${jsonData[jsonData.length - 1]?.name || '이름없음'} (ID: ${jsonData[jsonData.length - 1]?.id})`);
-      }
-      
-      return NextResponse.json(jsonData)
+      const response = NextResponse.json(jsonData);
+      response.headers.set('Cache-Control', 'no-cache, no-store, must-revalidate');
+      return response;
     } catch (fallbackError) {
       console.error('❌ JSON 폴백도 실패:', fallbackError)
       
@@ -183,12 +143,21 @@ export async function GET() {
 
 // 투표소 업데이트
 export async function PUT(request: NextRequest) {
+  console.log('🔄 PUT /api/stations 요청 받음');
+  
   try {
-    const { stationId, updates } = await request.json()
+    const body = await request.json();
+    console.log('📋 요청 본문:', body);
+    
+    const { stationId, updates } = body;
 
     if (!stationId) {
+      console.error('❌ stationId가 없음');
       return NextResponse.json({ error: '투표소 ID가 필요합니다.' }, { status: 400 })
     }
+
+    console.log('🎯 업데이트할 투표소 ID:', stationId);
+    console.log('📝 업데이트 데이터:', updates);
 
     // 업데이트할 데이터 구성
     const updateData: Record<string, unknown> = {
@@ -197,15 +166,25 @@ export async function PUT(request: NextRequest) {
 
     if (updates.isActive !== undefined) {
       updateData.is_active = updates.isActive
+      console.log('✅ isActive 업데이트:', updates.isActive);
     }
 
     if (updates.youtubeUrls) {
       updateData.youtube_morning_url = updates.youtubeUrls.morning || null
       updateData.youtube_afternoon_url = updates.youtubeUrls.afternoon || null
       
+      console.log('📺 유튜브 URL 업데이트:', {
+        morning: updateData.youtube_morning_url,
+        afternoon: updateData.youtube_afternoon_url
+      });
+      
       // 유튜브 링크가 모두 제거되면 모니터링 비활성화
       if (!updates.youtubeUrls.morning && !updates.youtubeUrls.afternoon) {
         updateData.is_active = false
+        console.log('❌ 모든 유튜브 링크 제거됨, 비활성화');
+      } else {
+        updateData.is_active = true
+        console.log('✅ 유튜브 링크 있음, 활성화');
       }
     }
 
@@ -214,15 +193,21 @@ export async function PUT(request: NextRequest) {
       updateData.inside_count = updates.entryDetails.inside || 0
       updateData.outside_count = updates.entryDetails.outside || 0
       updateData.last_updated = new Date().toISOString()
+      console.log('👥 출입 세부정보 업데이트:', updates.entryDetails);
     }
 
     if (updates.entryCount !== undefined) {
       updateData.entry_count = updates.entryCount
+      console.log('📊 입장 수 업데이트:', updates.entryCount);
     }
 
     if (updates.exitCount !== undefined) {
       updateData.exit_count = updates.exitCount
+      console.log('📊 퇴장 수 업데이트:', updates.exitCount);
     }
+
+    console.log('💾 최종 업데이트 데이터:', updateData);
+    console.log('🔍 Supabase 업데이트 시도...');
 
     const { data, error } = await supabase
       .from('polling_stations')
@@ -232,13 +217,21 @@ export async function PUT(request: NextRequest) {
       .single()
 
     if (error) {
-      console.error('투표소 업데이트 오류:', error)
-      return NextResponse.json({ error: '투표소 업데이트에 실패했습니다.' }, { status: 500 })
+      console.error('❌ Supabase 업데이트 오류:', error)
+      return NextResponse.json({ 
+        error: '투표소 업데이트에 실패했습니다.',
+        details: error.message 
+      }, { status: 500 })
     }
 
+    console.log('✅ Supabase 업데이트 성공:', data);
     return NextResponse.json({ success: true, data })
+    
   } catch (error) {
-    console.error('투표소 업데이트 오류:', error)
-    return NextResponse.json({ error: '서버 오류가 발생했습니다.' }, { status: 500 })
+    console.error('❌ PUT API 전체 오류:', error)
+    return NextResponse.json({ 
+      error: '서버 오류가 발생했습니다.',
+      details: error instanceof Error ? error.message : String(error)
+    }, { status: 500 })
   }
 } 

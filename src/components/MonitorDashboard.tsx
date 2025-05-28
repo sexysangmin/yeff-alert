@@ -119,45 +119,46 @@ export default function MonitorDashboard({ pollingStations, onStationUpdate }: M
     });
     
     try {
-      // API로 업데이트 요청
+      console.log('🌐 API 요청 시작...');
+      
       const response = await fetch('/api/stations', {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
+          'Cache-Control': 'no-cache'
         },
+        cache: 'no-store',
         body: JSON.stringify({
           stationId: selectedStation.id,
-          updates
+          updates: {
+            youtubeUrls: {
+              morning: morningUrlTrimmed,
+              afternoon: afternoonUrlTrimmed
+            }
+          }
         })
       });
 
-      console.log('📡 API 응답 상태:', response.status, response.statusText);
-
+      console.log('📡 API 응답 상태:', response.status);
+      
       if (!response.ok) {
-        const errorText = await response.text();
-        console.error('❌ API 응답 에러:', errorText);
-        throw new Error(`API 오류: ${response.status} - ${errorText}`);
+        const errorData = await response.json();
+        throw new Error(`API 오류 ${response.status}: ${errorData.error || '알 수 없는 오류'}`);
       }
 
       const result = await response.json();
-      console.log('✅ API 업데이트 성공:', result);
-      
-      // 로컬 상태도 업데이트
-      onStationUpdate(selectedStation.id, updates);
-      
-      if (hasUrls) {
-        alert('✅ 유튜브 링크가 등록되어 투표소가 활성화되었습니다!\n\n변경사항이 모든 사용자에게 반영되었습니다.');
-      } else {
-        alert('✅ 유튜브 링크가 제거되어 투표소가 비활성화되었습니다!');
-      }
+      console.log('✅ API 응답 성공:', result);
 
-      // 즉시 반영을 위해 페이지 새로고침
-      console.log('🔄 1초 후 페이지 새로고침');
-      setTimeout(() => {
-        window.location.reload();
-      }, 1000);
-      
-    } catch (error) {
+      // 성공 시 즉시 데이터 새로고침
+      console.log('🔄 데이터 강제 새로고침...');
+      window.location.reload();
+
+      if (hasUrls) {
+        alert('✅ 유튜브 링크가 성공적으로 등록되었습니다!')
+      } else {
+        alert('✅ 유튜브 링크가 성공적으로 제거되었습니다!')
+      }
+    } catch (error: unknown) {
       console.error('❌ API 업데이트 실패:', error);
       
       // API 실패 시 로컬 상태만 업데이트

@@ -475,17 +475,6 @@ export default function AdminDashboard({ pollingStations, onLogout }: AdminDashb
           <div className="border-b border-border">
             <nav className="flex space-x-8 px-6">
               <button
-                onClick={() => setActiveTab('youtube')}
-                className={`py-4 px-1 border-b-2 font-medium text-sm ${
-                  activeTab === 'youtube'
-                    ? 'border-primary text-primary'
-                    : 'border-transparent text-muted-foreground hover:text-foreground'
-                }`}
-              >
-                <Youtube className="inline h-4 w-4 mr-2" />
-                유튜브 링크 ({youtubeStations.length})
-              </button>
-              <button
                 onClick={() => setActiveTab('alerts')}
                 className={`py-4 px-1 border-b-2 font-medium text-sm ${
                   activeTab === 'alerts'
@@ -495,6 +484,17 @@ export default function AdminDashboard({ pollingStations, onLogout }: AdminDashb
               >
                 <AlertTriangle className="inline h-4 w-4 mr-2" />
                 알림 관리 ({pollingStations.reduce((count, station) => count + station.alerts.length, 0)})
+              </button>
+              <button
+                onClick={() => setActiveTab('youtube')}
+                className={`py-4 px-1 border-b-2 font-medium text-sm ${
+                  activeTab === 'youtube'
+                    ? 'border-primary text-primary'
+                    : 'border-transparent text-muted-foreground hover:text-foreground'
+                }`}
+              >
+                <Youtube className="inline h-4 w-4 mr-2" />
+                유튜브 링크 ({youtubeStations.length})
               </button>
               <button
                 onClick={() => setActiveTab('logs')}

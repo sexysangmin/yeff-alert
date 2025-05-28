@@ -345,7 +345,13 @@ export default function AdminDashboard({ pollingStations, onLogout }: AdminDashb
           <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
             <div className="flex items-center space-x-4">
               <div className="text-sm text-muted-foreground">
-                마지막 업데이트: {lastUpdate.toLocaleTimeString('ko-KR')}
+                마지막 업데이트: {lastUpdate.toLocaleString('ko-KR', {
+                  timeZone: 'Asia/Seoul',
+                  month: '2-digit',
+                  day: '2-digit',
+                  hour: '2-digit',
+                  minute: '2-digit'
+                })}
               </div>
               {isAutoRefresh && (
                 <div className="text-sm text-green-600 flex items-center">
@@ -582,6 +588,7 @@ export default function AdminDashboard({ pollingStations, onLogout }: AdminDashb
                                       ? station.lastUpdated 
                                       : new Date(station.lastUpdated);
                                     return date.toLocaleString('ko-KR', {
+                                      timeZone: 'Asia/Seoul',
                                       year: 'numeric',
                                       month: '2-digit',
                                       day: '2-digit',
@@ -732,6 +739,7 @@ export default function AdminDashboard({ pollingStations, onLogout }: AdminDashb
                                         ? alert.timestamp 
                                         : new Date(alert.timestamp);
                                       return date.toLocaleString('ko-KR', {
+                                        timeZone: 'Asia/Seoul',
                                         year: 'numeric',
                                         month: '2-digit',
                                         day: '2-digit',
@@ -845,6 +853,7 @@ export default function AdminDashboard({ pollingStations, onLogout }: AdminDashb
                                   ? log.timestamp 
                                   : new Date(log.timestamp);
                                 return date.toLocaleString('ko-KR', {
+                                  timeZone: 'Asia/Seoul',
                                   year: 'numeric',
                                   month: '2-digit',
                                   day: '2-digit',
@@ -939,7 +948,14 @@ export default function AdminDashboard({ pollingStations, onLogout }: AdminDashb
                       <div className="flex justify-between items-center py-2">
                         <span className="text-sm text-muted-foreground">마지막 업데이트</span>
                         <span className="text-sm font-medium text-foreground">
-                          {lastUpdate.toLocaleString('ko-KR')}
+                          {lastUpdate.toLocaleString('ko-KR', {
+                            timeZone: 'Asia/Seoul',
+                            year: 'numeric',
+                            month: '2-digit',
+                            day: '2-digit',
+                            hour: '2-digit',
+                            minute: '2-digit'
+                          })}
                         </span>
                       </div>
                     </div>

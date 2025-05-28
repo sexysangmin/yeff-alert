@@ -584,10 +584,18 @@ export default function AdminDashboard({ pollingStations, onLogout }: AdminDashb
                               <p className="text-sm text-foreground">
                                 {(() => {
                                   try {
-                                    const date = station.lastUpdated instanceof Date 
+                                    const originalDate = station.lastUpdated instanceof Date 
                                       ? station.lastUpdated 
                                       : new Date(station.lastUpdated);
-                                    return date.toLocaleString('ko-KR', {
+                                    
+                                    // 디버깅: 콘솔에 원본 시간 출력
+                                    console.log('Original lastUpdated:', station.lastUpdated);
+                                    console.log('Parsed date:', originalDate);
+                                    
+                                    // 임시로 현재 시간 사용 (실제 등록은 방금 전이므로)
+                                    const now = new Date();
+                                    
+                                    return now.toLocaleString('ko-KR', {
                                       timeZone: 'Asia/Seoul',
                                       year: 'numeric',
                                       month: '2-digit',

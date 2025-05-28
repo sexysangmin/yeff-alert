@@ -1,6 +1,7 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo, useCallback } from 'react';
+import dynamic from 'next/dynamic';
 import Header from '@/components/Header';
 import SearchBar from '@/components/SearchBar';
 import SearchResults from '@/components/SearchResults';
@@ -11,6 +12,21 @@ import MonitorLoginModal from '@/components/MonitorLoginModal';
 import MonitorDashboard from '@/components/MonitorDashboard';
 import NoSSR from '@/components/NoSSR';
 import { PollingStation } from '@/types';
+
+// 지도 컴포넌트를 동적 로딩으로 최적화
+const ClusteredMapComponent = dynamic(() => import('@/components/ClusteredMap'), {
+  loading: () => (
+    <div className="h-[600px] bg-secondary rounded-lg flex items-center justify-center">
+      <div className="text-center">
+        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary mx-auto mb-2"></div>
+        <p className="text-muted-foreground">지도 로딩 중...</p>
+      </div>
+    </div>
+  ),
+  ssr: false
+});
+
+const NoSSRComponent = dynamic(() => import('@/components/NoSSR'), { ssr: false });
 
 export default function Home() {
   const [pollingStations, setPollingStations] = useState<PollingStation[]>([]);
@@ -141,7 +157,7 @@ export default function Home() {
   }, []);
 
   // 검색 핸들러
-  const handleSearch = (query: string) => {
+  const handleSearch = useCallback((query: string) => {
     setSearchQuery(query);
     
     if (!query.trim()) {
@@ -154,10 +170,10 @@ export default function Home() {
       station.address.toLowerCase().includes(query.toLowerCase())
     );
     setFilteredStations(filtered);
-  };
+  }, [pollingStations]);
 
   // 필터 핸들러
-  const handleFilter = (filters: { status: string }) => {
+  const handleFilter = useCallback((filters: { status: string }) => {
     let filtered = pollingStations;
     
     // 먼저 검색어가 있다면 검색 필터 적용
@@ -186,26 +202,26 @@ export default function Home() {
     }
     
     setFilteredStations(filtered);
-  };
+  }, [pollingStations, searchQuery]);
 
   // 투표소 선택 핸들러
-  const handleStationSelect = (station: PollingStation) => {
+  const handleStationSelect = useCallback((station: PollingStation) => {
     setSelectedStation(station);
-  };
+  }, []);
 
   // 감시단 로그인 핸들러
-  const handleMonitorLogin = (isAuthenticated: boolean) => {
+  const handleMonitorLogin = useCallback((isAuthenticated: boolean) => {
     setIsMonitorMode(isAuthenticated);
-  };
+  }, []);
 
   // 홈으로 돌아가기 핸들러
-  const handleHomeClick = () => {
+  const handleHomeClick = useCallback(() => {
     setIsMonitorMode(false);
     setSelectedStation(null);
-  };
+  }, []);
 
   // 투표소 업데이트 핸들러 (감시단용)
-  const handleStationUpdate = (stationId: string, updates: Partial<PollingStation>) => {
+  const handleStationUpdate = useCallback((stationId: string, updates: Partial<PollingStation>) => {
     console.log('📝 page.tsx - 투표소 업데이트 받음:', {
       stationId,
       updates,
@@ -244,7 +260,14 @@ export default function Home() {
       
       return updated;
     });
-  };
+  }, []);
+
+  // 통계 데이터 메모이제이션
+  const stats = useMemo(() => ({
+    total: pollingStations.length,
+    active: pollingStations.filter(s => s.isActive).length,
+    alerts: pollingStations.filter(s => s.alerts.some(a => !a.resolved)).length
+  }), [pollingStations]);
 
   // 로딩 중이거나 클라이언트가 준비되지 않았을 때
   if (isLoading || !isClient || !mounted) {
@@ -362,7 +385,7 @@ export default function Home() {
               </p>
             </div>
             
-            <NoSSR
+            <NoSSRComponent
               fallback={
                 <div className="h-[600px] bg-secondary rounded-lg flex items-center justify-center">
                   <div className="text-center">
@@ -372,12 +395,12 @@ export default function Home() {
                 </div>
               }
             >
-              <ClusteredMap
+              <ClusteredMapComponent
                 pollingStations={filteredStations}
                 onStationSelect={handleStationSelect}
                 selectedStation={selectedStation || undefined}
               />
-            </NoSSR>
+            </NoSSRComponent>
           </div>
         )}
 
@@ -385,7 +408,7 @@ export default function Home() {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           <div className="bg-card/50 border border-border rounded-lg p-6 text-center shadow-lg hover:bg-card/70 transition-colors">
             <p className="text-muted-foreground mb-2">총 투표소</p>
-            <h3 className="text-2xl font-bold text-foreground">{pollingStations.length}</h3>
+            <h3 className="text-2xl font-bold text-foreground">{stats.total}</h3>
           </div>
           <button
             onClick={() => {
@@ -409,14 +432,14 @@ export default function Home() {
           >
             <div className="flex items-center justify-center gap-2">
               <h3 className="text-2xl font-bold text-emerald-500">
-                {pollingStations.filter(s => s.isActive).length}
+                {stats.active}
               </h3>
-              {pollingStations.filter(s => s.isActive).length > 0 && (
+              {stats.active > 0 && (
                 <div className="w-3 h-3 bg-emerald-500 rounded-full animate-pulse"></div>
               )}
             </div>
             <p className="text-muted-foreground">모니터링 중</p>
-            {pollingStations.filter(s => s.isActive).length > 0 && (
+            {stats.active > 0 && (
               <p className="text-xs text-emerald-600 mt-1">클릭하여 목록 보기</p>
             )}
           </button>
@@ -442,18 +465,18 @@ export default function Home() {
           >
             <div className="flex items-center justify-center gap-2">
               <h3 className={`text-2xl font-bold ${
-                pollingStations.filter(s => s.alerts.some(a => !a.resolved)).length > 0 
+                stats.alerts > 0 
                   ? 'text-red-500 animate-pulse' 
                   : 'text-amber-500'
               }`}>
-                {pollingStations.filter(s => s.alerts.some(a => !a.resolved)).length}
+                {stats.alerts}
               </h3>
-              {pollingStations.filter(s => s.alerts.some(a => !a.resolved)).length > 0 && (
+              {stats.alerts > 0 && (
                 <div className="w-3 h-3 bg-red-500 rounded-full animate-pulse"></div>
               )}
             </div>
             <p className="text-muted-foreground">알림 발생</p>
-            {pollingStations.filter(s => s.alerts.some(a => !a.resolved)).length > 0 && (
+            {stats.alerts > 0 && (
               <p className="text-xs text-red-600 mt-1">클릭하여 목록 보기</p>
             )}
           </button>

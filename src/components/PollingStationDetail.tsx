@@ -15,9 +15,36 @@ export default function PollingStationDetail({ station, onClose }: PollingStatio
   const getYoutubeEmbedUrl = (url: string) => {
     if (!url) return null;
     
-    // YouTube URL을 embed URL로 변환
-    const videoId = url.match(/(?:youtube\.com\/watch\?v=|youtu\.be\/)([^&\n?#]+)/)?.[1];
-    return videoId ? `https://www.youtube.com/embed/${videoId}?autoplay=1&mute=1` : null;
+    console.log('🎥 유튜브 URL 변환 시도:', url);
+    
+    // YouTube URL을 embed URL로 변환 (더 포괄적인 패턴)
+    let videoId = null;
+    
+    // 일반적인 패턴들
+    const patterns = [
+      /(?:youtube\.com\/watch\?v=)([^&\n?#]+)/,  // youtube.com/watch?v=...
+      /(?:youtu\.be\/)([^&\n?#]+)/,              // youtu.be/...
+      /(?:youtube\.com\/embed\/)([^&\n?#]+)/,    // youtube.com/embed/...
+      /(?:youtube\.com\/v\/)([^&\n?#]+)/         // youtube.com/v/...
+    ];
+    
+    for (const pattern of patterns) {
+      const match = url.match(pattern);
+      if (match) {
+        videoId = match[1];
+        break;
+      }
+    }
+    
+    if (!videoId) {
+      console.error('❌ 유효하지 않은 유튜브 URL:', url);
+      return null;
+    }
+    
+    const embedUrl = `https://www.youtube.com/embed/${videoId}?autoplay=1&mute=1`;
+    console.log('✅ 유튜브 embed URL 생성:', embedUrl);
+    
+    return embedUrl;
   };
 
   const currentUrl = selectedTime === 'morning' 

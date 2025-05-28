@@ -103,8 +103,8 @@ export async function GET() {
 
     const response = NextResponse.json(formattedStations);
     
-    // 캐싱 헤더 추가 (30초 캐시)
-    response.headers.set('Cache-Control', 'public, s-maxage=30, stale-while-revalidate=60');
+    // 캐싱 시간을 5초로 단축 (유튜브 링크 등록 시 빠른 반영)
+    response.headers.set('Cache-Control', 'public, s-maxage=5, stale-while-revalidate=10');
     
     return response;
   } catch (error) {

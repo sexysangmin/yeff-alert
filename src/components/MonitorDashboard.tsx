@@ -55,12 +55,33 @@ export default function MonitorDashboard({ pollingStations, onStationUpdate }: M
   const handleUrlUpdate = async () => {
     if (!selectedStation) return;
     
-    const hasUrls = !!(morningUrl.trim() || afternoonUrl.trim());
+    // 유튜브 URL 검증
+    const validateYouTubeUrl = (url: string) => {
+      if (!url.trim()) return true; // 빈 값은 허용
+      const youtubeRegex = /^(https?:\/\/)?(www\.)?(youtube\.com\/watch\?v=|youtu\.be\/)[\w-]+/;
+      return youtubeRegex.test(url.trim());
+    };
+
+    const morningUrlTrimmed = morningUrl.trim();
+    const afternoonUrlTrimmed = afternoonUrl.trim();
+
+    // URL 검증
+    if (morningUrlTrimmed && !validateYouTubeUrl(morningUrlTrimmed)) {
+      alert('❌ 오전 유튜브 링크가 올바르지 않습니다. YouTube URL을 확인해주세요.');
+      return;
+    }
+
+    if (afternoonUrlTrimmed && !validateYouTubeUrl(afternoonUrlTrimmed)) {
+      alert('❌ 오후 유튜브 링크가 올바르지 않습니다. YouTube URL을 확인해주세요.');
+      return;
+    }
+    
+    const hasUrls = !!(morningUrlTrimmed || afternoonUrlTrimmed);
     
     const updates = {
       youtubeUrls: {
-        morning: morningUrl.trim(),
-        afternoon: afternoonUrl.trim()
+        morning: morningUrlTrimmed,
+        afternoon: afternoonUrlTrimmed
       },
       isActive: hasUrls,
       lastUpdated: new Date()
@@ -96,10 +117,15 @@ export default function MonitorDashboard({ pollingStations, onStationUpdate }: M
       onStationUpdate(selectedStation.id, updates);
       
       if (hasUrls) {
-        alert('✅ 유튜브 링크가 등록되어 투표소가 활성화되었습니다!');
+        alert('✅ 유튜브 링크가 등록되어 투표소가 활성화되었습니다!\n\n변경사항이 모든 사용자에게 반영되었습니다.');
       } else {
         alert('✅ 유튜브 링크가 제거되어 투표소가 비활성화되었습니다!');
       }
+
+      // 즉시 반영을 위해 페이지 새로고침
+      setTimeout(() => {
+        window.location.reload();
+      }, 1000);
       
     } catch (error) {
       console.error('❌ API 업데이트 실패:', error);

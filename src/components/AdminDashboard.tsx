@@ -47,6 +47,8 @@ export default function AdminDashboard({ pollingStations }: AdminDashboardProps)
   const [isAutoRefresh, setIsAutoRefresh] = useState(true);
   const [refreshInterval, setRefreshInterval] = useState(60); // 60초로 변경
   const [selectedStation, setSelectedStation] = useState<PollingStation | null>(null);
+  const [advancedFeaturesUnlocked, setAdvancedFeaturesUnlocked] = useState(false);
+  const [advancedPassword, setAdvancedPassword] = useState('');
   
   const intervalRef = useRef<NodeJS.Timeout | null>(null);
   const isMountedRef = useRef(true);
@@ -162,6 +164,18 @@ export default function AdminDashboard({ pollingStations }: AdminDashboardProps)
   // 투표소 선택 핸들러
   const handleStationSelect = (station: PollingStation) => {
     setSelectedStation(station);
+  };
+
+  // 고급 기능 비밀번호 확인
+  const handleAdvancedPasswordSubmit = () => {
+    if (advancedPassword === '0929') {
+      setAdvancedFeaturesUnlocked(true);
+      setAdvancedPassword('');
+      alert('✅ 고급 관리 기능이 활성화되었습니다.');
+    } else {
+      alert('❌ 잘못된 비밀번호입니다.');
+      setAdvancedPassword('');
+    }
   };
 
   // 알림 해결 처리
@@ -1012,33 +1026,95 @@ export default function AdminDashboard({ pollingStations }: AdminDashboardProps)
                     아래 기능들은 신중하게 사용해주세요. 데이터 손실의 위험이 있습니다.
                   </p>
                   
-                  <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
-                    <button
-                      onClick={handleBulkDeleteYoutube}
-                      className="px-4 py-2 bg-orange-600 text-white rounded-md hover:bg-orange-700 transition-colors text-sm"
-                    >
-                      🗑️ 유튜브 링크 전체 삭제
-                    </button>
-                    
-                    <button
-                      onClick={handleBulkDeleteAlerts}
-                      className="px-4 py-2 bg-red-600 text-white rounded-md hover:bg-red-700 transition-colors text-sm"
-                    >
-                      🚨 알림 전체 삭제
-                    </button>
-                    
-                    <button
-                      onClick={() => {
-                        if (confirm('시스템을 초기 상태로 재설정하시겠습니까? 모든 데이터가 삭제됩니다.')) {
-                          // 시스템 리셋 로직
-                          alert('기능 구현 예정');
-                        }
-                      }}
-                      className="px-4 py-2 bg-gray-600 text-white rounded-md hover:bg-gray-700 transition-colors text-sm"
-                    >
-                      🔄 시스템 리셋
-                    </button>
-                  </div>
+                  {!advancedFeaturesUnlocked ? (
+                    <div className="bg-red-50 border border-red-200 rounded-lg p-4">
+                      <div className="flex items-center mb-3">
+                        <div className="w-3 h-3 bg-red-500 rounded-full mr-2"></div>
+                        <span className="text-sm font-medium text-red-800">보안 잠금 상태</span>
+                      </div>
+                      <p className="text-sm text-red-700 mb-3">
+                        고급 관리 기능을 사용하려면 추가 인증이 필요합니다.
+                      </p>
+                      <div className="flex gap-2">
+                        <input
+                          type="password"
+                          value={advancedPassword}
+                          onChange={(e) => setAdvancedPassword(e.target.value)}
+                          placeholder="고급 기능 비밀번호"
+                          className="flex-1 px-3 py-2 bg-white border border-red-300 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-red-500"
+                          onKeyPress={(e) => e.key === 'Enter' && handleAdvancedPasswordSubmit()}
+                        />
+                        <button
+                          onClick={handleAdvancedPasswordSubmit}
+                          className="px-4 py-2 bg-red-600 text-white rounded-md hover:bg-red-700 transition-colors text-sm"
+                        >
+                          잠금 해제
+                        </button>
+                      </div>
+                    </div>
+                  ) : (
+                    <div>
+                      <div className="bg-green-50 border border-green-200 rounded-lg p-3 mb-4">
+                        <div className="flex items-center justify-between">
+                          <div className="flex items-center">
+                            <div className="w-3 h-3 bg-green-500 rounded-full mr-2"></div>
+                            <span className="text-sm font-medium text-green-800">고급 기능 활성화됨</span>
+                          </div>
+                          <button
+                            onClick={() => {
+                              setAdvancedFeaturesUnlocked(false);
+                              setAdvancedPassword('');
+                            }}
+                            className="text-xs text-green-600 hover:text-green-800 underline"
+                          >
+                            다시 잠금
+                          </button>
+                        </div>
+                      </div>
+                      
+                      <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                        <button
+                          onClick={() => {
+                            if (confirm('⚠️ 모든 유튜브 링크를 삭제하시겠습니까?\n\n이 작업은 되돌릴 수 없으며, 백엔드 데이터베이스에서 완전히 제거됩니다.')) {
+                              handleBulkDeleteYoutube();
+                            }
+                          }}
+                          className="px-4 py-2 bg-orange-600 text-white rounded-md hover:bg-orange-700 transition-colors text-sm"
+                        >
+                          🗑️ 유튜브 링크 전체 삭제
+                        </button>
+                        
+                        <button
+                          onClick={() => {
+                            if (confirm('⚠️ 모든 알림을 삭제하시겠습니까?\n\n이 작업은 되돌릴 수 없으며, 백엔드 데이터베이스에서 완전히 제거됩니다.')) {
+                              handleBulkDeleteAlerts();
+                            }
+                          }}
+                          className="px-4 py-2 bg-red-600 text-white rounded-md hover:bg-red-700 transition-colors text-sm"
+                        >
+                          🚨 알림 전체 삭제
+                        </button>
+                        
+                        <button
+                          onClick={() => {
+                            if (confirm('⚠️ 시스템을 초기 상태로 재설정하시겠습니까?\n\n모든 데이터가 백엔드에서 완전히 삭제됩니다.')) {
+                              // 시스템 리셋 로직
+                              alert('기능 구현 예정');
+                            }
+                          }}
+                          className="px-4 py-2 bg-gray-600 text-white rounded-md hover:bg-gray-700 transition-colors text-sm"
+                        >
+                          🔄 시스템 리셋
+                        </button>
+                      </div>
+                      
+                      <div className="mt-4 p-3 bg-red-50 border border-red-200 rounded-md">
+                        <p className="text-xs text-red-800">
+                          ⚠️ 주의: 위 작업들은 백엔드 데이터베이스에서 데이터를 완전히 제거합니다. 삭제된 데이터는 복구할 수 없습니다.
+                        </p>
+                      </div>
+                    </div>
+                  )}
                 </div>
               </div>
             )}

@@ -18,32 +18,33 @@ export async function GET() {
 
     console.log('🔄 Supabase에서 데이터 로드 시도...');
 
-    // 투표소 데이터 조회 - 페이지네이션으로 모든 데이터 가져오기
-    let allStations: any[] = [];
-    let from = 0;
-    const pageSize = 1000;
-    let hasMore = true;
-
-    while (hasMore) {
-      const { data: stations, error: stationsError } = await supabase
+    // 투표소 데이터와 알림 데이터를 병렬로 조회
+    const [stationsResult, alertsResult] = await Promise.all([
+      // 투표소 데이터 조회 - 한 번에 모든 데이터 가져오기 (성능 개선)
+      supabase
         .from('polling_stations')
         .select('*')
-        .order('created_at', { ascending: true })
-        .range(from, from + pageSize - 1);
+        .order('created_at', { ascending: true }),
+      
+      // 알림 데이터 조회
+      supabase
+        .from('alerts')
+        .select('*')
+        .order('timestamp', { ascending: false })
+    ]);
 
-      if (stationsError) {
-        console.error('투표소 조회 오류:', stationsError)
-        throw new Error('Supabase 조회 실패');
-      }
-
-      if (!stations || stations.length === 0) {
-        hasMore = false;
-      } else {
-        allStations = [...allStations, ...stations];
-        from += pageSize;
-        hasMore = stations.length === pageSize;
-      }
+    if (stationsResult.error) {
+      console.error('투표소 조회 오류:', stationsResult.error)
+      throw new Error('Supabase 조회 실패');
     }
+
+    if (alertsResult.error) {
+      console.error('알림 조회 오류:', alertsResult.error)
+      // 알림 에러는 무시하고 계속 진행
+    }
+
+    const allStations = stationsResult.data || [];
+    const alerts = alertsResult.data || [];
 
     // 데이터가 없으면 JSON 폴백 시도
     if (allStations.length === 0) {
@@ -52,16 +53,6 @@ export async function GET() {
     }
 
     console.log(`✅ Supabase에서 ${allStations.length}개 투표소 로드 완료`);
-
-    // 알림 데이터 별도 조회
-    const { data: alerts, error: alertsError } = await supabase
-      .from('alerts')
-      .select('*')
-      .order('timestamp', { ascending: false })
-
-    if (alertsError) {
-      console.error('알림 조회 오류:', alertsError)
-    }
 
     // 데이터베이스 형식을 프론트엔드 형식으로 변환
     const formattedStations = allStations?.map(station => ({

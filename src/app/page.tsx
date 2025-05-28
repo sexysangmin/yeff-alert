@@ -293,7 +293,15 @@ export default function Home() {
       <div className="min-h-screen bg-background flex items-center justify-center">
         <div className="text-center">
           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mx-auto mb-4"></div>
-          <p className="text-muted-foreground">투표소 데이터를 불러오는 중...</p>
+          <h2 className="text-xl font-semibold text-foreground mb-2">
+            투표소 정보를 불러오는 중...
+          </h2>
+          <p className="text-muted-foreground">
+            전국 투표소 데이터를 안전하게 로드하고 있습니다.
+          </p>
+          <div className="mt-4 text-sm text-muted-foreground">
+            ⏱️ 초기 로딩은 약 10-15초 소요됩니다
+          </div>
         </div>
       </div>
     );

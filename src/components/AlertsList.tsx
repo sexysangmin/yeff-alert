@@ -20,7 +20,13 @@ export default function AlertsList({ pollingStations, onStationSelect, onAlertsV
   const [viewedAlerts, setViewedAlerts] = useState<Set<string>>(new Set());
   
   // 모니터링 중인 투표소
-  const monitoringStations = pollingStations.filter(station => station.isActive);
+  const monitoringStations = pollingStations.filter(station => 
+    station.isActive || // 기존 활성화된 투표소
+    (station.streams && station.streams.some(stream => 
+      stream.isActive && // 승인된 스트림
+      (stream.registeredByType === 'public' || stream.registeredByType === 'admin') // 일반 시민 또는 관리자가 등록
+    ))
+  );
   
   // 비활성 투표소
   const inactiveStations = pollingStations.filter(station => !station.isActive);
@@ -88,7 +94,8 @@ export default function AlertsList({ pollingStations, onStationSelect, onAlertsV
                 </span>
               </h3>
             </div>
-            <div className="space-y-3">
+            
+            <div className="space-y-2">
               {monitoringStations.map((station) => (
                 <div
                   key={`monitoring-${station.id}`}

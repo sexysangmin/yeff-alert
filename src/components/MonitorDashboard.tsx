@@ -86,10 +86,7 @@ export default function MonitorDashboard({ pollingStations, onStationUpdate }: M
       // 더 관대한 유튜브 URL 검증 - 도메인만 확인
       const trimmedUrl = url.trim().toLowerCase();
       return trimmedUrl.includes('youtube.com') || 
-             trimmedUrl.includes('youtu.be') ||
-             trimmedUrl.includes('youtube') ||
-             trimmedUrl.includes('/live/') ||
-             trimmedUrl.includes('/shorts/');
+             trimmedUrl.includes('youtu.be');
     };
 
     const day1MorningUrlTrimmed = day1MorningUrl.trim();

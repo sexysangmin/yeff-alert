@@ -18,9 +18,8 @@ export async function POST(request: NextRequest) {
     }
 
     // 유튜브 URL 검증
-    if (!url.toLowerCase().includes('youtube') && 
-        !url.toLowerCase().includes('/live/') && 
-        !url.toLowerCase().includes('/shorts/')) {
+    if (!url.toLowerCase().includes('youtube.com') && 
+        !url.toLowerCase().includes('youtu.be')) {
       return NextResponse.json({ 
         error: '올바른 유튜브 링크를 입력해주세요.' 
       }, { status: 400 });

@@ -30,7 +30,13 @@ export default function SearchBar({ onSearch, onFilter, pollingStations = [], on
   }, [currentFilter]);
 
   // 각 상태별 투표소 수 계산
-  const monitoringCount = pollingStations.filter(s => s.isActive).length;
+  const monitoringCount = pollingStations.filter(station => 
+    station.isActive || // 기존 활성화된 투표소
+    (station.streams && station.streams.some(stream => 
+      stream.isActive && // 승인된 스트림
+      (stream.registeredByType === 'public' || stream.registeredByType === 'admin') // 일반 시민 또는 관리자가 등록
+    ))
+  ).length;
   const alertCount = pollingStations.filter(s => s.alerts.some(a => !a.resolved)).length;
   const inactiveCount = pollingStations.filter(s => !s.isActive).length;
   const totalCount = pollingStations.length;

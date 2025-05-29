@@ -270,7 +270,13 @@ export default function Home() {
   // 통계 데이터 메모이제이션
   const stats = useMemo(() => ({
     total: pollingStations.length,
-    active: pollingStations.filter(s => s.isActive).length,
+    active: pollingStations.filter(station => 
+      station.isActive || // 기존 활성화된 투표소
+      (station.streams && station.streams.some(stream => 
+        stream.isActive && // 승인된 스트림
+        (stream.registeredByType === 'public' || stream.registeredByType === 'admin') // 일반 시민 또는 관리자가 등록
+      ))
+    ).length,
     alerts: pollingStations.filter(s => s.alerts.some(a => !a.resolved)).length
   }), [pollingStations]);
 
